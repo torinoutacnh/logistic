@@ -1,0 +1,279 @@
+$primary-color: #C1272D;
+$white-color: #fff;
+$gradient-1: #793E4D;
+$gradient-2: #7F4042;
+$gradient-3: #884136;
+
+.container {
+  padding: 0;
+  margin: 0;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  background-color: $primary-color;
+  color: $white-color;
+  height: 70px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  line-height: 70px;
+  z-index: 10;
+
+  .abctest {
+    display: none;
+  }
+
+  .header_icon_left,
+  .header_icon_right {
+    display: none;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: row;
+  }
+
+  li {
+    list-style: none;
+    margin: 1vh 2vw;
+    line-height: 1.8;
+    text-align: center;
+  }
+
+  .login_reg {
+    font-size: 16px;
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.4;
+  }
+
+  .header_item,
+  .header_item_logo {
+    font-weight: 400;
+    font-size: 25px;
+  }
+
+  .header_item+.header_item {
+    margin-left: 30px;
+  }
+
+  .header_item {
+    position: relative;
+    transition: top 0.15s ease;
+    top: 0;
+  }
+
+  .header_item:hover {
+    top: -3px;
+  }
+}
+
+.main {
+  position: relative;
+  min-height: calc(100vh - 70px);
+  width: 100%;
+  background-image: url('./img/home.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .background_booking {
+    position: relative;
+    width: 50%;
+    background-image: linear-gradient(90deg, rgba(238, 225, 225, 0), $white-color, $white-color, $white-color);
+    min-height: calc(100vh - 70px);
+    margin-left: auto;
+  }
+
+  .booking {
+    position: absolute;
+    width: 400px;
+    background-color: $primary-color;
+    border-radius: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10%;
+
+    .booking_title {
+      color: $white-color;
+      text-align: center;
+      font-size: 47px;
+      font-weight: 500;
+      margin: 30px;
+    }
+
+    .booking_input {
+      background: $white-color;
+      padding: 5px;
+      border-radius: 5px;
+      width: 340px;
+      margin: 13px 30px;
+    }
+
+    .booking_btn {
+      text-transform: none;
+      line-height: 36px;
+      font-size: 25px;
+      background: #1f2746;
+      font-weight: 600;
+      display: flex;
+      margin: 20px auto;
+    }
+  }
+
+  .controller {
+    display: none;
+  }
+}
+
+/* PC */
+@media screen and (min-width: 1024px) {}
+
+/* Tablet & moblie */
+@media screen and (max-width: 1023px) {}
+
+/* Tablet */
+@media screen and (min-width: 768px) and (max-width: 1023px) {}
+
+/* Mobile */
+@media screen and (max-width: 767px) {
+  .header {
+    display: flex;
+    justify-content: space-between;
+
+    .header_icon_left,
+    .header_icon_right {
+      display: flex;
+      margin: 0 20px;
+      align-items: center;
+
+      .right_icon {
+        font-size: 35px;
+      }
+    }
+
+    .header_icon_left {
+      color: $primary-color;
+      font-size: 35px;
+      cursor: none;
+    }
+
+    .header_list_item {
+      position: absolute;
+      display: block;
+      top: 100%;
+      right: 0;
+      background: $primary-color;
+      z-index: 100;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      width: 40vw;
+      box-shadow: 3px 3px 5px $gradient-1;
+      display: none;
+      animation: showMenu ease 0.15s;
+      transform-origin: 80% 0%;
+    }
+
+    @keyframes showMenu {
+      from {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .active_list_item {
+      display: block;
+    }
+
+    .header_item {
+      position: relative;
+      font-size: 16px;
+      line-height: 2;
+    }
+
+    .login_reg {
+      display: none;
+    }
+  }
+
+  .main {
+    width: 100vw;
+    height: calc(100vh - 70px);
+    background-image: url('./img/home.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+
+    .background_booking {
+      position: absolute;
+      width: 100%;
+      background-image: linear-gradient(180deg, rgba(238, 225, 225, 0), $white-color);
+      height: calc(50vh - 70px);
+      bottom: 0;
+    }
+
+    .booking::before {
+      content: "Chanhxe.com";
+      display: block;
+      font-size: 35px;
+      position: absolute;
+      top: -50px;
+      width: 100%;
+      left: 0;
+      text-align: center;
+      color: $primary-color;
+      font-weight: 700;
+    }
+
+    .booking {
+      margin-left: 50%;
+      width: 80%;
+      top: 45%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+
+      .booking_input {
+        width: 90%;
+        margin: 10px auto;
+      }
+    }
+
+    .controller {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      z-index: 10;
+      top: 80%;
+      width: 50vw;
+
+      .booking_login {
+        margin: 5% 0;
+        text-transform: none;
+        background-image: linear-gradient(to right, $gradient-1, $gradient-2, $gradient-3);
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .booking_register {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: none;
+        color: $gradient-2;
+        border: 1.5px solid $gradient-2;
+      }
+    }
+  }
+}
