@@ -1,5 +1,5 @@
 $primary-color: #C1272D;
-$white-color: #fff;
+$white-color: rgb(255, 255, 255);
 $gradient-1: #793E4D;
 $gradient-2: #7F4042;
 $gradient-3: #884136;
@@ -7,6 +7,10 @@ $gradient-3: #884136;
 .container {
   padding: 0;
   margin: 0;
+  min-height: 100vh;
+  background-image: url('./img/home.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .header {
@@ -76,9 +80,7 @@ $gradient-3: #884136;
   position: relative;
   min-height: calc(100vh - 70px);
   width: 100%;
-  background-image: url('./img/home.png');
-  background-repeat: no-repeat;
-  background-size: cover;
+
 
   .background_booking {
     position: relative;
