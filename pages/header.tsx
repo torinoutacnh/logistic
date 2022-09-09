@@ -1,7 +1,9 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
-import styles from '../styles/Home.module.scss'
+import styles from '../styles/Home.module.scss';
+import '../styles/Menu.module.scss';
+
 export const Header = () => {
 
     const data: { name?: string, link?: string }[] = [
@@ -41,14 +43,14 @@ export const Header = () => {
                             })
                         }
 
-
                     </ul>
                     <a className={styles.login_reg} href="#" >
                         Đăng nhập/ Đăng ký
                         <KeyboardArrowDownIcon />
                     </a>
                     <div className={styles.header_icon_right} onClick={() => { onClickMenu() }}>
-                        <MenuIcon className={styles.right_icon} />
+                        {/* <MenuIcon className={styles.right_icon} /> */}
+                        {/* <div className={ onClickMenu ? hamburger : activeHamburger}></div> */}
                     </div>
                 </div>
             </div>
