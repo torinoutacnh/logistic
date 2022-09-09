@@ -1,5 +1,5 @@
 $primary-color: #C1272D;
-$white-color: #fff;
+$white-color: rgb(255, 255, 255);
 $gradient-1: #793E4D;
 $gradient-2: #7F4042;
 $gradient-3: #884136;
@@ -7,6 +7,10 @@ $gradient-3: #884136;
 .container {
   padding: 0;
   margin: 0;
+  min-height: 100vh;
+  background-image: url('./img/home.png');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .header {
@@ -20,10 +24,6 @@ $gradient-3: #884136;
   justify-content: center;
   line-height: 70px;
   z-index: 10;
-
-  .abctest {
-    display: none;
-  }
 
   .header_icon_left,
   .header_icon_right {
@@ -65,6 +65,7 @@ $gradient-3: #884136;
     position: relative;
     transition: top 0.15s ease;
     top: 0;
+    font-size: 20px;
   }
 }
 
@@ -151,7 +152,15 @@ $gradient-3: #884136;
 @media screen and (max-width: 1023px) {}
 
 /* Tablet */
-@media screen and (min-width: 768px) and (max-width: 1023px) {}
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .header {
+    .header_item {
+      font-size: 16px;
+      line-height: 1.4;
+    }
+  }
+  
+}
 
 /* Mobile */
 @media screen and (max-width: 767px) {
@@ -168,6 +177,26 @@ $gradient-3: #884136;
 
       .right_icon {
         font-size: 35px;
+        animation: rotateIcon ease 0.3s, rotateIconF ease 0.3s forwards   ;
+        transform-origin: 50% 50%;
+      }
+    }
+
+    @keyframes rotateIcon {
+      from {
+        transform: rotate(180deg);
+      }
+      to {
+        transform: rotate(270deg);
+      }
+    }
+
+    @keyframes rotateIconF {
+      from {
+        transform: rotate(270deg);
+      }
+      to {
+        transform: rotate(360deg);
       }
     }
 
@@ -256,9 +285,16 @@ $gradient-3: #884136;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+      justify-content: center;
 
       .booking_title {
         font-size: 24px;
+      }
+
+      #form {
+        text-align: center;
+        margin-right: 0;
+
       }
 
       p {
@@ -276,18 +312,18 @@ $gradient-3: #884136;
         position: absolute;
         right: 0;
         transform: translateX(-50%);
-        bottom: -28%;
+        bottom: -35%;
         width: 50%;
         z-index: -10;
-  
+
         .booking_login {
-          margin: 5% 0;
+          margin: 8% 0;
           text-transform: none;
           background-image: linear-gradient(to right, $gradient-1, $gradient-2, $gradient-3);
           font-size: 14px;
           font-weight: 600;
         }
-  
+
         .booking_register {
           font-size: 14px;
           font-weight: 600;
@@ -295,7 +331,7 @@ $gradient-3: #884136;
           color: $gradient-2;
           border: 1.5px solid $gradient-2;
         }
-      } 
+      }
     }
   }
 
@@ -307,4 +343,3 @@ $gradient-3: #884136;
     background-image: linear-gradient(180deg, rgba(238, 225, 225, 0), $white-color);
   }
 }
-  
