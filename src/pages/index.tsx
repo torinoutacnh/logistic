@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import { Footer } from '../components/Footer';
+import { LookingCar } from '../components/LookingCar';
 import styles from '../styles/Home.module.scss'
 import { Header } from './header';
 
@@ -17,7 +18,8 @@ const Home: NextPage = () => {
 
         <Header />
 
-        <MainHome />
+        {/* <MainHome /> */}
+        <LookingCar />
 
       </div>
 

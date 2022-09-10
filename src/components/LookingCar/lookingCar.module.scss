@@ -1,0 +1,72 @@
+$primary-color: #C1272D;
+$white-color: rgb(255, 255, 255);
+$filter-color: rgba(234, 234, 234, 0.5);
+$text-color: #000000;
+$blue-color: #3D5FE6;
+
+.filter_list {
+    list-style: none;
+    text-decoration: none;
+    font-size: calc(1vw + 3px);
+    font-weight: 400;
+    background-color: $white-color;
+    display: flex;
+    margin: 20px;
+    padding: 0;
+
+    .filter_item+.filter_item {
+        margin-left: 1vw;
+    }
+
+    .filter_item {
+        color: $text-color;
+        height: 46px;
+        font-weight: 500;
+        background: $white-color;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        width: 25%;
+
+        .filter_item_title {
+            line-height: 46px;
+        }
+
+
+
+        .filter_item_content:hover {
+            color: $blue-color;
+        }
+
+        .filter_item_content {
+            flex-grow: 1;
+            text-align: center;
+            line-height: 46px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+
+            .filter_item_content_text {
+                flex-grow: 1;
+            }
+
+            .filter_item_content_icon {
+                font-size: 2vw;
+            }
+
+
+
+        }
+
+
+
+
+
+    }
+
+    .background_filter,
+    .filter_item .background_filter {
+        background-color: $filter-color;
+    }
+
+}
