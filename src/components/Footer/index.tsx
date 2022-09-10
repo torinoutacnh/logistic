@@ -1,5 +1,4 @@
 import { Grid } from '@mui/material'
-import { style } from '@mui/system'
 import styles from './footer.module.scss'
 import Image from 'next/image'
 import image1 from '../../styles/img/image1.jpg'
@@ -16,7 +15,7 @@ export const Footer = () => {
                 <Grid container className={styles.footer_row}>
 
 
-                    <Grid className={styles.footer_col} item xs={5} sm={5} md={3.5} xl={2.5}>
+                    <Grid className={styles.footer_col} item xs={5} sm={5} md={5} xl={2.5}>
                         <div>
                             <h3 className={styles.footer_title_list}>Tuyến đường</h3>
                             <ul className={styles.footer_list}>
@@ -63,7 +62,7 @@ export const Footer = () => {
                         </div>
                     </Grid>
 
-                    <Grid className={styles.footer_col} item xs={5} sm={5} md={3.5} xl={2.5}>
+                    <Grid className={styles.footer_col} item xs={5} sm={5} md={5} xl={2.5}>
                         <div>
                             <h3 className={styles.footer_title_list}>Xe Limousine</h3>
                             <ul className={styles.footer_list}>
@@ -110,7 +109,7 @@ export const Footer = () => {
                         </div>
                     </Grid>
 
-                    <Grid className={styles.footer_col} item xs={5} sm={5} md={3.5} xl={2.5}>
+                    <Grid className={styles.footer_col} item xs={5} sm={5} md={5} xl={2.5}>
                         <div>
                             <h3 className={styles.footer_title_list}>Bến xe</h3>
                             <ul className={styles.footer_list}>
@@ -157,7 +156,7 @@ export const Footer = () => {
                         </div>
                     </Grid>
 
-                    <Grid className={styles.footer_col} item xs={5} sm={5} md={3.5} xl={2.5}>
+                    <Grid className={styles.footer_col} item xs={5} sm={5} md={5} xl={2.5}>
                         <div>
                             <h3 className={styles.footer_title_list}>Nhà xe</h3>
                             <ul className={styles.footer_list}>
@@ -207,7 +206,7 @@ export const Footer = () => {
                 <div className={styles.line} />
                 <Grid container className={styles.footer_row}>
 
-                    <Grid className={styles.footer_col} item xs={5} sm={5} md={3.5} xl={2.5}>
+                    <Grid className={styles.footer_col} item xs={5} sm={5} md={5} xl={2.5}>
                         <div>
                             <h3 className={styles.footer_title_list}>Về chúng tôi</h3>
                             <ul className={styles.footer_list}>
@@ -245,7 +244,7 @@ export const Footer = () => {
                     </Grid>
 
 
-                    <Grid className={styles.footer_col} item xs={5} sm={5} md={3.5} xl={2.5}>
+                    <Grid className={styles.footer_col} item xs={5} sm={5} md={5} xl={2.5}>
                         <div>
                             <h3 className={styles.footer_title_list}>Hỗ trợ</h3>
                             <ul className={styles.footer_list}>
@@ -297,38 +296,30 @@ export const Footer = () => {
                         </div>
                     </Grid>
 
-                    <Grid className={styles.footer_col} item xs={5} sm={5} md={3.5} xl={2.5}>
+                    <Grid className={styles.footer_col} item xs={5} sm={5} md={5} xl={2.5}>
                         <div>
                             <h3 className={styles.footer_title_list}>Chứng nhận</h3>
                             <ul className={styles.footer_list}>
-                                <li className={styles.footer_list_item}>
-                                    <a href="" className={styles.item_link}>
-                                        <Image src={image1} alt={"photo"} width={"130px"} height={"50px"} />
-                                    </a>
+                                <li className={`${styles.footer_list_item}`}>
+                                    <Image src={image1} alt={"photo"} width={"130px"} height={"50px"} />
                                 </li>
 
-                                <li className={styles.footer_list_item}>
-                                    <a href="" className={styles.item_link}>
-                                        <Image src={image2} alt={"photo"} width={"130px"} height={"50px"} />
-                                    </a>
+                                <li className={`${styles.footer_list_item}`}>
+                                    <Image src={image2} alt={"photo"} width={"130px"} height={"50px"} />
                                 </li>
 
-                                <li className={styles.footer_list_item}>
-                                    <a href="" className={styles.item_link}>
-                                        <Image src={image3} alt={"photo"} width={"130px"} height={"50px"} />
-                                    </a>
+                                <li className={`${styles.footer_list_item}`}>
+                                    <Image src={image3} alt={"photo"} width={"130px"} height={"50px"} />
                                 </li>
 
-                                <li className={styles.footer_list_item}>
-                                    <a href="" className={styles.item_link}>
-                                        <Image src={image4} alt={"photo"} width={"130px"} height={"50px"} />
-                                    </a>
+                                <li className={`${styles.footer_list_item}`}>
+                                    <Image src={image4} alt={"photo"} width={"130px"} height={"50px"} />
                                 </li>
                             </ul>
                         </div>
                     </Grid>
 
-                    <Grid className={styles.footer_col} item xs={5} sm={5} md={3.5} xl={2.5}>
+                    <Grid className={styles.footer_col} item xs={5} sm={5} md={5} xl={2.5}>
                         <div>
                             <h3 className={styles.footer_title_list}>Tải ứng dụng nhà xe</h3>
                             <ul className={styles.footer_list}>
