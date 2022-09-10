@@ -145,9 +145,6 @@ $gradient-3: #884136;
   margin-left: auto;
 }
 
-/* PC */
-@media screen and (min-width: 1024px) {}
-
 /* Tablet & moblie */
 @media screen and (max-width: 1023px) {}
 
@@ -159,7 +156,6 @@ $gradient-3: #884136;
       line-height: 1.4;
     }
   }
-  
 }
 
 /* Mobile */
@@ -298,11 +294,11 @@ $gradient-3: #884136;
       }
 
       p {
-        padding-left: 4vw;
+        padding-left: 0;
       }
 
       .booking_input {
-        width: 90%;
+        width: 70vw;
         margin: 3px auto;
       }
 

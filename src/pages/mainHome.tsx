@@ -12,8 +12,8 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
 export const MainHome = () => {
     const [date, setDate] = React.useState<Dayjs | null>(null);
-    const [from, setFrom] = React.useState<String>('');
-    const [to, setTo] = React.useState<String>('');
+    const [from, setFrom] = React.useState('');
+    const [to, setTo] = React.useState('');
 
     const handleChange = (newValue: Dayjs | null) => {
         setDate(newValue);
