@@ -1,5 +1,5 @@
 $primary-color: #C1272D;
-$white-color: #fff;
+$white-color: rgb(255, 255, 255);
 $gradient-1: #793E4D;
 $gradient-2: #7F4042;
 $gradient-3: #884136;
@@ -7,6 +7,8 @@ $gradient-3: #884136;
 .container {
   padding: 0;
   margin: 0;
+  min-height: 100vh;
+
 }
 
 .header {
@@ -66,10 +68,6 @@ $gradient-3: #884136;
     transition: top 0.15s ease;
     top: 0;
   }
-
-  .header_item:hover {
-    top: -3px;
-  }
 }
 
 .main {
@@ -78,15 +76,9 @@ $gradient-3: #884136;
   width: 100%;
   background-image: url('./img/home.png');
   background-repeat: no-repeat;
+  background-position: center center;
   background-size: cover;
 
-  .background_booking {
-    position: relative;
-    width: 50%;
-    background-image: linear-gradient(90deg, rgba(238, 225, 225, 0), $white-color, $white-color, $white-color);
-    min-height: calc(100vh - 70px);
-    margin-left: auto;
-  }
 
   .booking {
     position: absolute;
@@ -98,25 +90,40 @@ $gradient-3: #884136;
     right: 10%;
 
     .booking_title {
+      width: 100%;
       color: $white-color;
       text-align: center;
-      font-size: 47px;
+      font-size: 44px;
       font-weight: 500;
-      margin: 30px;
+      margin: 10px 0;
+    }
+
+    p {
+      color: $white-color;
+      font-size: 13px;
+      padding-left: 30px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 0;
+
+      .booking_icon {
+        width: 24px;
+        display: inline-block;
+      }
     }
 
     .booking_input {
       background: $white-color;
-      padding: 5px;
       border-radius: 5px;
       width: 340px;
-      margin: 13px 30px;
+      margin: 5px 30px 0;
+      line-height: 1.4;
     }
 
     .booking_btn {
       text-transform: none;
-      line-height: 36px;
-      font-size: 25px;
+      line-height: 30px;
+      font-size: 22px;
       background: #1f2746;
       font-weight: 600;
       display: flex;
@@ -127,6 +134,17 @@ $gradient-3: #884136;
   .controller {
     display: none;
   }
+}
+
+.main::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 50%;
+  right: 0;
+  background-image: linear-gradient(90deg, rgba(238, 225, 225, 0), $white-color, $white-color, $white-color);
+  min-height: calc(100vh - 70px);
+  margin-left: auto;
 }
 
 /* PC */
@@ -141,6 +159,7 @@ $gradient-3: #884136;
 /* Mobile */
 @media screen and (max-width: 767px) {
   .header {
+    position: relative;
     display: flex;
     justify-content: space-between;
 
@@ -172,10 +191,19 @@ $gradient-3: #884136;
       margin: 0;
       padding: 0;
       width: 40vw;
-      box-shadow: 3px 3px 5px $gradient-1;
+      box-shadow: -1px 1px 5px $white-color;
       display: none;
       animation: showMenu ease 0.15s;
       transform-origin: 80% 0%;
+
+      li {
+        margin: 0;
+        line-height: 2.8;
+      }
+
+      li:hover {
+        background-color: $gradient-3;
+      }
     }
 
     @keyframes showMenu {
@@ -206,22 +234,11 @@ $gradient-3: #884136;
   }
 
   .main {
-    width: 100vw;
-    height: calc(100vh - 70px);
-    background-image: url('./img/home.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
+    position: relative;
+    background-position: center;
     display: flex;
     justify-content: center;
-
-    .background_booking {
-      position: absolute;
-      width: 100%;
-      background-image: linear-gradient(180deg, rgba(238, 225, 225, 0), $white-color);
-      height: calc(50vh - 70px);
-      bottom: 0;
-    }
+    overflow: hidden;
 
     .booking::before {
       content: "Chanhxe.com";
@@ -237,43 +254,59 @@ $gradient-3: #884136;
     }
 
     .booking {
-      margin-left: 50%;
       width: 80%;
-      top: 45%;
+      top: 44%;
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
       align-items: center;
+
+      .booking_title {
+        font-size: 24px;
+      }
+
+      p {
+        padding-left: 4vw;
+      }
 
       .booking_input {
         width: 90%;
-        margin: 10px auto;
+        margin: 3px auto;
+      }
+
+      .controller {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        right: 0;
+        transform: translateX(-50%);
+        bottom: -28%;
+        width: 50%;
+        z-index: -10;
+
+        .booking_login {
+          margin: 5% 0;
+          text-transform: none;
+          background-image: linear-gradient(to right, $gradient-1, $gradient-2, $gradient-3);
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        .booking_register {
+          font-size: 14px;
+          font-weight: 600;
+          text-transform: none;
+          color: $gradient-2;
+          border: 1.5px solid $gradient-2;
+        }
       }
     }
+  }
 
-    .controller {
-      display: flex;
-      flex-direction: column;
-      position: absolute;
-      z-index: 10;
-      top: 80%;
-      width: 50vw;
-
-      .booking_login {
-        margin: 5% 0;
-        text-transform: none;
-        background-image: linear-gradient(to right, $gradient-1, $gradient-2, $gradient-3);
-        font-size: 14px;
-        font-weight: 600;
-      }
-
-      .booking_register {
-        font-size: 14px;
-        font-weight: 600;
-        text-transform: none;
-        color: $gradient-2;
-        border: 1.5px solid $gradient-2;
-      }
-    }
+  .main::before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    background-image: linear-gradient(180deg, rgba(238, 225, 225, 0), $white-color);
   }
 }
