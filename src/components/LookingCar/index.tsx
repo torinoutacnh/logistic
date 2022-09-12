@@ -1,3 +1,5 @@
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import styles from './lookingCar.module.scss'
 import { Backdrop, Button, Grid, makeStyles, TextField } from '@mui/material'
@@ -10,12 +12,16 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import { ClockPicker, MobileTimePicker } from '@mui/x-date-pickers';
+import { fontWeight } from '@mui/system';
+import Image from 'next/image';
+import imageTest from "../../styles/img/imgTest.jpg"
 
 export const LookingCar = () => {
 
 
     const [filterChair, setFilterChair] = useState<string>()
     const [filterPrice, setFilterPrice] = useState<string>()
+    const [filterTime, setFilterTime] = useState<string>()
     const [value, setValue] = React.useState<Dayjs | null>(
         dayjs('2018-01-01T00:00:00.000Z'),
     );
@@ -61,14 +67,14 @@ export const LookingCar = () => {
     const MyText = props => {
         return (
             <>
-                {console.log("props", props.inputProps.value)}
+                {/* {console.log("props", props.inputProps.value)} */}
                 <input
+                    className={styles.myText}
                     {...props.inputProps}
                     onChange={props.onChange}
                     onBlur={props.onBlur}
                     onClick={props.onClick}
-                    value={props.value}
-                    className="input"
+                    value={filterTime}
                     type="text"
                 />
             </>
@@ -77,7 +83,7 @@ export const LookingCar = () => {
 
     return (
         <>
-            <Grid container>
+            <Grid container className={styles.container}>
 
                 <Grid item xs={0.5} sm={0.5} md={1} xl={1}></Grid>
                 <Grid item xs={11} sm={11} md={10} xl={10}>
@@ -111,7 +117,7 @@ export const LookingCar = () => {
                                             <MenuItem
                                                 key={index}
                                                 onClick={() => { handleClose1(item) }}
-                                                sx={{ fontSize: "calc(1vw + 1px)" }}>
+                                                sx={{ fontSize: "calc(1vw)", fontWeight: "500", minWidth: "150px" }}>
                                                 {item}
                                             </MenuItem>
                                         )
@@ -130,10 +136,14 @@ export const LookingCar = () => {
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <MobileTimePicker
                                         value={value}
+                                        ampm={false}
+                                        inputFormat="HH:MM:SS"
                                         onChange={(newValue) => {
                                             setValue(newValue);
                                         }}
-
+                                        onAccept={(tmp) => {
+                                            setFilterTime(tmp.format("HH:mm"))
+                                        }}
                                         renderInput={props => <MyText {...props} />}
                                     />
                                 </LocalizationProvider>
@@ -165,7 +175,7 @@ export const LookingCar = () => {
                                             <MenuItem
                                                 key={index}
                                                 onClick={() => { handleClose2(item) }}
-                                                sx={{ fontSize: "calc(1vw + 1px)" }}
+                                                sx={{ fontSize: "calc(1vw)", fontWeight: "500", minWidth: "150px" }}
 
                                             >
                                                 {item}
@@ -178,9 +188,470 @@ export const LookingCar = () => {
 
                     </ul>
 
+                    <Grid container className={styles.car_list}>
 
 
 
+                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+
+                            <div className={styles.car_item_left}>
+                                <div className={styles.left_image}>
+                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                </div>
+
+                                <span className={styles.left_price}>300.000 VNĐ</span>
+                            </div>
+
+                            <div className={styles.car_item_right}>
+
+                                <div className={styles.right_top}>
+                                    <span className={styles.right_name}>Vân tuyến</span>
+                                    <span className={styles.right_chair}>Giường nằm 42 chỗ</span>
+                                </div>
+
+                                <div className={styles.box_direction}>
+                                    <div className={styles.direction_left}>
+                                        <MyLocationIcon className={styles.direction_left_MyAllocate} />
+                                        <div className={styles.direction_left_icon_to}></div>
+                                        <LocationOnIcon className={styles.direction_left_locationOn} />
+                                    </div>
+                                    <div className={styles.direction_right}>
+                                        <div className={styles.direction_right_from}>
+                                            <span className={styles.from_time}>15:00</span>
+                                            <span className={styles.from_location}>Cổng 3 bến xe Miền Đông </span>
+                                        </div>
+                                        <div className={styles.direction_right_to}>
+                                            <span className={styles.to_time}>16:30</span>
+                                            <span className={styles.to_location}>Công 3 Bến xe Miền Đông</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+
+                            <div className={styles.car_item_left}>
+                                <div className={styles.left_image}>
+                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                </div>
+
+                                <span className={styles.left_price}>300.000 VNĐ</span>
+                            </div>
+
+                            <div className={styles.car_item_right}>
+
+                                <div className={styles.right_top}>
+                                    <span className={styles.right_name}>Vân tuyến</span>
+                                    <span className={styles.right_chair}>Giường nằm 42 chỗ</span>
+                                </div>
+
+                                <div className={styles.box_direction}>
+                                    <div className={styles.direction_left}>
+                                        <MyLocationIcon className={styles.direction_left_MyAllocate} />
+                                        <div className={styles.direction_left_icon_to}></div>
+                                        <LocationOnIcon className={styles.direction_left_locationOn} />
+                                    </div>
+                                    <div className={styles.direction_right}>
+                                        <div className={styles.direction_right_from}>
+                                            <span className={styles.from_time}>15:00</span>
+                                            <span className={styles.from_location}>Cổng 3 bến xe Miền Đông </span>
+                                        </div>
+                                        <div className={styles.direction_right_to}>
+                                            <span className={styles.to_time}>16:30</span>
+                                            <span className={styles.to_location}>Công 3 Bến xe Miền Đông</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+
+                            <div className={styles.car_item_left}>
+                                <div className={styles.left_image}>
+                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                </div>
+
+                                <span className={styles.left_price}>300.000 VNĐ</span>
+                            </div>
+
+                            <div className={styles.car_item_right}>
+
+                                <div className={styles.right_top}>
+                                    <span className={styles.right_name}>Vân tuyến</span>
+                                    <span className={styles.right_chair}>Giường nằm 42 chỗ</span>
+                                </div>
+
+                                <div className={styles.box_direction}>
+                                    <div className={styles.direction_left}>
+                                        <MyLocationIcon className={styles.direction_left_MyAllocate} />
+                                        <div className={styles.direction_left_icon_to}></div>
+                                        <LocationOnIcon className={styles.direction_left_locationOn} />
+                                    </div>
+                                    <div className={styles.direction_right}>
+                                        <div className={styles.direction_right_from}>
+                                            <span className={styles.from_time}>15:00</span>
+                                            <span className={styles.from_location}>Cổng 3 bến xe Miền Đông </span>
+                                        </div>
+                                        <div className={styles.direction_right_to}>
+                                            <span className={styles.to_time}>16:30</span>
+                                            <span className={styles.to_location}>Công 3 Bến xe Miền Đông</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+
+                            <div className={styles.car_item_left}>
+                                <div className={styles.left_image}>
+                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                </div>
+
+                                <span className={styles.left_price}>300.000 VNĐ</span>
+                            </div>
+
+                            <div className={styles.car_item_right}>
+
+                                <div className={styles.right_top}>
+                                    <span className={styles.right_name}>Vân tuyến</span>
+                                    <span className={styles.right_chair}>Giường nằm 42 chỗ</span>
+                                </div>
+
+                                <div className={styles.box_direction}>
+                                    <div className={styles.direction_left}>
+                                        <MyLocationIcon className={styles.direction_left_MyAllocate} />
+                                        <div className={styles.direction_left_icon_to}></div>
+                                        <LocationOnIcon className={styles.direction_left_locationOn} />
+                                    </div>
+                                    <div className={styles.direction_right}>
+                                        <div className={styles.direction_right_from}>
+                                            <span className={styles.from_time}>15:00</span>
+                                            <span className={styles.from_location}>Cổng 3 bến xe Miền Đông </span>
+                                        </div>
+                                        <div className={styles.direction_right_to}>
+                                            <span className={styles.to_time}>16:30</span>
+                                            <span className={styles.to_location}>Công 3 Bến xe Miền Đông</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+
+                            <div className={styles.car_item_left}>
+                                <div className={styles.left_image}>
+                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                </div>
+
+                                <span className={styles.left_price}>300.000 VNĐ</span>
+                            </div>
+
+                            <div className={styles.car_item_right}>
+
+                                <div className={styles.right_top}>
+                                    <span className={styles.right_name}>Vân tuyến</span>
+                                    <span className={styles.right_chair}>Giường nằm 42 chỗ</span>
+                                </div>
+
+                                <div className={styles.box_direction}>
+                                    <div className={styles.direction_left}>
+                                        <MyLocationIcon className={styles.direction_left_MyAllocate} />
+                                        <div className={styles.direction_left_icon_to}></div>
+                                        <LocationOnIcon className={styles.direction_left_locationOn} />
+                                    </div>
+                                    <div className={styles.direction_right}>
+                                        <div className={styles.direction_right_from}>
+                                            <span className={styles.from_time}>15:00</span>
+                                            <span className={styles.from_location}>Cổng 3 bến xe Miền Đông </span>
+                                        </div>
+                                        <div className={styles.direction_right_to}>
+                                            <span className={styles.to_time}>16:30</span>
+                                            <span className={styles.to_location}>Công 3 Bến xe Miền Đông</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+
+                            <div className={styles.car_item_left}>
+                                <div className={styles.left_image}>
+                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                </div>
+
+                                <span className={styles.left_price}>300.000 VNĐ</span>
+                            </div>
+
+                            <div className={styles.car_item_right}>
+
+                                <div className={styles.right_top}>
+                                    <span className={styles.right_name}>Vân tuyến</span>
+                                    <span className={styles.right_chair}>Giường nằm 42 chỗ</span>
+                                </div>
+
+                                <div className={styles.box_direction}>
+                                    <div className={styles.direction_left}>
+                                        <MyLocationIcon className={styles.direction_left_MyAllocate} />
+                                        <div className={styles.direction_left_icon_to}></div>
+                                        <LocationOnIcon className={styles.direction_left_locationOn} />
+                                    </div>
+                                    <div className={styles.direction_right}>
+                                        <div className={styles.direction_right_from}>
+                                            <span className={styles.from_time}>15:00</span>
+                                            <span className={styles.from_location}>Cổng 3 bến xe Miền Đông </span>
+                                        </div>
+                                        <div className={styles.direction_right_to}>
+                                            <span className={styles.to_time}>16:30</span>
+                                            <span className={styles.to_location}>Công 3 Bến xe Miền Đông</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+
+                            <div className={styles.car_item_left}>
+                                <div className={styles.left_image}>
+                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                </div>
+
+                                <span className={styles.left_price}>300.000 VNĐ</span>
+                            </div>
+
+                            <div className={styles.car_item_right}>
+
+                                <div className={styles.right_top}>
+                                    <span className={styles.right_name}>Vân tuyến</span>
+                                    <span className={styles.right_chair}>Giường nằm 42 chỗ</span>
+                                </div>
+
+                                <div className={styles.box_direction}>
+                                    <div className={styles.direction_left}>
+                                        <MyLocationIcon className={styles.direction_left_MyAllocate} />
+                                        <div className={styles.direction_left_icon_to}></div>
+                                        <LocationOnIcon className={styles.direction_left_locationOn} />
+                                    </div>
+                                    <div className={styles.direction_right}>
+                                        <div className={styles.direction_right_from}>
+                                            <span className={styles.from_time}>15:00</span>
+                                            <span className={styles.from_location}>Cổng 3 bến xe Miền Đông </span>
+                                        </div>
+                                        <div className={styles.direction_right_to}>
+                                            <span className={styles.to_time}>16:30</span>
+                                            <span className={styles.to_location}>Công 3 Bến xe Miền Đông</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+
+                            <div className={styles.car_item_left}>
+                                <div className={styles.left_image}>
+                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                </div>
+
+                                <span className={styles.left_price}>300.000 VNĐ</span>
+                            </div>
+
+                            <div className={styles.car_item_right}>
+
+                                <div className={styles.right_top}>
+                                    <span className={styles.right_name}>Vân tuyến</span>
+                                    <span className={styles.right_chair}>Giường nằm 42 chỗ</span>
+                                </div>
+
+                                <div className={styles.box_direction}>
+                                    <div className={styles.direction_left}>
+                                        <MyLocationIcon className={styles.direction_left_MyAllocate} />
+                                        <div className={styles.direction_left_icon_to}></div>
+                                        <LocationOnIcon className={styles.direction_left_locationOn} />
+                                    </div>
+                                    <div className={styles.direction_right}>
+                                        <div className={styles.direction_right_from}>
+                                            <span className={styles.from_time}>15:00</span>
+                                            <span className={styles.from_location}>Cổng 3 bến xe Miền Đông </span>
+                                        </div>
+                                        <div className={styles.direction_right_to}>
+                                            <span className={styles.to_time}>16:30</span>
+                                            <span className={styles.to_location}>Công 3 Bến xe Miền Đông</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+
+                            <div className={styles.car_item_left}>
+                                <div className={styles.left_image}>
+                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                </div>
+
+                                <span className={styles.left_price}>300.000 VNĐ</span>
+                            </div>
+
+                            <div className={styles.car_item_right}>
+
+                                <div className={styles.right_top}>
+                                    <span className={styles.right_name}>Vân tuyến</span>
+                                    <span className={styles.right_chair}>Giường nằm 42 chỗ</span>
+                                </div>
+
+                                <div className={styles.box_direction}>
+                                    <div className={styles.direction_left}>
+                                        <MyLocationIcon className={styles.direction_left_MyAllocate} />
+                                        <div className={styles.direction_left_icon_to}></div>
+                                        <LocationOnIcon className={styles.direction_left_locationOn} />
+                                    </div>
+                                    <div className={styles.direction_right}>
+                                        <div className={styles.direction_right_from}>
+                                            <span className={styles.from_time}>15:00</span>
+                                            <span className={styles.from_location}>Cổng 3 bến xe Miền Đông </span>
+                                        </div>
+                                        <div className={styles.direction_right_to}>
+                                            <span className={styles.to_time}>16:30</span>
+                                            <span className={styles.to_location}>Công 3 Bến xe Miền Đông</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+
+                            <div className={styles.car_item_left}>
+                                <div className={styles.left_image}>
+                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                </div>
+
+                                <span className={styles.left_price}>300.000 VNĐ</span>
+                            </div>
+
+                            <div className={styles.car_item_right}>
+
+                                <div className={styles.right_top}>
+                                    <span className={styles.right_name}>Vân tuyến</span>
+                                    <span className={styles.right_chair}>Giường nằm 42 chỗ</span>
+                                </div>
+
+                                <div className={styles.box_direction}>
+                                    <div className={styles.direction_left}>
+                                        <MyLocationIcon className={styles.direction_left_MyAllocate} />
+                                        <div className={styles.direction_left_icon_to}></div>
+                                        <LocationOnIcon className={styles.direction_left_locationOn} />
+                                    </div>
+                                    <div className={styles.direction_right}>
+                                        <div className={styles.direction_right_from}>
+                                            <span className={styles.from_time}>15:00</span>
+                                            <span className={styles.from_location}>Cổng 3 bến xe Miền Đông </span>
+                                        </div>
+                                        <div className={styles.direction_right_to}>
+                                            <span className={styles.to_time}>16:30</span>
+                                            <span className={styles.to_location}>Công 3 Bến xe Miền Đông</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+
+                            <div className={styles.car_item_left}>
+                                <div className={styles.left_image}>
+                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                </div>
+
+                                <span className={styles.left_price}>300.000 VNĐ</span>
+                            </div>
+
+                            <div className={styles.car_item_right}>
+
+                                <div className={styles.right_top}>
+                                    <span className={styles.right_name}>Vân tuyến</span>
+                                    <span className={styles.right_chair}>Giường nằm 42 chỗ</span>
+                                </div>
+
+                                <div className={styles.box_direction}>
+                                    <div className={styles.direction_left}>
+                                        <MyLocationIcon className={styles.direction_left_MyAllocate} />
+                                        <div className={styles.direction_left_icon_to}></div>
+                                        <LocationOnIcon className={styles.direction_left_locationOn} />
+                                    </div>
+                                    <div className={styles.direction_right}>
+                                        <div className={styles.direction_right_from}>
+                                            <span className={styles.from_time}>15:00</span>
+                                            <span className={styles.from_location}>Cổng 3 bến xe Miền Đông </span>
+                                        </div>
+                                        <div className={styles.direction_right_to}>
+                                            <span className={styles.to_time}>16:30</span>
+                                            <span className={styles.to_location}>Công 3 Bến xe Miền Đông</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </Grid>
+
+                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+
+                            <div className={styles.car_item_left}>
+                                <div className={styles.left_image}>
+                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                </div>
+
+                                <span className={styles.left_price}>300.000 VNĐ</span>
+                            </div>
+
+                            <div className={styles.car_item_right}>
+
+                                <div className={styles.right_top}>
+                                    <span className={styles.right_name}>Vân tuyến</span>
+                                    <span className={styles.right_chair}>Giường nằm 42 chỗ</span>
+                                </div>
+
+                                <div className={styles.box_direction}>
+                                    <div className={styles.direction_left}>
+                                        <MyLocationIcon className={styles.direction_left_MyAllocate} />
+                                        <div className={styles.direction_left_icon_to}></div>
+                                        <LocationOnIcon className={styles.direction_left_locationOn} />
+                                    </div>
+                                    <div className={styles.direction_right}>
+                                        <div className={styles.direction_right_from}>
+                                            <span className={styles.from_time}>15:00</span>
+                                            <span className={styles.from_location}>Cổng 3 bến xe Miền Đông </span>
+                                        </div>
+                                        <div className={styles.direction_right_to}>
+                                            <span className={styles.to_time}>16:30</span>
+                                            <span className={styles.to_location}>Công 3 Bến xe Miền Đông</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </Grid>
+
+
+
+
+                    </Grid>
                 </Grid>
                 <Grid item xs={0.5} sm={0.5} md={1} xl={1}></Grid>
             </Grid>
