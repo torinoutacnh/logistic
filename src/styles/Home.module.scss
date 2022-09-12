@@ -68,6 +68,10 @@ $gradient-3: #884136;
     transition: top 0.15s ease;
     top: 0;
   }
+
+  .header_item:hover {
+    top: -3px;
+  }
 }
 
 .main {
@@ -154,7 +158,14 @@ $gradient-3: #884136;
 @media screen and (max-width: 1023px) {}
 
 /* Tablet */
-@media screen and (min-width: 768px) and (max-width: 1023px) {}
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .header {
+    .header_item {
+      font-size: 16px;
+      line-height: 1.4;
+    }
+  }
+}
 
 /* Mobile */
 @media screen and (max-width: 767px) {

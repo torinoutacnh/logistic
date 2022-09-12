@@ -11,10 +11,12 @@ $border-item-color: rgba(1, 161, 102, 0.2);
 
     background: $white-color;
 
+
+
     .filter_list {
         list-style: none;
         text-decoration: none;
-        font-size: calc(1vw + 3px);
+        font-size: calc(2vh);
         font-weight: 400;
         background-color: $white-color;
         display: flex;
@@ -25,6 +27,10 @@ $border-item-color: rgba(1, 161, 102, 0.2);
             margin-left: 1vw;
         }
 
+        .filter_item:first-child {
+            width: 19%;
+        }
+
         .filter_item {
             color: $text-color;
             height: 46px;
@@ -33,7 +39,7 @@ $border-item-color: rgba(1, 161, 102, 0.2);
             display: flex;
             justify-content: left;
             align-items: center;
-            width: 25%;
+            width: 27%;
 
             .filter_item_title {
                 white-space: nowrap;
@@ -58,18 +64,22 @@ $border-item-color: rgba(1, 161, 102, 0.2);
 
                 .filter_item_content_text {
                     flex-grow: 1;
+                    display: flex;
+                    justify-content: center;
                 }
 
                 .filter_item_content_icon {
-                    font-size: 2vw;
+                    font-size: 2vh;
                 }
 
                 .myText {
+                    padding: 0;
+                    width: 50px;
                     border-color: transparent;
                     background: transparent;
                     flex-grow: 1;
                     height: 46px;
-                    font-size: 1.1vw;
+                    font-size: 2vh;
                     cursor: pointer;
                     text-align: center;
                     font-weight: 500;
@@ -253,7 +263,7 @@ $border-item-color: rgba(1, 161, 102, 0.2);
                             width: 100%;
                             display: flex;
                             flex-direction: column;
-                            justify-content: end;
+                            justify-content: flex-end;
 
                             .to_time {
                                 font-size: 18px;
@@ -313,6 +323,37 @@ $border-item-color: rgba(1, 161, 102, 0.2);
             to {
                 transform: scale(1);
             }
+        }
+    }
+
+
+}
+
+@media screen and (max-width:900px) {
+    .container {
+        .filter_list {
+
+            overflow-x: scroll;
+            padding: 0;
+            margin: 10px 0;
+
+            .filter_item:first-child {
+
+                display: none;
+            }
+
+            .filter_item {
+                margin: 0;
+                padding: 0;
+                min-width: 220px;
+                border-bottom: 1px solid $gray-color;
+            }
+
+            .filter_item:nth-child(3),
+            .filter_item:nth-child(4) {
+                margin-left: 20px;
+            }
+
         }
     }
 }

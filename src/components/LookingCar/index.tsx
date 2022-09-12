@@ -117,7 +117,7 @@ export const LookingCar = () => {
                                             <MenuItem
                                                 key={index}
                                                 onClick={() => { handleClose1(item) }}
-                                                sx={{ fontSize: "calc(1vw)", fontWeight: "500", minWidth: "150px" }}>
+                                                sx={{ fontSize: "calc(2vh)", fontWeight: "500", minWidth: "200px" }}>
                                                 {item}
                                             </MenuItem>
                                         )
@@ -175,7 +175,7 @@ export const LookingCar = () => {
                                             <MenuItem
                                                 key={index}
                                                 onClick={() => { handleClose2(item) }}
-                                                sx={{ fontSize: "calc(1vw)", fontWeight: "500", minWidth: "150px" }}
+                                                sx={{ fontSize: "calc(2vh)", fontWeight: "500", minWidth: "200px" }}
 
                                             >
                                                 {item}
@@ -192,7 +192,7 @@ export const LookingCar = () => {
 
 
 
-                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+                        <Grid item xs={11.8} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
 
                             <div className={styles.car_item_left}>
                                 <div className={styles.left_image}>
@@ -230,7 +230,7 @@ export const LookingCar = () => {
 
                         </Grid>
 
-                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+                        <Grid item xs={11.8} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
 
                             <div className={styles.car_item_left}>
                                 <div className={styles.left_image}>
@@ -268,7 +268,7 @@ export const LookingCar = () => {
 
                         </Grid>
 
-                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+                        <Grid item xs={11.8} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
 
                             <div className={styles.car_item_left}>
                                 <div className={styles.left_image}>
@@ -306,7 +306,7 @@ export const LookingCar = () => {
 
                         </Grid>
 
-                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+                        <Grid item xs={11.8} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
 
                             <div className={styles.car_item_left}>
                                 <div className={styles.left_image}>
@@ -344,7 +344,7 @@ export const LookingCar = () => {
 
                         </Grid>
 
-                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+                        <Grid item xs={11.8} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
 
                             <div className={styles.car_item_left}>
                                 <div className={styles.left_image}>
@@ -382,7 +382,7 @@ export const LookingCar = () => {
 
                         </Grid>
 
-                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+                        <Grid item xs={11.8} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
 
                             <div className={styles.car_item_left}>
                                 <div className={styles.left_image}>
@@ -420,7 +420,7 @@ export const LookingCar = () => {
 
                         </Grid>
 
-                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+                        <Grid item xs={11.8} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
 
                             <div className={styles.car_item_left}>
                                 <div className={styles.left_image}>
@@ -458,7 +458,7 @@ export const LookingCar = () => {
 
                         </Grid>
 
-                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+                        <Grid item xs={11.8} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
 
                             <div className={styles.car_item_left}>
                                 <div className={styles.left_image}>
@@ -496,7 +496,7 @@ export const LookingCar = () => {
 
                         </Grid>
 
-                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+                        <Grid item xs={11.8} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
 
                             <div className={styles.car_item_left}>
                                 <div className={styles.left_image}>
@@ -534,7 +534,7 @@ export const LookingCar = () => {
 
                         </Grid>
 
-                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+                        <Grid item xs={11.8} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
 
                             <div className={styles.car_item_left}>
                                 <div className={styles.left_image}>
@@ -572,7 +572,7 @@ export const LookingCar = () => {
 
                         </Grid>
 
-                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+                        <Grid item xs={11.8} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
 
                             <div className={styles.car_item_left}>
                                 <div className={styles.left_image}>
@@ -610,7 +610,7 @@ export const LookingCar = () => {
 
                         </Grid>
 
-                        <Grid item xs={11.} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
+                        <Grid item xs={11.8} sm={10} md={5.7} xl={5.7} className={styles.car_item}>
 
                             <div className={styles.car_item_left}>
                                 <div className={styles.left_image}>
