@@ -1,4 +1,4 @@
-$primary-color: #C1272D;
+$primary-color: #e93636;
 $white-color: rgb(255, 255, 255);
 $gradient-1: #793E4D;
 $gradient-2: #7F4042;
@@ -64,6 +64,10 @@ $gradient-3: #884136;
     transition: top 0.15s ease;
     top: 0;
     font-size: 20px;
+  }
+
+  .header_item:hover {
+    top: -3px;
   }
 }
 

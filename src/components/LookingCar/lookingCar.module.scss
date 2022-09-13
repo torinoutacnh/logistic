@@ -1,57 +1,294 @@
-$primary-color: #C1272D;
+$gray-color: rgb(154, 154, 154);
+$primary-color: #e93636;
 $white-color: rgb(255, 255, 255);
 $filter-color: rgba(234, 234, 234, 0.5);
 $text-color: #000000;
 $blue-color: #3D5FE6;
+$boxshadow-item-color: rgba(0, 86, 115, 0.3);
+$border-item-color: rgba(1, 161, 102, 0.2);
 
-.filter_list {
-    list-style: none;
-    text-decoration: none;
-    font-size: calc(1vw + 3px);
-    font-weight: 400;
-    background-color: $white-color;
-    display: flex;
-    margin: 20px;
-    padding: 0;
+.container {
 
-    .filter_item+.filter_item {
-        margin-left: 1vw;
-    }
+    background: $white-color;
 
-    .filter_item {
-        color: $text-color;
-        height: 46px;
-        font-weight: 500;
-        background: $white-color;
+
+
+    .filter_list {
+        list-style: none;
+        text-decoration: none;
+        font-size: calc(2vh);
+        font-weight: 400;
+        background-color: $white-color;
         display: flex;
-        justify-content: left;
-        align-items: center;
-        width: 25%;
+        margin: 20px 0;
+        padding: 0;
 
-        .filter_item_title {
-            line-height: 46px;
+        .filter_item+.filter_item {
+            margin-left: 1vw;
         }
 
-
-
-        .filter_item_content:hover {
-            color: $blue-color;
+        .filter_item:first-child {
+            width: 19%;
         }
 
-        .filter_item_content {
-            flex-grow: 1;
-            text-align: center;
-            line-height: 46px;
-            cursor: pointer;
+        .filter_item {
+            color: $text-color;
+            height: 46px;
+            font-weight: 500;
+            background: $white-color;
             display: flex;
+            justify-content: left;
             align-items: center;
+            width: 27%;
 
-            .filter_item_content_text {
-                flex-grow: 1;
+            .filter_item_title {
+                white-space: nowrap;
+                line-height: 46px;
             }
 
-            .filter_item_content_icon {
-                font-size: 2vw;
+
+
+            .filter_item_content:hover {
+                color: $blue-color;
+            }
+
+            .filter_item_content {
+                margin-left: 10px;
+                flex-grow: 1;
+                text-align: center;
+                line-height: 46px;
+                cursor: pointer;
+                font-weight: 400;
+                display: flex;
+                align-items: center;
+
+                .filter_item_content_text {
+                    flex-grow: 1;
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .filter_item_content_icon {
+                    font-size: 2vh;
+                }
+
+                .myText {
+                    padding: 0;
+                    width: 50px;
+                    border-color: transparent;
+                    background: transparent;
+                    flex-grow: 1;
+                    height: 46px;
+                    font-size: 2vh;
+                    cursor: pointer;
+                    text-align: center;
+                    font-weight: 500;
+                    outline: none;
+                }
+
+                .myText:hover {
+                    color: $blue-color;
+                }
+
+                .myText:focus-visible .myText {
+                    border-color: transparent;
+                    outline: none;
+                }
+
+            }
+
+
+
+
+
+        }
+
+        .background_filter,
+        .filter_item .background_filter {
+            background-color: $filter-color;
+        }
+
+    }
+
+
+
+    .car_list {
+        max-height: 75vh;
+        overflow-y: scroll;
+        display: flex;
+        justify-content: space-evenly;
+
+        .car_item {
+            cursor: pointer;
+            padding: 5px;
+            position: relative;
+            background: $white-color;
+            width: 50%;
+            height: 150px;
+            margin: 6px 0;
+            border-radius: 5px;
+            box-shadow: 1px 2px 4px 0 $boxshadow-item-color;
+            border: 1px solid $border-item-color;
+            display: flex;
+            justify-content: space-between;
+
+
+
+            .car_item_left {
+
+                width: 40%;
+                height: 100%;
+
+                .left_image {
+                    height: 85%;
+                    width: 100%;
+                    overflow: hidden;
+                    border-radius: 5px;
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                }
+
+                .left_price {
+                    font-size: 18px;
+                    width: 100%;
+                    height: 15%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-weight: 700;
+                    color: $blue-color;
+                }
+            }
+
+
+            .car_item_right {
+
+                width: 55%;
+                height: 100%;
+                display: flex;
+                flex-flow: column;
+
+                .right_top {
+
+                    width: 100%;
+                    display: flex;
+                    flex-flow: column;
+
+                    .right_name {
+                        font-size: 22px;
+                        line-height: 25px;
+                        font-weight: 700;
+                    }
+
+                    .right_chair {
+                        font-size: 16px;
+                        font-weight: 500;
+                        color: $primary-color;
+                    }
+                }
+
+
+                .box_direction {
+
+                    flex-grow: 1;
+                    display: flex;
+                    margin-top: 5px;
+
+                    .direction_left {
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        padding: 10px 0;
+
+                        .direction_left_MyAllocate,
+                        .direction_left_locationOn {
+                            font-size: 18px;
+                        }
+
+                        .direction_left_locationOn {
+                            color: $gray-color;
+                        }
+
+                        .direction_left_icon_to {
+                            width: 1px;
+                            height: 100%;
+                            background: $gray-color;
+                            grid-row: 1;
+                            margin: 5px 0;
+                        }
+
+                    }
+
+
+                    .direction_right {
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        overflow: hidden;
+
+
+                        .direction_right_from {
+                            height: 50%;
+                            width: 100%;
+                            display: flex;
+                            flex-direction: column;
+
+                            .from_time {
+                                font-size: 18px;
+                                font-weight: 500;
+                                width: 100%;
+                                line-height: 18px;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                            }
+
+                            .from_location {
+                                font-size: 14px;
+                                font-weight: 400;
+                                width: 100%;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                            }
+                        }
+
+
+                        .direction_right_to {
+                            color: $gray-color;
+                            height: 50%;
+                            width: 100%;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: flex-end;
+
+                            .to_time {
+                                font-size: 18px;
+                                font-weight: 500;
+                                width: 100%;
+                                line-height: 18px;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                            }
+
+                            .to_location {
+                                font-size: 14px;
+                                font-weight: 400;
+                                width: 100%;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                            }
+                        }
+
+                    }
+
+
+                }
             }
 
 
@@ -59,14 +296,64 @@ $blue-color: #3D5FE6;
         }
 
 
+        .car_item:hover {
+            animation: scaleItemIn .2s ease forwards;
+            box-shadow: 1px 2px 10px 2px $boxshadow-item-color;
+        }
 
+        .car_item:not( :hover) {
+            animation: scaleItemOut 0.2s ease forwards;
+        }
 
+        @keyframes scaleItemIn {
+            from {
+                transform: scale(1);
+            }
 
+            to {
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes scaleItemOut {
+            from {
+                transform: scale(1.02);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
     }
 
-    .background_filter,
-    .filter_item .background_filter {
-        background-color: $filter-color;
-    }
 
+}
+
+@media screen and (max-width:900px) {
+    .container {
+        .filter_list {
+
+            overflow-x: scroll;
+            padding: 0;
+            margin: 10px 0;
+
+            .filter_item:first-child {
+
+                display: none;
+            }
+
+            .filter_item {
+                margin: 0;
+                padding: 0;
+                min-width: 220px;
+                border-bottom: 1px solid $gray-color;
+            }
+
+            .filter_item:nth-child(3),
+            .filter_item:nth-child(4) {
+                margin-left: 20px;
+            }
+
+        }
+    }
 }
