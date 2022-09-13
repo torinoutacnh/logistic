@@ -1,7 +1,7 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
-import styles from '../styles/Home.module.scss';
+import styles from '../../styles/Home.module.scss';
 // import '../styles/Menu.module.scss';
 
 export const Header = () => {

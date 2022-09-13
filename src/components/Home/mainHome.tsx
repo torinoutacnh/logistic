@@ -1,5 +1,5 @@
 import { Button } from "@mui/material"
-import styles from '../styles/Home.module.scss'
+import styles from '../../styles/Home.module.scss'
 import * as React from 'react';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';

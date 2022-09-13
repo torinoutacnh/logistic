@@ -2,9 +2,9 @@ import type { NextPage } from 'next'
 import { Footer } from '../components/Footer';
 import { LookingCar } from '../components/LookingCar';
 import styles from '../styles/Home.module.scss'
-import { Header } from './header';
+import { Header } from '../components/Header/header';
 
-import { MainHome } from './mainHome';
+import { MainHome } from '../components/Home/mainHome';
 
 
 const Home: NextPage = () => {
@@ -14,16 +14,8 @@ const Home: NextPage = () => {
   return (
     <>
 
-      <div className={styles.container}>
+      <MainHome />
 
-        <Header />
-
-        {/* <MainHome /> */}
-        <LookingCar />
-
-      </div>
-
-      <Footer />
     </>
 
   )
