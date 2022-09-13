@@ -3,7 +3,7 @@ import { Footer } from '../components/Footer';
 import { LookingCar } from '../components/LookingCar';
 import styles from '../styles/Home.module.scss'
 import { Header } from './header';
-
+import { Admin } from '../components/Admin';
 import { MainHome } from './mainHome';
 
 
@@ -16,14 +16,14 @@ const Home: NextPage = () => {
 
       <div className={styles.container}>
 
-        <Header />
-
+        {/* <Header /> */}
         {/* <MainHome /> */}
-        <LookingCar />
+        {/* <LookingCar /> */}
+        <Admin />
 
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
 
   )
