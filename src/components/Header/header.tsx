@@ -2,7 +2,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 import styles from '../../styles/Home.module.scss';
-// import '../styles/Menu.module.scss';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const Header = () => {
 
@@ -17,6 +17,7 @@ export const Header = () => {
 
     const onClickMenu = () => {
         const hambuger = document.querySelector(`.${styles.header_list_item}`)
+        // Nếu activeMenuRes = true -> menu đã hiện thì đóng
         if (activeMenuRes) {
             hambuger.classList.remove(`${styles.active_list_item}`)
         }
@@ -49,8 +50,7 @@ export const Header = () => {
                         <KeyboardArrowDownIcon />
                     </a>
                     <div className={styles.header_icon_right} onClick={() => { onClickMenu() }}>
-                        <MenuIcon className={styles.right_icon} />
-                        {/* <div className={ onClickMenu ? hamburger : activeHamburger}></div> */}
+                        {!activeMenuRes ? <MenuIcon className={styles.right_icon} /> : <CloseIcon className={styles.right_icon} />}
                     </div>
                 </div>
             </div>

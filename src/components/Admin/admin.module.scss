@@ -1,0 +1,54 @@
+.header {
+    height: 60px;
+    width: 100%;
+    display: flex;
+
+    .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30%;
+    }
+
+    .nav {
+        width: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        .box {
+            display: flex;
+            align-items: flex-end;
+            width: 80%;
+
+            .icon {
+                margin: 0.5 1 0.5 3;
+            }
+        }
+    }
+}
+
+.subheader {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000;
+}
+
+.option {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0 0 5px;
+
+    .area {
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    
+        span {
+            width: 100px;
+        }
+    }
+}
+

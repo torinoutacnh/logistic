@@ -23,10 +23,6 @@ $gradient-3: #884136;
   line-height: 70px;
   z-index: 10;
 
-  .abctest {
-    display: none;
-  }
-
   .header_icon_left,
   .header_icon_right {
     display: none;
@@ -67,6 +63,7 @@ $gradient-3: #884136;
     position: relative;
     transition: top 0.15s ease;
     top: 0;
+    font-size: 20px;
   }
 
   .header_item:hover {
@@ -151,9 +148,6 @@ $gradient-3: #884136;
   margin-left: auto;
 }
 
-/* PC */
-@media screen and (min-width: 1024px) {}
-
 /* Tablet & moblie */
 @media screen and (max-width: 1023px) {}
 
@@ -182,6 +176,26 @@ $gradient-3: #884136;
 
       .right_icon {
         font-size: 35px;
+        animation: rotateIcon ease 0.3s, rotateIconF ease 0.3s forwards   ;
+        transform-origin: 50% 50%;
+      }
+    }
+
+    @keyframes rotateIcon {
+      from {
+        transform: rotate(180deg);
+      }
+      to {
+        transform: rotate(270deg);
+      }
+    }
+
+    @keyframes rotateIconF {
+      from {
+        transform: rotate(270deg);
+      }
+      to {
+        transform: rotate(360deg);
       }
     }
 
@@ -270,17 +284,24 @@ $gradient-3: #884136;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+      justify-content: center;
 
       .booking_title {
         font-size: 24px;
       }
 
+      #form {
+        text-align: center;
+        margin-right: 0;
+
+      }
+
       p {
-        padding-left: 4vw;
+        padding-left: 0;
       }
 
       .booking_input {
-        width: 90%;
+        width: 70vw;
         margin: 3px auto;
       }
 
@@ -290,12 +311,12 @@ $gradient-3: #884136;
         position: absolute;
         right: 0;
         transform: translateX(-50%);
-        bottom: -28%;
+        bottom: -35%;
         width: 50%;
         z-index: -10;
 
         .booking_login {
-          margin: 5% 0;
+          margin: 8% 0;
           text-transform: none;
           background-image: linear-gradient(to right, $gradient-1, $gradient-2, $gradient-3);
           font-size: 14px;
