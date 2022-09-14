@@ -14,6 +14,7 @@ import AirlineSeatReclineExtraIcon from '@mui/icons-material/AirlineSeatReclineE
 import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AddIcon from '@mui/icons-material/Add';
+import { ListiItemAdmin } from './ListItemAdmin';
 
 export const Admin = () => {
     const [open1, setOpen1] = React.useState(false);
@@ -105,7 +106,7 @@ export const Admin = () => {
             name: "Xe khách"
         },
         {
-            icon:  <LocalShippingIcon />,
+            icon: <LocalShippingIcon />,
             name: "Xe chở hàng"
         }
     ]
@@ -123,15 +124,15 @@ export const Admin = () => {
 
     return (
         <>
-            <Grid container style={{ background: "#f9e5e6"}}>
+            <Grid container style={{ background: "#f9e5e6" }}>
                 <Grid item xs={0.5} sm={0.5} md={1} xl={1}></Grid>
                 <Grid item xs={11} sm={11} md={10} xl={10}>
                     <div className={styles.header}>
                         <div className={styles.logo}>Logo</div>
                         <div className={styles.nav}>
                             <Box className={styles.box}>
-                                <SearchIcon className={styles.icon}/>
-                                <TextField 
+                                <SearchIcon className={styles.icon} />
+                                <TextField
                                     id="input-with-sx"
                                     variant="standard"
                                     size='small'
@@ -139,14 +140,14 @@ export const Admin = () => {
                                 />
                             </Box>
                             <div className={styles.icon}>
-                            <Stack direction="row" spacing={1}>
-                                <IconButton aria-label="notify">
-                                    <NotificationsNoneIcon />
-                                </IconButton>
-                                <IconButton aria-label="account">
-                                    <AccountCircleIcon />
-                                </IconButton>
-                            </Stack>    
+                                <Stack direction="row" spacing={1}>
+                                    <IconButton aria-label="notify">
+                                        <NotificationsNoneIcon />
+                                    </IconButton>
+                                    <IconButton aria-label="account">
+                                        <AccountCircleIcon />
+                                    </IconButton>
+                                </Stack>
                             </div>
                         </div>
                     </div>
@@ -154,11 +155,13 @@ export const Admin = () => {
                 <Grid item xs={0.5} sm={0.5} md={1} xl={1}></Grid>
             </Grid>
 
-            <Grid container>
+            <Grid container >
                 <Grid item xs={0} sm={0} md={1} xl={1}></Grid>
-                <Grid item xs={12} sm={12} md={10} xl={10}>
+                <Grid item xs={12} sm={12} md={10} xl={10} >
                     <Grid container>
-                        <Grid item xs={3} sm={3} md={3} xl={3}>
+                        <Grid item xs={12} sm={12} md={2.5} xl={2.5}
+                            style={{ border: "2px solid rgb(245, 245, 245", marginTop: "10px" }}
+                        >
                             <List
                                 sx={{ width: '100%', p: 0 }}
                                 component="nav"
@@ -178,20 +181,20 @@ export const Admin = () => {
                                 </ListItemButton>
                                 <Collapse in={open1} timeout="auto" unmountOnExit>
                                     <List component="div" disablePadding>
-                                        
+
                                         {
-                                            listChair.map((item,index)=>{
-                                                return(
+                                            listChair.map((item, index) => {
+                                                return (
                                                     <ListItemButton sx={{ pl: 4 }}>
-                                                    <ListItemIcon>
-                                                        {item.icon}
-                                                    </ListItemIcon> 
-                                                    <ListItemText key={index} primary={item.name} />
-                                                </ListItemButton>
+                                                        <ListItemIcon>
+                                                            {item.icon}
+                                                        </ListItemIcon>
+                                                        <ListItemText key={index} primary={item.name} />
+                                                    </ListItemButton>
                                                 )
                                             })
                                         }
-                                            
+
                                     </List>
                                 </Collapse>
                             </List>
@@ -212,14 +215,14 @@ export const Admin = () => {
                                     <List component="div" disablePadding>
 
                                         {
-                                            listCar.map((item,index)=>{
-                                                return(
+                                            listCar.map((item, index) => {
+                                                return (
                                                     <ListItemButton sx={{ pl: 4 }}>
-                                                    <ListItemIcon>
-                                                        {item.icon}
-                                                    </ListItemIcon> 
-                                                    <ListItemText key={index} primary={item.name} />
-                                                </ListItemButton>
+                                                        <ListItemIcon>
+                                                            {item.icon}
+                                                        </ListItemIcon>
+                                                        <ListItemText key={index} primary={item.name} />
+                                                    </ListItemButton>
                                                 )
                                             })
                                         }
@@ -227,15 +230,15 @@ export const Admin = () => {
                                     </List>
                                 </Collapse>
                             </List>
-                                    
+
                             <ListItemButton>
                                 <ListItemIcon>
-                                    <RouteOutlinedIcon />   
+                                    <RouteOutlinedIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="Tuyến đường" />
                             </ListItemButton>
                         </Grid>
-                        <Grid item xs={9} sm={9} md={9} xl={9}>
+                        <Grid item xs={12} sm={12} md={9.5} xl={9.5}>
                             <div className={styles.option}>
                                 <Box className={styles.area}>
                                     <span>Khu vực</span>
@@ -249,14 +252,14 @@ export const Admin = () => {
                                         >
 
                                             {
-                                                dataDistrict.map((item,index)=>(
-                                                    <MenuItem 
-                                                        key={index} 
+                                                dataDistrict.map((item, index) => (
+                                                    <MenuItem
+                                                        key={index}
                                                         value={item}
                                                     >
                                                         {item}
                                                     </MenuItem>
-                                                    )
+                                                )
                                                 )
                                             }
 
@@ -264,9 +267,9 @@ export const Admin = () => {
                                     </FormControl>
                                 </Box>
 
-                                <Button 
+                                <Button
                                     variant="outlined"
-                                    size='small' 
+                                    size='small'
                                     startIcon={<AddIcon />}
                                     sx={{ marginRight: 3 }}
                                 >
@@ -274,7 +277,9 @@ export const Admin = () => {
                                 </Button>
                             </div>
                             <div className={styles.wrapper}>
-                                dawdadawd
+
+                                <ListiItemAdmin />
+
                             </div>
                         </Grid>
                     </Grid>
