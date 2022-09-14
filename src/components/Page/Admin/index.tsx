@@ -1,7 +1,7 @@
 import styles from './admin.module.scss'
 import * as React from 'react';
-import Image from 'next/image'
-import { Grid, TextField, Box, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControl, MenuItem, Select, SelectChangeEvent, Button, IconButton, Stack } from '@mui/material'
+import Image from 'next/image';
+import { Grid, TextField, Box, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControl, MenuItem, Select, SelectChangeEvent, Button, IconButton, Stack, Tooltip, Menu, Divider } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
@@ -14,17 +14,19 @@ import { ListiItemAdmin } from './ListItemAdmin';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import GroupsIcon from '@mui/icons-material/Groups';
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
 
 export const Admin = () => {
-    const [open1, setOpen1] = React.useState(false);
-    const [open2, setOpen2] = React.useState(false);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
 
-    const handleClick1 = () => {
-        setOpen1(!open1);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
     };
 
-    const handleClick2 = () => {
-        setOpen2(!open2);
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
     const [area, setArea] = React.useState('');
@@ -112,25 +114,82 @@ export const Admin = () => {
                                 />
                             </Box>
                             <div className={styles.icon}>
-                            <Stack direction="row" spacing={1}>
-                                <IconButton aria-label="notify" onClick={handleClick1}>
-                                    
-                                    <div className={styles.account}>
-                                        <List
-                                            sx={{ width: '10%', p: 0 }}
-                                            component="nav"
-                                            aria-labelledby="nested-list-subheader"
+                                
+                                <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+                                    <Tooltip title="Cài đặt tài khoản">
+                                        <IconButton
+                                            onClick={handleClick}
+                                            size="small"
+                                            sx={{ ml: 2 }}
+                                            aria-controls={open ? 'account-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={open ? "true" : undefined}
                                         >
-                                            <NotificationsNoneIcon />
-                                            
-
-                                        </List>
-                                    </div>
-                                </IconButton>
-                                <IconButton aria-label="account">
-                                    <AccountCircleIcon />
-                                </IconButton>
-                            </Stack>    
+                                            <AccountCircleIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
+                                <Menu
+                                    anchorEl={anchorEl}
+                                    id="account-menu"
+                                    open={open}
+                                    onClose={handleClose}
+                                    onClick={handleClose}
+                                    PaperProps={{
+                                    elevation: 0,
+                                    sx: {
+                                        overflow: "visible",
+                                        filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                                        mt: 1.5,
+                                        "& .MuiAvatar-root": {
+                                        width: 32,
+                                        height: 32,
+                                        ml: -0.5,
+                                        mr: 1
+                                        },
+                                        "&:before": {
+                                        content: '""',
+                                        display: "block",
+                                        position: "absolute",
+                                        top: 0,
+                                        right: 12,
+                                        width: 10,
+                                        height: 10,
+                                        bgcolor: "background.paper",
+                                        transform: "translateY(-50%) rotate(45deg)",
+                                        zIndex: 0
+                                        }
+                                    }
+                                    }}
+                                    transformOrigin={{ horizontal: "right", vertical: "top" }}
+                                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                                >
+                                    <MenuItem>
+                                        <ListItemIcon>
+                                            <AccountCircleIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        Hồ sơ
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <ListItemIcon>
+                                            <AccountCircleIcon fontSize="small" />
+                                        </ListItemIcon>
+                                        Tài khoản
+                                    </MenuItem>
+                                    <Divider />
+                                    <MenuItem>
+                                        <ListItemIcon>
+                                            <Settings fontSize="small" />
+                                        </ListItemIcon>
+                                        Cài đặt
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <ListItemIcon>
+                                            <Logout fontSize="small" />
+                                        </ListItemIcon>
+                                        Đăng xuất
+                                    </MenuItem>
+                                </Menu>
                             </div>
                         </div>
                     </div>
