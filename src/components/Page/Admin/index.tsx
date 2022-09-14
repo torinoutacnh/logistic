@@ -8,12 +8,12 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
-import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
-import HomeWorkIcon from '@mui/icons-material/HomeWork';
-import AirlineSeatReclineExtraIcon from '@mui/icons-material/AirlineSeatReclineExtra';
-import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AddIcon from '@mui/icons-material/Add';
+import { ListiItemAdmin } from './ListItemAdmin';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 export const Admin = () => {
     const [open1, setOpen1] = React.useState(false);
@@ -60,54 +60,27 @@ export const Admin = () => {
         "Huyện Nhà Bè",
     ]
 
-    const listChair = [
+    const listMenu = [
         {
-            icon: <AirlineSeatReclineExtraIcon />,
-            name: "Ghế ngồi (4)"
+            icon: <GroupsIcon />,
+            name: "Quản lý nhân viên"
         },
-        {
-            icon: <AirlineSeatReclineExtraIcon />,
-            name: "Ghế ngồi (7)"
-        },
-        {
-            icon: <AirlineSeatReclineExtraIcon />,
-            name: "Ghế ngồi (16)"
-        },
-        {
-            icon: <AirlineSeatReclineExtraIcon />,
-            name: "Ghế ngồi (29)"
-        },
-        {
-            icon: <AirlineSeatReclineExtraIcon />,
-            name: "Ghế ngồi (35)"
-        },
-        {
-            icon: <AirlineSeatReclineExtraIcon />,
-            name: "Ghế ngồi (45)"
-        },
-        {
-            icon: <AirlineSeatFlatIcon />,
-            name: "Giường nằm (20)"
-        },
-        {
-            icon: <AirlineSeatFlatIcon />,
-            name: "Giường nằm (34)"
-        },
-        {
-            icon: <AirlineSeatFlatIcon />,
-            name: "Giường nằm (40)"
-        }
-    ]
-
-    const listCar = [
         {
             icon: <AirportShuttleIcon />,
-            name: "Xe khách"
+            name: "Quản lý xe"
         },
         {
-            icon:  <LocalShippingIcon />,
-            name: "Xe chở hàng"
-        }
+            icon: <LocalShippingIcon />,
+            name: "Quản lý chành xe"
+        },
+        {
+            icon: <BarChartIcon />,
+            name: "Báo cáo thống kê"
+        },
+        {
+            icon: <ConfirmationNumberIcon />,
+            name: "Vé xe"
+        },
     ]
 
     const ITEM_HEIGHT = 48;
@@ -124,8 +97,8 @@ export const Admin = () => {
     return (
         <>
             <Grid container style={{ background: "#f9e5e6"}}>
-                <Grid item xs={0.5} sm={0.5} md={1} xl={1}></Grid>
-                <Grid item xs={11} sm={11} md={10} xl={10}>
+                <Grid item xs={0.5} sm={0.5} md={0.5} xl={0.5}></Grid>
+                <Grid item xs={11} sm={11} md={11} xl={11}>
                     <div className={styles.header}>
                         <div className={styles.logo}>Logo</div>
                         <div className={styles.nav}>
@@ -140,8 +113,19 @@ export const Admin = () => {
                             </Box>
                             <div className={styles.icon}>
                             <Stack direction="row" spacing={1}>
-                                <IconButton aria-label="notify">
-                                    <NotificationsNoneIcon />
+                                <IconButton aria-label="notify" onClick={handleClick1}>
+                                    
+                                    <div className={styles.account}>
+                                        <List
+                                            sx={{ width: '10%', p: 0 }}
+                                            component="nav"
+                                            aria-labelledby="nested-list-subheader"
+                                        >
+                                            <NotificationsNoneIcon />
+                                            
+
+                                        </List>
+                                    </div>
                                 </IconButton>
                                 <IconButton aria-label="account">
                                     <AccountCircleIcon />
@@ -151,15 +135,15 @@ export const Admin = () => {
                         </div>
                     </div>
                 </Grid>
-                <Grid item xs={0.5} sm={0.5} md={1} xl={1}></Grid>
+                <Grid item xs={0.5} sm={0.5} md={0.5} xl={0.5}></Grid>
             </Grid>
 
             <Grid container>
-                <Grid item xs={0} sm={0} md={1} xl={1}></Grid>
-                <Grid item xs={12} sm={12} md={10} xl={10}>
+                <Grid item xs={0} sm={0} md={0.5} xl={0.5}></Grid>
+                <Grid item xs={12} sm={12} md={11} xl={11}>
                     <Grid container>
                         <Grid item xs={3} sm={3} md={3} xl={3}>
-                            <List
+                            {/* <List
                                 sx={{ width: '100%', p: 0 }}
                                 component="nav"
                                 aria-labelledby="nested-list-subheader"
@@ -226,14 +210,32 @@ export const Admin = () => {
 
                                     </List>
                                 </Collapse>
+                            </List> */}
+
+                            <List
+                                sx={{ width: '100%', p: 0 }}
+                                component="nav"
+                                aria-labelledby="nested-list-subheader"
+                                subheader={
+                                    <ListSubheader component="div" id="nested-list-subheader" style={{ textAlign: "center" }} >
+                                        <span className={styles.subheader}>Quản lý thông tin</span>
+                                    </ListSubheader>
+                                }
+                            >
+                                {
+                                    listMenu.map((item,index)=>{
+                                        return(        
+                                            <ListItemButton>
+                                                <ListItemIcon>
+                                                    {item.icon}   
+                                                </ListItemIcon>
+                                                <ListItemText key={index} primary={item.name} />
+                                            </ListItemButton>
+                                        )
+                                    })
+                                }
                             </List>
-                                    
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <RouteOutlinedIcon />   
-                                </ListItemIcon>
-                                <ListItemText primary="Tuyến đường" />
-                            </ListItemButton>
+
                         </Grid>
                         <Grid item xs={9} sm={9} md={9} xl={9}>
                             <div className={styles.option}>
@@ -274,7 +276,9 @@ export const Admin = () => {
                                 </Button>
                             </div>
                             <div className={styles.wrapper}>
-                                dawdadawd
+
+                                <ListiItemAdmin />
+
                             </div>
                         </Grid>
                     </Grid>
