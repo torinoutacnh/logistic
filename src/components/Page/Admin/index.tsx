@@ -1,7 +1,7 @@
 import styles from './admin.module.scss'
 import * as React from 'react';
 import Image from 'next/image';
-import { Grid, TextField, Box, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControl, MenuItem, Select, SelectChangeEvent, Button, IconButton, Stack, Tooltip, Menu, Divider } from '@mui/material'
+import { Grid, TextField, Box, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControl, MenuItem, Select, SelectChangeEvent, Button, IconButton, Stack, Tooltip, Menu, Divider, Popover, Typography } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
@@ -16,9 +16,13 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import GroupsIcon from '@mui/icons-material/Groups';
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 
 export const Admin = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [area, setArea] = React.useState('');
+
+
     const open = Boolean(anchorEl);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -29,7 +33,6 @@ export const Admin = () => {
         setAnchorEl(null);
     };
 
-    const [area, setArea] = React.useState('');
 
     const handleChange = (e: SelectChangeEvent) => {
         setArea(e.target.value as string);
@@ -96,17 +99,44 @@ export const Admin = () => {
         },
     };
 
+    /////////////////////////////////////////////////////////
+
+    const [dataTitleMenu, setDataTitleMenu] = React.useState("Quản lý xe")
+    const onClickItemMenu = (data?: string) => {
+        setDataTitleMenu(data)
+        handleClose2()
+    }
+
+    /////////////////////////////////////////////////////////
+
+    const [anchorEl2, setAnchorEl2] = React.useState<HTMLButtonElement | null>(null);
+
+    const handleClick2 = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl2(event.currentTarget);
+    };
+
+    const handleClose2 = () => {
+        setAnchorEl2(null);
+    };
+
+    const open2 = Boolean(anchorEl2);
+    const id2 = open2 ? 'simple-popover' : undefined;
+
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+
+
     return (
         <>
-            <Grid container style={{ background: "#f9e5e6"}}>
+            <Grid container style={{ background: "#f9e5e6" }}>
                 <Grid item xs={0.5} sm={0.5} md={0.5} xl={0.5}></Grid>
                 <Grid item xs={11} sm={11} md={11} xl={11}>
                     <div className={styles.header}>
                         <div className={styles.logo}>Logo</div>
                         <div className={styles.nav}>
                             <Box className={styles.box}>
-                                <SearchIcon className={styles.icon}/>
-                                <TextField 
+                                <SearchIcon className={styles.icon} />
+                                <TextField
                                     id="input-with-sx"
                                     variant="standard"
                                     size='small'
@@ -114,7 +144,7 @@ export const Admin = () => {
                                 />
                             </Box>
                             <div className={styles.icon}>
-                                
+
                                 <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
                                     <Tooltip title="Cài đặt tài khoản">
                                         <IconButton
@@ -136,30 +166,30 @@ export const Admin = () => {
                                     onClose={handleClose}
                                     onClick={handleClose}
                                     PaperProps={{
-                                    elevation: 0,
-                                    sx: {
-                                        overflow: "visible",
-                                        filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                                        mt: 1.5,
-                                        "& .MuiAvatar-root": {
-                                        width: 32,
-                                        height: 32,
-                                        ml: -0.5,
-                                        mr: 1
-                                        },
-                                        "&:before": {
-                                        content: '""',
-                                        display: "block",
-                                        position: "absolute",
-                                        top: 0,
-                                        right: 12,
-                                        width: 10,
-                                        height: 10,
-                                        bgcolor: "background.paper",
-                                        transform: "translateY(-50%) rotate(45deg)",
-                                        zIndex: 0
+                                        elevation: 0,
+                                        sx: {
+                                            overflow: "visible",
+                                            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                                            mt: 1.5,
+                                            "& .MuiAvatar-root": {
+                                                width: 32,
+                                                height: 32,
+                                                ml: -0.5,
+                                                mr: 1
+                                            },
+                                            "&:before": {
+                                                content: '""',
+                                                display: "block",
+                                                position: "absolute",
+                                                top: 0,
+                                                right: 12,
+                                                width: 10,
+                                                height: 10,
+                                                bgcolor: "background.paper",
+                                                transform: "translateY(-50%) rotate(45deg)",
+                                                zIndex: 0
+                                            }
                                         }
-                                    }
                                     }}
                                     transformOrigin={{ horizontal: "right", vertical: "top" }}
                                     anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
@@ -197,96 +227,77 @@ export const Admin = () => {
                 <Grid item xs={0.5} sm={0.5} md={0.5} xl={0.5}></Grid>
             </Grid>
 
-            <Grid container>
+            <Grid container style={{ background: "#fff" }}>
                 <Grid item xs={0} sm={0} md={0.5} xl={0.5}></Grid>
                 <Grid item xs={12} sm={12} md={11} xl={11}>
                     <Grid container>
-                        <Grid item xs={3} sm={3} md={3} xl={3}>
-                            {/* <List
+                        <Grid item xs={12} sm={12} md={3} xl={3}>
+
+                            <div className={styles.menuNavRes}>
+                                <Button onClick={handleClick2} size="small" className={styles.btnIconMenuRes}>
+                                    <DnsOutlinedIcon className={styles.iconMenuRes} />
+                                </Button>
+                                <h3 className={styles.headerNavRes}>{dataTitleMenu} </h3>
+
+                                <Button size="small" className={styles.btnIconMenuResVisibility} disabled={true}>
+                                </Button>
+                            </div>
+
+                            <Popover
+                                id={id2}
+                                open={open2}
+                                anchorEl={anchorEl2}
+                                onClose={handleClose2}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                            >
+                                <List
+
+                                    className={styles.list_nav}
+                                    sx={{ width: '100%', p: 0 }}
+                                    component="nav"
+                                    aria-labelledby="nested-list-subheader"
+                                    subheader={
+                                        <ListSubheader component="div" id="nested-list-subheader" style={{ textAlign: "center" }} >
+                                            {/* <span className={styles.subheader}>Quản lý thông tin</span> */}
+                                        </ListSubheader>
+                                    }
+                                >
+                                    {
+                                        listMenu.map((item, index) => {
+                                            return (
+                                                <ListItemButton onClick={() => onClickItemMenu(item.name)}>
+                                                    <ListItemIcon>
+                                                        {item.icon}
+                                                    </ListItemIcon>
+                                                    <ListItemText key={index} primary={item.name} />
+                                                </ListItemButton>
+                                            )
+                                        })
+                                    }
+                                </List>
+                            </Popover>
+
+                            <List
+
+                                className={`${styles.list_nav} ${styles.list_nav_invisible}`}
                                 sx={{ width: '100%', p: 0 }}
                                 component="nav"
                                 aria-labelledby="nested-list-subheader"
                                 subheader={
                                     <ListSubheader component="div" id="nested-list-subheader" style={{ textAlign: "center" }} >
-                                        <span className={styles.subheader}>Quản lý thông tin xe</span>
-                                    </ListSubheader>
-                                }
-                            >
-                                <ListItemButton onClick={handleClick1}>
-                                    <ListItemIcon>
-                                        <AirportShuttleIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Quản lý xe" />
-                                    {open1 ? <ExpandLess /> : <ExpandMore />}
-                                </ListItemButton>
-                                <Collapse in={open1} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
-                                        
-                                        {
-                                            listChair.map((item,index)=>{
-                                                return(
-                                                    <ListItemButton sx={{ pl: 4 }}>
-                                                    <ListItemIcon>
-                                                        {item.icon}
-                                                    </ListItemIcon> 
-                                                    <ListItemText key={index} primary={item.name} />
-                                                </ListItemButton>
-                                                )
-                                            })
-                                        }
-                                            
-                                    </List>
-                                </Collapse>
-                            </List>
-
-                            <List
-                                sx={{ width: '100%', p: 0 }}
-                                component="nav"
-                                aria-labelledby="nested-list-subheader"
-                            >
-                                <ListItemButton onClick={handleClick2}>
-                                    <ListItemIcon>
-                                        <HomeWorkIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary="Quản lý chành xe" />
-                                    {open2 ? <ExpandLess /> : <ExpandMore />}
-                                </ListItemButton>
-                                <Collapse in={open2} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
-
-                                        {
-                                            listCar.map((item,index)=>{
-                                                return(
-                                                    <ListItemButton sx={{ pl: 4 }}>
-                                                    <ListItemIcon>
-                                                        {item.icon}
-                                                    </ListItemIcon> 
-                                                    <ListItemText key={index} primary={item.name} />
-                                                </ListItemButton>
-                                                )
-                                            })
-                                        }
-
-                                    </List>
-                                </Collapse>
-                            </List> */}
-
-                            <List
-                                sx={{ width: '100%', p: 0 }}
-                                component="nav"
-                                aria-labelledby="nested-list-subheader"
-                                subheader={
-                                    <ListSubheader component="div" id="nested-list-subheader" style={{ textAlign: "center" }} >
-                                        <span className={styles.subheader}>Quản lý thông tin</span>
+                                        {/* <span className={styles.subheader}>Quản lý thông tin</span> */}
                                     </ListSubheader>
                                 }
                             >
                                 {
-                                    listMenu.map((item,index)=>{
-                                        return(        
+                                    listMenu.map((item, index) => {
+                                        return (
                                             <ListItemButton>
                                                 <ListItemIcon>
-                                                    {item.icon}   
+                                                    {item.icon}
                                                 </ListItemIcon>
                                                 <ListItemText key={index} primary={item.name} />
                                             </ListItemButton>
@@ -296,8 +307,8 @@ export const Admin = () => {
                             </List>
 
                         </Grid>
-                        <Grid item xs={9} sm={9} md={9} xl={9}>
-                            <div className={styles.option}>
+                        <Grid item xs={12} sm={12} md={9} xl={9}>
+                            {/* <div className={styles.option}>
                                 <Box className={styles.area}>
                                     <span>Khu vực</span>
                                     <FormControl fullWidth size="small">
@@ -310,14 +321,14 @@ export const Admin = () => {
                                         >
 
                                             {
-                                                dataDistrict.map((item,index)=>(
-                                                    <MenuItem 
-                                                        key={index} 
+                                                dataDistrict.map((item, index) => (
+                                                    <MenuItem
+                                                        key={index}
                                                         value={item}
                                                     >
                                                         {item}
                                                     </MenuItem>
-                                                    )
+                                                )
                                                 )
                                             }
 
@@ -325,15 +336,15 @@ export const Admin = () => {
                                     </FormControl>
                                 </Box>
 
-                                <Button 
+                                <Button
                                     variant="outlined"
-                                    size='small' 
+                                    size='small'
                                     startIcon={<AddIcon />}
                                     sx={{ marginRight: 3 }}
                                 >
                                     Thêm mới
                                 </Button>
-                            </div>
+                            </div> */}
                             <div className={styles.wrapper}>
 
                                 <ListiItemAdmin />

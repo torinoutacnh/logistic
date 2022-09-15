@@ -1,9 +1,10 @@
-import { Button, Grid } from "@mui/material"
+import { Button, Grid, IconButton } from "@mui/material"
 import styles from './admin.module.scss'
 import imageTest from "../../../styles/img/imgTest.jpg"
 import Image from "next/image"
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export const ListiItemAdmin = () => {
     return (
@@ -495,6 +496,8 @@ export const ListiItemAdmin = () => {
 
 
             </Grid>
+
+            <button className={styles.btnAddCircle}>+</button>
         </>
     )
 }
