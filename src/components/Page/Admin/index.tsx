@@ -1,10 +1,9 @@
 import styles from './admin.module.scss'
 import * as React from 'react';
 import Image from 'next/image';
-import { Grid, TextField, Box, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControl, MenuItem, Select, SelectChangeEvent, Button, IconButton, Stack, Tooltip, Menu, Divider, Popover, Typography } from '@mui/material'
+import { Grid, TextField, Box, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControl, MenuItem, Select, SelectChangeEvent, Button, IconButton, Stack, Tooltip, Menu, Divider, Badge, Dialog, DialogContent, DialogActions, Popover } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
@@ -17,6 +16,9 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import BadgeIcon from '@mui/icons-material/Badge';
+
 
 export const Admin = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -24,6 +26,16 @@ export const Admin = () => {
 
 
     const open = Boolean(anchorEl);
+
+    const [openSearch, setOpenSearch] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpenSearch(true);
+    };
+
+    const handleClickClose = () => {
+        setOpenSearch(false);
+    };
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -37,6 +49,7 @@ export const Admin = () => {
     const handleChange = (e: SelectChangeEvent) => {
         setArea(e.target.value as string);
     };
+
 
     const dataDistrict = [
         "Quận 1",
@@ -132,95 +145,127 @@ export const Admin = () => {
                 <Grid item xs={0.5} sm={0.5} md={0.5} xl={0.5}></Grid>
                 <Grid item xs={11} sm={11} md={11} xl={11}>
                     <div className={styles.header}>
-                        <div className={styles.logo}>Logo</div>
-                        <div className={styles.nav}>
-                            <Box className={styles.box}>
-                                <SearchIcon className={styles.icon} />
-                                <TextField
-                                    id="input-with-sx"
-                                    variant="standard"
-                                    size='small'
-                                    style={{ width: "50%" }}
-                                />
-                            </Box>
-                            <div className={styles.icon}>
 
-                                <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-                                    <Tooltip title="Cài đặt tài khoản">
-                                        <IconButton
-                                            onClick={handleClick}
-                                            size="small"
-                                            sx={{ ml: 2 }}
-                                            aria-controls={open ? 'account-menu' : undefined}
-                                            aria-haspopup="true"
-                                            aria-expanded={open ? "true" : undefined}
-                                        >
-                                            <AccountCircleIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                </Box>
-                                <Menu
-                                    anchorEl={anchorEl}
-                                    id="account-menu"
-                                    open={open}
-                                    onClose={handleClose}
-                                    onClick={handleClose}
-                                    PaperProps={{
-                                        elevation: 0,
-                                        sx: {
-                                            overflow: "visible",
-                                            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                                            mt: 1.5,
-                                            "& .MuiAvatar-root": {
-                                                width: 32,
-                                                height: 32,
-                                                ml: -0.5,
-                                                mr: 1
-                                            },
-                                            "&:before": {
-                                                content: '""',
-                                                display: "block",
-                                                position: "absolute",
-                                                top: 0,
-                                                right: 12,
-                                                width: 10,
-                                                height: 10,
-                                                bgcolor: "background.paper",
-                                                transform: "translateY(-50%) rotate(45deg)",
-                                                zIndex: 0
-                                            }
+                        <div className={styles.logoDesktop}>LogoPC</div>
+                        <Box className={styles.search}>
+                            <SearchIcon />
+                            <TextField
+                                className={styles.search_input}
+                                id="input-with-sx"
+                                variant="standard"
+                                size='small'
+                            />
+                        </Box>
+                        <div className={styles.searchMobile}>
+                            <IconButton
+                                size="small"
+                                className={styles.search_icon}
+                                onClick={handleClickOpen}
+                            >
+                                <SearchIcon />
+                            </IconButton>
+                            <Dialog open={openSearch} onClose={handleClickClose}>
+                                <DialogContent style={{ overflow: "hidden" }}>
+                                    <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="name"
+                                        label="Nhập để tìm kiếm"
+                                        type="text"
+                                        variant="standard"
+                                        style={{ width: "70vw" }}
+                                    />
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleClickClose}>Tìm kiếm</Button>
+                                </DialogActions>
+                            </Dialog>
+
+                        </div>
+                        <div className={styles.logoMobile}>LogoMb</div>
+                        <div className={styles.icon}>
+                            <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+                                <Tooltip title="Thông báo">
+                                    <IconButton size="small">
+                                        <Badge badgeContent={"99+"} color="error">
+                                            <NotificationsIcon />
+                                        </Badge>
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Cài đặt tài khoản">
+                                    <IconButton
+                                        onClick={handleClick}
+                                        size="small"
+                                        sx={{ ml: 2 }}
+                                        aria-controls={open ? 'account-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? "true" : undefined}
+                                    >
+                                        <AccountCircleIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                            <Menu
+                                anchorEl={anchorEl}
+                                id="account-menu"
+                                open={open}
+                                onClose={handleClose}
+                                onClick={handleClose}
+                                PaperProps={{
+                                    elevation: 0,
+                                    sx: {
+                                        overflow: "visible",
+                                        filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                                        mt: 1.5,
+                                        "& .MuiAvatar-root": {
+                                            width: 32,
+                                            height: 32,
+                                            ml: -0.5,
+                                            mr: 1
+                                        },
+                                        "&:before": {
+                                            content: '""',
+                                            display: "block",
+                                            position: "absolute",
+                                            top: 0,
+                                            right: 12,
+                                            width: 10,
+                                            height: 10,
+                                            bgcolor: "background.paper",
+                                            transform: "translateY(-50%) rotate(45deg)",
+                                            zIndex: 0
                                         }
-                                    }}
-                                    transformOrigin={{ horizontal: "right", vertical: "top" }}
-                                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                                >
-                                    <MenuItem>
-                                        <ListItemIcon>
-                                            <AccountCircleIcon fontSize="small" />
-                                        </ListItemIcon>
-                                        Hồ sơ
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <ListItemIcon>
-                                            <AccountCircleIcon fontSize="small" />
-                                        </ListItemIcon>
-                                        Tài khoản
-                                    </MenuItem>
-                                    <Divider />
-                                    <MenuItem>
-                                        <ListItemIcon>
-                                            <Settings fontSize="small" />
-                                        </ListItemIcon>
-                                        Cài đặt
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <ListItemIcon>
-                                            <Logout fontSize="small" />
-                                        </ListItemIcon>
-                                        Đăng xuất
-                                    </MenuItem>
-                                </Menu>
-                            </div>
+                                    }
+                                }}
+                                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                            >
+                                <MenuItem>
+                                    <ListItemIcon>
+                                        <BadgeIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    Hồ sơ
+                                </MenuItem>
+                                <MenuItem>
+                                    <ListItemIcon>
+                                        <AccountCircleIcon fontSize="small" />
+                                    </ListItemIcon>
+                                    Tài khoản
+                                </MenuItem>
+                                <Divider />
+                                <MenuItem>
+                                    <ListItemIcon>
+                                        <Settings fontSize="small" />
+                                    </ListItemIcon>
+                                    Cài đặt
+                                </MenuItem>
+                                <MenuItem>
+                                    <ListItemIcon>
+                                        <Logout fontSize="small" />
+                                    </ListItemIcon>
+                                    Đăng xuất
+                                </MenuItem>
+                            </Menu>
                         </div>
                     </div>
                 </Grid>
