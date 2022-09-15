@@ -1,6 +1,10 @@
 $boxshadow-item-color: rgba(0, 86, 115, 0.3);
 $border-item-color: rgba(1, 161, 102, 0.2);
+$header-color: #f9e5e6;
 $text-back-color: black;
+$primary-color: #e93636;
+$white-color: rgb(255, 255, 255);
+
 
 .header {
     height: 60px;
@@ -32,9 +36,11 @@ $text-back-color: black;
             width: 50%;
         }
 
-        .searchMobile {
-            display: none;
-        }
+
+    }
+
+    .searchMobile {
+        display: none;
     }
 }
 
@@ -146,6 +152,9 @@ $text-back-color: black;
                 font-size: 18px;
                 font-weight: 400;
                 color: $text-back-color;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
 
             .text2 {
@@ -197,8 +206,78 @@ $text-back-color: black;
     }
 }
 
+.menuNavRes {
+    display: none;
+
+    .btnIconMenuRes {
+
+        .iconMenuRes {}
+    }
+}
+
+
+
+
+@media screen and (max-width:900px) {
+
+    .menuNavRes {
+        display: flex;
+        background: $header-color;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+
+        .btnIconMenuRes {
+
+            .iconMenuRes {}
+
+        }
+
+        .headerNavRes {
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            color: $text-back-color;
+        }
+
+
+    }
+
+    // list nav
+    .list_nav_invisible {
+        display: none;
+    }
+}
+
+.btnAddCircle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    border-radius: 100%;
+    height: 50px;
+    width: 50px;
+    background: $primary-color;
+    color: white;
+    display: none;
+    font-size: 30px;
+    border-color: transparent;
+}
+
+.btnAddCircle:active {
+    background-color: rgba($primary-color, 0.5);
+}
+
+
+@media screen and (max-width:900px) {
+    .btnAddCircle {
+        display: block;
+    }
+}
 
 @media screen and (max-width:768px) {
+
+    // list item    
     .header {
         display: flex;
         justify-content: space-between;
@@ -226,7 +305,7 @@ $text-back-color: black;
         }
     }
 
-        
+
 
     .g_container {
         height: 80vh;
