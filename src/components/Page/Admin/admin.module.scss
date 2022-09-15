@@ -1,32 +1,39 @@
 $boxshadow-item-color: rgba(0, 86, 115, 0.3);
 $border-item-color: rgba(1, 161, 102, 0.2);
+$text-back-color: black;
 
 .header {
     height: 60px;
     width: 100%;
     display: flex;
+    align-items: center;
+    justify-content: space-around;
 
-    .logo {
+    .logoDesktop {
         display: flex;
-        align-items: center;
         justify-content: center;
         width: 30%;
     }
 
-    .nav {
-        width: 90%;
+    .logoMobile {
+        display: none;
+    }
+
+    .search {
         display: flex;
-        align-items: center;
-        justify-content: space-around;
+        align-items: flex-end;
+        width: 80%;
 
-        .box {
-            display: flex;
-            align-items: flex-end;
-            width: 80%;
+        .search_icon {
+            margin: 0.5 1 0.5 3;
+        }
 
-            .icon {
-                margin: 0.5 1 0.5 3;
-            }
+        .search_input {
+            width: 50%;
+        }
+
+        .searchMobile {
+            display: none;
         }
     }
 }
@@ -138,6 +145,7 @@ $border-item-color: rgba(1, 161, 102, 0.2);
                 display: block;
                 font-size: 18px;
                 font-weight: 400;
+                color: $text-back-color;
             }
 
             .text2 {
@@ -149,6 +157,7 @@ $border-item-color: rgba(1, 161, 102, 0.2);
                 text-overflow: ellipsis;
                 overflow: hidden;
                 font-size: 18px;
+                color: $text-back-color;
             }
 
             .text2:first-child {
@@ -190,6 +199,35 @@ $border-item-color: rgba(1, 161, 102, 0.2);
 
 
 @media screen and (max-width:768px) {
+    .header {
+        display: flex;
+        justify-content: space-between;
+
+        .logoDesktop {
+            display: none;
+        }
+
+        .logoMobile {
+            display: flex;
+            justify-content: center;
+            width: 30%;
+        }
+
+        .search {
+            display: none;
+        }
+
+        .searchMobile {
+            display: block;
+
+            .search_icon {
+                margin-right: 50px;
+            }
+        }
+    }
+
+        
+
     .g_container {
         height: 80vh;
         justify-content: center !important;

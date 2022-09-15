@@ -1,10 +1,9 @@
 import styles from './admin.module.scss'
 import * as React from 'react';
 import Image from 'next/image';
-import { Grid, TextField, Box, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControl, MenuItem, Select, SelectChangeEvent, Button, IconButton, Stack, Tooltip, Menu, Divider } from '@mui/material'
+import { Grid, TextField, Box, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControl, MenuItem, Select, SelectChangeEvent, Button, IconButton, Stack, Tooltip, Menu, Divider, Badge, Dialog, DialogContent, DialogActions } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
@@ -16,10 +15,23 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import GroupsIcon from '@mui/icons-material/Groups';
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import BadgeIcon from '@mui/icons-material/Badge';
+
 
 export const Admin = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+
+    const [openSearch, setOpenSearch] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpenSearch(true);
+    };
+
+    const handleClickClose = () => {
+        setOpenSearch(false);
+    };
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -34,6 +46,7 @@ export const Admin = () => {
     const handleChange = (e: SelectChangeEvent) => {
         setArea(e.target.value as string);
     };
+ 
 
     const dataDistrict = [
         "Quận 1",
@@ -102,20 +115,52 @@ export const Admin = () => {
                 <Grid item xs={0.5} sm={0.5} md={0.5} xl={0.5}></Grid>
                 <Grid item xs={11} sm={11} md={11} xl={11}>
                     <div className={styles.header}>
-                        <div className={styles.logo}>Logo</div>
-                        <div className={styles.nav}>
-                            <Box className={styles.box}>
-                                <SearchIcon className={styles.icon}/>
-                                <TextField 
-                                    id="input-with-sx"
-                                    variant="standard"
-                                    size='small'
-                                    style={{ width: "50%" }}
-                                />
-                            </Box>
+                        <div className={styles.logoDesktop}>LogoPC</div>
+                        <Box className={styles.search}>
+                            <SearchIcon />
+                            <TextField
+                                className={styles.search_input}
+                                id="input-with-sx"
+                                variant="standard"
+                                size='small'
+                            />
+                        </Box>
+                        <div className={styles.searchMobile}>
+                            <IconButton 
+                                size="small" 
+                                className={styles.search_icon}
+                                onClick={handleClickOpen}
+                            >
+                                <SearchIcon />
+                            </IconButton>
+                            <Dialog open={openSearch} onClose={handleClickClose}>
+                                <DialogContent style={{ overflow: "hidden" }}>
+                                    <TextField
+                                        autoFocus
+                                        margin="dense"
+                                        id="name"
+                                        label="Nhập để tìm kiếm"
+                                        type="text"
+                                        variant="standard"
+                                        style={{width: "70vw"}}
+                                    />
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleClickClose}>Tìm kiếm</Button>
+                                </DialogActions>
+                            </Dialog>
+                            
+                        </div>
+                            <div className={styles.logoMobile}>LogoMb</div>
                             <div className={styles.icon}>
-                                
                                 <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+                                    <Tooltip title="Thông báo">
+                                        <IconButton size="small">
+                                        <Badge badgeContent={"99+"} color="error">
+                                            <NotificationsIcon />
+                                        </Badge>
+                                        </IconButton>
+                                    </Tooltip>
                                     <Tooltip title="Cài đặt tài khoản">
                                         <IconButton
                                             onClick={handleClick}
@@ -166,7 +211,7 @@ export const Admin = () => {
                                 >
                                     <MenuItem>
                                         <ListItemIcon>
-                                            <AccountCircleIcon fontSize="small" />
+                                            <BadgeIcon fontSize="small" />
                                         </ListItemIcon>
                                         Hồ sơ
                                     </MenuItem>
@@ -191,13 +236,12 @@ export const Admin = () => {
                                     </MenuItem>
                                 </Menu>
                             </div>
-                        </div>
                     </div>
                 </Grid>
                 <Grid item xs={0.5} sm={0.5} md={0.5} xl={0.5}></Grid>
             </Grid>
 
-            <Grid container>
+            <Grid container style={{ background: "#fff"}}>
                 <Grid item xs={0} sm={0} md={0.5} xl={0.5}></Grid>
                 <Grid item xs={12} sm={12} md={11} xl={11}>
                     <Grid container>
