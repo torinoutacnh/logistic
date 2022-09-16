@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton } from "@mui/material"
+import { Alert, Button, Grid, IconButton, Snackbar } from "@mui/material"
 import styles from './admin.module.scss'
 import imageTest from "../../../styles/img/imgTest.jpg"
 import Image from "next/image"
@@ -7,15 +7,39 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useEffect, useState } from "react";
 import { CarModel } from "../../Shared/Models/CarModel";
-import { env } from "../../Shared/Models/Everything";
+import { env, ServiceType } from "../../Shared/Models/Everything";
 
-export const ListiItemAdmin = () => {
+export const ListiItemAdmin = (props: { typeProps?: number }) => {
 
-    const [car, setCar] = useState<CarModel[]>()
+    const [car, setCar] = useState<CarModel[]>([])
+    const [filterCar, setFilterCar] = useState<CarModel[]>()
+    const [reRender, setReRender] = useState(0)
 
 
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+
+    const [openNotify, setOpenNofity] = useState(false);
+    const [messageNotify, setMessageNotify] = useState("")
+
+    const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenNofity(false);
+    };
+
+    const handleOpenNotify = (message: string) => {
+        setMessageNotify(message)
+        setOpenNofity(true)
+    }
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////
 
     useEffect(() => {
+        setFilterCar(null)
         fetch(env.REACT_APP_API.concat("/car"), {
             method: "GET",
             headers: {
@@ -47,12 +71,52 @@ export const ListiItemAdmin = () => {
                 console.log(" error >>>>>>", error);
             })
 
-    }, [])
+    }, [props.typeProps, reRender])
+
+    useEffect(() => {
+        const tmp = car.filter(item => item.serviceType == props.typeProps)
+        setFilterCar(tmp)
+    }, [car])
+
+
+    const onClickDeleteCar = (idCar: string) => {
+        fetch(env.REACT_APP_API.concat(`/car/delete-car/${idCar}`), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },
+            // body: JSON.stringify(form.getFieldsValue()),
+        })
+            .then(async (res) => {
+
+                const data = await res.json()
+
+                if (res.status >= 500) {
+                    console.log("delete car status >= 500 ", data);
+                    return
+                }
+                else if (res.status >= 400) {
+                    console.log("delete car status >= 400 ", data);
+                    return
+                }
+
+                console.log("delete car => ", data);
+                handleOpenNotify("Xóa xe thành công")
+                setReRender(pre => pre + 1)
+
+
+            })
+            .catch((error) => {
+                console.log(" error >>>>>>", error);
+            })
+
+    }
 
     return (
         <>
             {
-                !car ?
+                !filterCar ?
                     <><h1>Loading</h1></>
                     :
                     <>
@@ -60,7 +124,7 @@ export const ListiItemAdmin = () => {
 
 
                             {
-                                car.map((item, index) => {
+                                filterCar.map((item, index) => {
                                     return (
                                         <Grid xs={11.5} sm={9} md={9} lg={8} xl={5.9}>
                                             <div className={styles.g_item}>
@@ -78,7 +142,10 @@ export const ListiItemAdmin = () => {
                                                             </span>
                                                         </Button>
 
-                                                        <Button className={styles.btn} color={"error"}>
+                                                        <Button
+                                                            className={styles.btn} color={"error"}
+                                                            onClick={() => { onClickDeleteCar(item.id) }}
+                                                        >
                                                             <DeleteIcon className={styles.icon} />
                                                             <span className={styles.text}>
                                                                 Xóa
@@ -131,6 +198,22 @@ export const ListiItemAdmin = () => {
 
                         </Grid>
                         <button className={styles.btnAddCircle}>+</button>
+                        <Snackbar
+                            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                            key={"top right"}
+                            open={openNotify}
+                            autoHideDuration={3000}
+                            onClose={handleCloseNotify}
+                        >
+                            <Alert
+                                color="info"
+                                onClose={handleCloseNotify}
+                                severity="success"
+                                sx={{ width: '100%' }}
+                            >
+                                {messageNotify}
+                            </Alert>
+                        </Snackbar>
                     </>
             }
         </>
