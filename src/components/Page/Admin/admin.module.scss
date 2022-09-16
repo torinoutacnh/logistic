@@ -4,17 +4,15 @@ $header-color: #f9e5e6;
 $text-back-color: black;
 $primary-color: #e93636;
 $white-color: rgb(255, 255, 255);
-$gradient: linear-gradient(
-    -45deg,
-    #fc6c8f,
-    #ff2ced,
-    #ffb86c,
-    #2cccff,
-    #20e3b2,
-    #ffcc70,
-    #c850c0,
-    #4158d0
-  );
+$gradient: linear-gradient(-45deg,
+        #fc6c8f,
+        #ff2ced,
+        #ffb86c,
+        #2cccff,
+        #20e3b2,
+        #ffcc70,
+        #c850c0,
+        #4158d0);
 
 .bgheader {
     background-size: 400% 400%;
@@ -28,47 +26,49 @@ $gradient: linear-gradient(
         display: flex;
         align-items: center;
         justify-content: space-around;
-    
+
         .logoDesktop {
             display: flex;
             justify-content: center;
             width: 30%;
         }
-    
+
         .logoMobile {
             display: none;
         }
-    
+
         .search {
             display: flex;
             align-items: flex-end;
             width: 80%;
-    
+
             .search_icon {
                 margin: 0.5 1 0.5 3;
             }
-    
+
             .search_input {
                 width: 50%;
             }
         }
-    
+
         .searchMobile {
             display: none;
         }
     }
 }
-  
+
 @keyframes gradient {
-0% {
-    background-position: 0% 50%;
-}
-50% {
-    background-position: 100% 50%;
-}
-100% {
-    background-position: 0% 50%;
-}
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .header {
@@ -149,7 +149,7 @@ $gradient: linear-gradient(
 }
 
 .g_container {
-    height: 85vh;
+    max-height: 85vh;
     overflow-y: scroll;
     margin: 0;
     padding: 10px;
@@ -334,13 +334,16 @@ $gradient: linear-gradient(
 }
 
 
-@media screen and (max-width:900px) {
+@media screen and (max-width:900px) {}
+
+@media screen and (max-width:768px) {
+    .option {
+        display: none;
+    }
+
     .btnAddCircle {
         display: block;
     }
-}
-
-@media screen and (max-width:768px) {
 
     // list item    
     .header {
@@ -373,7 +376,7 @@ $gradient: linear-gradient(
 
 
     .g_container {
-        height: 80vh;
+        max-height: 80vh;
         justify-content: center !important;
 
         .g_item {
