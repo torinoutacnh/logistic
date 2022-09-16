@@ -1,29 +1,15 @@
 import type { NextPage } from 'next'
-import { Footer } from '../components/Footer';
-import { LookingCar } from '../components/LookingCar';
-import styles from '../styles/Home.module.scss'
-import { Header } from './header';
+import { MainHome } from '../components/Page/Home/mainHome'
 
-import { MainHome } from './mainHome';
+import styles from '../../styles/Home.module.scss'
+
 
 
 const Home: NextPage = () => {
 
-
-
   return (
     <>
-
-      <div className={styles.container}>
-
-        <Header />
-
-        {/* <MainHome /> */}
-        <LookingCar />
-
-      </div>
-
-      <Footer />
+      <MainHome />
     </>
 
   )

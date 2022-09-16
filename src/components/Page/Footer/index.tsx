@@ -1,12 +1,12 @@
 import { Grid } from '@mui/material'
 import styles from './footer.module.scss'
 import Image from 'next/image'
-import image1 from '../../styles/img/image1.jpg'
-import image2 from '../../styles/img/image2.png'
-import image3 from '../../styles/img/image3.png'
-import image4 from '../../styles/img/image4.png'
-import image5 from '../../styles/img/image5.png'
-import image6 from '../../styles/img/image6.png'
+import image1 from '../../../styles/img/image1.jpg'
+import image2 from '../../../styles/img/image2.png'
+import image3 from '../../../styles/img/image3.png'
+import image4 from '../../../styles/img/image4.png'
+import image5 from '../../../styles/img/image5.png'
+import image6 from '../../../styles/img/image6.png'
 
 export const Footer = () => {
     return (

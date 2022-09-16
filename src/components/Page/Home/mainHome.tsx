@@ -1,10 +1,10 @@
 import { Button } from "@mui/material"
-import styles from '../styles/Home.module.scss'
+import styles from '../../../styles/Home.module.scss'
 import * as React from 'react';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import TextField from '@mui/material/TextField';
+import { TextField } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -22,9 +22,9 @@ export const MainHome = () => {
     const handleSubmit = e => {
         e.preventDefault();
         if (from && to && date) {
-            console.log("Điểm đi >>" ,from);
-            console.log("Điểm đến >>" ,to);
-            console.log("Ngày đi >>" ,date.format('DD/MM/YYYY'));
+            console.log("Điểm đi >>", from);
+            console.log("Điểm đến >>", to);
+            console.log("Ngày đi >>", date.format('DD/MM/YYYY'));
         }
         setFrom('');
         setTo('');
@@ -54,7 +54,7 @@ export const MainHome = () => {
                             value={from}
                             onChange={(e) => setFrom(e.target.value)}
                             required
-                            // inputRef={register}
+                        // inputRef={register}
                         />
 
                         <p>

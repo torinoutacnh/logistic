@@ -1,0 +1,357 @@
+$boxshadow-item-color: rgba(0, 86, 115, 0.3);
+$border-item-color: rgba(1, 161, 102, 0.2);
+$header-color: #f9e5e6;
+$text-back-color: black;
+$primary-color: #e93636;
+$white-color: rgb(255, 255, 255);
+
+
+.header {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    .logoDesktop {
+        display: flex;
+        justify-content: center;
+        width: 30%;
+    }
+
+    .logoMobile {
+        display: none;
+    }
+
+    .search {
+        display: flex;
+        align-items: flex-end;
+        width: 80%;
+
+        .search_icon {
+            margin: 0.5 1 0.5 3;
+        }
+
+        .search_input {
+            width: 50%;
+        }
+
+
+    }
+
+    .searchMobile {
+        display: none;
+    }
+}
+
+.subheader {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000;
+
+}
+
+.nav_admin {
+    border: "2px solid rgb(245, 245, 245";
+    margin-top: "10px";
+    display: "flex"
+}
+
+.option {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0 0 5px;
+
+    .area {
+        width: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 10px;
+
+        span {
+            width: 100px;
+        }
+    }
+}
+
+.wrapper {
+    margin-top: 10px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    max-height: 100%;
+}
+
+.g_container {
+    height: 70vh;
+    overflow-y: scroll;
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+
+    .g_item {
+        position: relative;
+        transition: top 0.15s ease;
+        top: 0;
+
+        margin-top: 10px;
+        padding: 7px;
+        height: 200px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        box-shadow: 1px 2px 4px 0 $boxshadow-item-color;
+        border: 1px solid $border-item-color;
+
+        .left {
+            width: 40%;
+
+            .image {
+                width: 100%;
+                height: 70%;
+                border-radius: 5px;
+                overflow: hidden;
+                display: flex;
+                align-items: flex-start;
+            }
+
+            .action {
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+
+                .btn {
+                    height: 30px;
+
+                    .icon {
+                        font-size: 15px;
+                        margin-top: -1px;
+                    }
+
+                    .text {
+                        font-size: 10px;
+                        margin-top: 3px;
+                    }
+                }
+            }
+        }
+
+        .right {
+            width: 60%;
+            padding-left: 10px;
+            font-weight: 500;
+            line-height: 1.2;
+
+            .text {
+                margin-top: 4px;
+                display: block;
+                font-size: 18px;
+                font-weight: 400;
+                color: $text-back-color;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+            .text2 {
+                margin-top: 4px;
+                font-weight: 400;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                font-size: 18px;
+                color: $text-back-color;
+            }
+
+            .text2:first-child {
+                margin-top: 0;
+            }
+
+            .text,
+            .text2 {
+
+                .title {
+                    font-weight: 500;
+                    margin-right: 5px;
+                }
+            }
+        }
+
+
+        .g_item_name {
+            margin: 0;
+            padding: 0;
+            text-transform: uppercase;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 20px;
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+    }
+
+    .g_item:hover {
+        top: -5px;
+        cursor: pointer;
+        box-shadow: 1px 2px 10px 2px $boxshadow-item-color;
+    }
+}
+
+.menuNavRes {
+    display: none;
+
+    .btnIconMenuRes {
+
+        .iconMenuRes {}
+    }
+}
+
+
+
+
+@media screen and (max-width:900px) {
+
+    .menuNavRes {
+        display: flex;
+        background: $header-color;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+
+        .btnIconMenuRes {
+
+            .iconMenuRes {}
+
+        }
+
+        .headerNavRes {
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            color: $text-back-color;
+        }
+
+
+    }
+
+    // list nav
+    .list_nav_invisible {
+        display: none;
+    }
+}
+
+.btnAddCircle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    border-radius: 100%;
+    height: 50px;
+    width: 50px;
+    background: $primary-color;
+    color: white;
+    display: none;
+    font-size: 30px;
+    border-color: transparent;
+}
+
+.btnAddCircle:active {
+    background-color: rgba($primary-color, 0.5);
+}
+
+
+@media screen and (max-width:900px) {
+    .btnAddCircle {
+        display: block;
+    }
+}
+
+@media screen and (max-width:768px) {
+
+    // list item    
+    .header {
+        display: flex;
+        justify-content: space-between;
+
+        .logoDesktop {
+            display: none;
+        }
+
+        .logoMobile {
+            display: flex;
+            justify-content: center;
+            width: 30%;
+        }
+
+        .search {
+            display: none;
+        }
+
+        .searchMobile {
+            display: block;
+
+            .search_icon {
+                margin-right: 50px;
+            }
+        }
+    }
+
+
+
+    .g_container {
+        height: 80vh;
+        justify-content: center !important;
+
+        .g_item {
+
+            height: 175px;
+
+            .left {
+
+                .image {}
+
+                .action {
+
+
+                    .btn {
+                        .text {
+                            display: none;
+                        }
+
+                        .icon {
+                            font-size: 20px !important;
+                        }
+                    }
+                }
+            }
+
+            .right {
+
+                line-height: 1.1;
+
+                .text {
+
+                    margin-top: 2px;
+                    font-size: 17px !important;
+
+                }
+
+                .text2 {
+                    margin-top: 2px;
+                    font-size: 17px !important;
+                }
+
+
+            }
+        }
+    }
+}
