@@ -149,7 +149,7 @@ $gradient: linear-gradient(
 }
 
 .g_container {
-    height: 85vh;
+    max-height: 85vh;
     overflow-y: scroll;
     margin: 0;
     padding: 10px;
@@ -370,14 +370,15 @@ $gradient: linear-gradient(
         }
     }
 
-
+    .option {
+        display: none;
+    }
 
     .g_container {
-        height: 80vh;
+        max-height: 80vh;
         justify-content: center !important;
 
         .g_item {
-
             height: 175px;
 
             .left {
@@ -385,7 +386,6 @@ $gradient: linear-gradient(
                 .image {}
 
                 .action {
-
 
                     .btn {
                         .text {
@@ -400,22 +400,17 @@ $gradient: linear-gradient(
             }
 
             .right {
-
                 line-height: 1.1;
 
                 .text {
-
                     margin-top: 2px;
                     font-size: 17px !important;
-
                 }
 
                 .text2 {
                     margin-top: 2px;
                     font-size: 17px !important;
                 }
-
-
             }
         }
     }

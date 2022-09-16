@@ -18,37 +18,22 @@ import Logout from "@mui/icons-material/Logout";
 import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import BadgeIcon from '@mui/icons-material/Badge';
+import { CreateCar } from './createCar'
 
 
 export const Admin = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [area, setArea] = React.useState('');
-
-
     const open = Boolean(anchorEl);
-
     const [openSearch, setOpenSearch] = React.useState(false);
 
-    const handleClickOpen = () => {
-        setOpenSearch(true);
-    };
+    const handleClickOpen = () => setOpenSearch(true);
+    const handleClickClose = () => setOpenSearch(false);
 
-    const handleClickClose = () => {
-        setOpenSearch(false);
-    };
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+    const handleClose = () => setAnchorEl(null);
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-
-    const handleChange = (e: SelectChangeEvent) => {
-        setArea(e.target.value as string);
-    };
+    const handleChange = (e: SelectChangeEvent) => setArea(e.target.value as string);
 
     const listMenu = [
         {
@@ -96,20 +81,16 @@ export const Admin = () => {
 
     const [anchorEl2, setAnchorEl2] = React.useState<HTMLButtonElement | null>(null);
 
-    const handleClick2 = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl2(event.currentTarget);
-    };
-
-    const handleClose2 = () => {
-        setAnchorEl2(null);
-    };
-
+    const handleClick2 = (event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl2(event.currentTarget);
+    const handleClose2 = () => setAnchorEl2(null);
     const open2 = Boolean(anchorEl2);
     const id2 = open2 ? 'simple-popover' : undefined;
 
     /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-
+ 
+    const [isShowModal, setIsShowModal] = React.useState(false);
+    const onClickShowModal = () => setIsShowModal(true);
+    const onClickCloseModal = () => setIsShowModal(false);
 
     return (
         <>
@@ -358,6 +339,7 @@ export const Admin = () => {
                                     size='small'
                                     startIcon={<AddIcon />}
                                     sx={{ marginRight: 3 }}
+                                    onClick={() => {onClickShowModal()}}
                                 >
                                     Thêm mới
                                 </Button>
@@ -372,6 +354,7 @@ export const Admin = () => {
                 </Grid>
                 <Grid item xs={0} sm={0} md={1} xl={1}></Grid>
             </Grid>
+            <CreateCar stateProps = {isShowModal} close={onClickCloseModal}/>
         </>
     )
 }
