@@ -4,7 +4,72 @@ $header-color: #f9e5e6;
 $text-back-color: black;
 $primary-color: #e93636;
 $white-color: rgb(255, 255, 255);
+$gradient: linear-gradient(
+    -45deg,
+    #fc6c8f,
+    #ff2ced,
+    #ffb86c,
+    #2cccff,
+    #20e3b2,
+    #ffcc70,
+    #c850c0,
+    #4158d0
+  );
 
+.bgheader {
+    background-size: 400% 400%;
+    background-image: $gradient;
+    animation: gradient 5s ease alternate infinite;
+    height: 60px;
+
+    .header {
+        height: 60px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    
+        .logoDesktop {
+            display: flex;
+            justify-content: center;
+            width: 30%;
+        }
+    
+        .logoMobile {
+            display: none;
+        }
+    
+        .search {
+            display: flex;
+            align-items: flex-end;
+            width: 80%;
+    
+            .search_icon {
+                margin: 0.5 1 0.5 3;
+            }
+    
+            .search_input {
+                width: 50%;
+            }
+        }
+    
+        .searchMobile {
+            display: none;
+        }
+    }
+}
+  
+@keyframes gradient {
+0% {
+    background-position: 0% 50%;
+}
+50% {
+    background-position: 100% 50%;
+}
+100% {
+    background-position: 0% 50%;
+}
+}
 
 .header {
     height: 60px;
@@ -59,20 +124,20 @@ $white-color: rgb(255, 255, 255);
 
 .option {
     display: flex;
-    justify-content: space-between;
-    margin: 10px 0 0 5px;
+    justify-content: flex-end;
+    margin: 10px 5px;
 
-    .area {
-        width: 300px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-left: 10px;
+    // .area {
+    //     width: 300px;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //     margin-left: 10px;
 
-        span {
-            width: 100px;
-        }
-    }
+    //     span {
+    //         width: 100px;
+    //     }
+    // }
 }
 
 .wrapper {

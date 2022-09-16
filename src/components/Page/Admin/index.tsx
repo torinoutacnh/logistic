@@ -50,34 +50,6 @@ export const Admin = () => {
         setArea(e.target.value as string);
     };
 
-
-    const dataDistrict = [
-        "Quận 1",
-        "Quận 2",
-        "Quận 3",
-        "Quận 4",
-        "Quận 5",
-        "Quận 6",
-        "Quận 7",
-        "Quận 8",
-        "Quận 9",
-        "Quận 10",
-        "Quận 11",
-        "Quận 12",
-        "Quận Bình Tân",
-        "Quận Bình Thạnh",
-        "Quận Gò Vấp",
-        "Quận Phú Nhuận",
-        "Quận Tân Bình",
-        "Quận Tân Phú",
-        "Quận Thủ Đức",
-        "Huyện Bình Chánh",
-        "Huyện Cần Giờ",
-        "Huyện Củ Chi",
-        "Huyện Hóc Môn",
-        "Huyện Nhà Bè",
-    ]
-
     const listMenu = [
         {
             icon: <GroupsIcon />,
@@ -141,7 +113,7 @@ export const Admin = () => {
 
     return (
         <>
-            <Grid container style={{ background: "#f9e5e6" }}>
+            <Grid container className={styles.bgheader}>
                 <Grid item xs={0.5} sm={0.5} md={0.5} xl={0.5}></Grid>
                 <Grid item xs={11} sm={11} md={11} xl={11}>
                     <div className={styles.header}>
@@ -353,8 +325,8 @@ export const Admin = () => {
 
                         </Grid>
                         <Grid item xs={12} sm={12} md={9} xl={9}>
-                            {/* <div className={styles.option}>
-                                <Box className={styles.area}>
+                            <div className={styles.option}>
+                                {/* <Box className={styles.area}>
                                     <span>Khu vực</span>
                                     <FormControl fullWidth size="small">
                                         <Select
@@ -379,7 +351,7 @@ export const Admin = () => {
 
                                         </Select>
                                     </FormControl>
-                                </Box>
+                                </Box> */}
 
                                 <Button
                                     variant="outlined"
@@ -389,7 +361,7 @@ export const Admin = () => {
                                 >
                                     Thêm mới
                                 </Button>
-                            </div> */}
+                            </div>
                             <div className={styles.wrapper}>
 
                                 <ListiItemAdmin />
