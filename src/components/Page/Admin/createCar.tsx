@@ -194,13 +194,21 @@ export function CreateCar(props:{stateProps: boolean, close:any}) {
             
                     </div>
                     <div className={styles.action}>
-                    <Button variant="outlined" startIcon={<AddIcon />}>
+                    <Button 
+                        variant="outlined" 
+                        startIcon={<AddIcon />} 
+                        className={styles.btnCreate}
+                    >
                         Thêm mới
                     </Button>
-                    <Button variant="outlined" startIcon={<BorderColorIcon />}>
+                    {/* <Button variant="outlined" startIcon={<BorderColorIcon />}>
                         Cập nhật
-                    </Button>
-                    <Button variant="outlined" startIcon={<CloseIcon />}>
+                    </Button> */}
+                    <Button 
+                        variant="outlined" 
+                        startIcon={<CloseIcon />} 
+                        className={styles.btnCancel}
+                    >
                         Hủy bỏ
                     </Button>
                     </div>
