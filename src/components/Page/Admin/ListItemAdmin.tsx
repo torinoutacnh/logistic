@@ -8,12 +8,17 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useEffect, useState } from "react";
 import { CarModel } from "../../Shared/Models/CarModel";
 import { env, ServiceType } from "../../Shared/Models/Everything";
+import { UpdateCar } from "./updateCar";
 
 export const ListiItemAdmin = (props: { typeProps?: number }) => {
 
     const [car, setCar] = useState<CarModel[]>([])
     const [filterCar, setFilterCar] = useState<CarModel[]>()
     const [reRender, setReRender] = useState(0)
+
+    const [isShowModal, setIsShowModal] = useState(false);
+    const onClickShowModal = () => setIsShowModal(true);
+    const onClickCloseModal = () => setIsShowModal(false);
 
 
     ////////////////////////////////////////////////////
@@ -122,7 +127,6 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
                     <>
                         <Grid container className={styles.g_container}>
 
-
                             {
                                 filterCar.map((item, index) => {
                                     return (
@@ -135,7 +139,10 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
                                                     </div>
                                                     <div className={styles.action}>
 
-                                                        <Button className={styles.btn}>
+                                                        <Button 
+                                                            className={styles.btn}
+                                                            onClick={() => { onClickShowModal() }}
+                                                        >
                                                             <BorderColorIcon className={styles.icon} />
                                                             <span className={styles.text}>
                                                                 Chỉnh sửa
@@ -192,12 +199,9 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
                                 })
                             }
 
-
-
-
-
                         </Grid>
                         <button className={styles.btnAddCircle}>+</button>
+                        <UpdateCar stateProps = {isShowModal} close={onClickCloseModal}/>
                         <Snackbar
                             anchorOrigin={{ vertical: "top", horizontal: "right" }}
                             key={"top right"}
