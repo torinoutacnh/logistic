@@ -64,7 +64,7 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
                     return
                 }
 
-                console.log("get car => ", data.data);
+                // console.log("get car => ", data.data);
 
                 setCar(data.data)
 
@@ -120,112 +120,112 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
         router.push({ pathname: "/admin/carInfo", query: { id: carId } })
     }
 
-    // return (
-    //     <>
-    //         {
-    //             !filterCar ?
-    //                 <><h1>Loading</h1></>
-    //                 :
-    //                 <>
-    //                     <Grid container className={styles.g_container}>
+    return (
+        <>
+            {
+                !filterCar ?
+                    <><h1>Loading</h1></>
+                    :
+                    <>
+                        <Grid container className={styles.g_container}>
 
 
-    //                         {
-    //                             filterCar.map((item, index) => {
-    //                                 return (
-    //                                     <Grid xs={11.5} sm={9} md={9} lg={8} xl={5.9} key={index}>
-    //                                         <div className={styles.g_item} onClick={() => { handelOnClickItem(item.id) }}>
+                            {
+                                filterCar.map((item, index) => {
+                                    return (
+                                        <Grid xs={11.5} sm={9} md={9} lg={8} xl={5.9} key={index}>
+                                            <div className={styles.g_item} >
 
-    //                                             <div className={styles.left}>
-    //                                                 <div className={styles.image}>
-    //                                                     <Image src={imageTest} style={{ borderRadius: "5px" }} />
-    //                                                 </div>
-    //                                                 <div className={styles.action}>
+                                                <div className={styles.left}>
+                                                    <div className={styles.image} onClick={() => { handelOnClickItem(item.id) }}>
+                                                        <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                                    </div>
+                                                    <div className={styles.action}>
 
-    //                                                     <Button className={styles.btn}>
-    //                                                         <BorderColorIcon className={styles.icon} />
-    //                                                         <span className={styles.text}>
-    //                                                             Chỉnh sửa
-    //                                                         </span>
-    //                                                     </Button>
+                                                        <Button className={styles.btn}>
+                                                            <BorderColorIcon className={styles.icon} />
+                                                            <span className={styles.text}>
+                                                                Chỉnh sửa
+                                                            </span>
+                                                        </Button>
 
-    //                                                     <Button
-    //                                                         className={styles.btn} color={"error"}
-    //                                                         onClick={() => { onClickDeleteCar(item.id) }}
-    //                                                     >
-    //                                                         <DeleteIcon className={styles.icon} />
-    //                                                         <span className={styles.text}>
-    //                                                             Xóa
-    //                                                         </span>
-    //                                                     </Button>
+                                                        <Button
+                                                            className={styles.btn} color={"error"}
+                                                            onClick={() => { onClickDeleteCar(item.id) }}
+                                                        >
+                                                            <DeleteIcon className={styles.icon} />
+                                                            <span className={styles.text}>
+                                                                Xóa
+                                                            </span>
+                                                        </Button>
 
-    //                                                 </div>
-    //                                             </div>
+                                                    </div>
+                                                </div>
 
-    //                                             <div className={styles.right}>
+                                                <div className={styles.right} onClick={() => { handelOnClickItem(item.id) }}>
 
-    //                                                 <span className={styles.text2}>
-    //                                                     <span className={styles.title}>Tên nhà xe:</span>
-    //                                                     {item.carsManagerName}
-    //                                                 </span>
+                                                    <span className={styles.text2}>
+                                                        <span className={styles.title}>Tên nhà xe:</span>
+                                                        {item.carsManagerName}
+                                                    </span>
 
-    //                                                 <span className={styles.text2}>
-    //                                                     <span className={styles.title}>Hãng xe:</span>
-    //                                                     {item.carModel}
-    //                                                 </span>
-    //                                                 <span className={styles.text}>
-    //                                                     <span className={styles.title}>Màu xe:</span>
-    //                                                     {item.carColor}
-    //                                                 </span>
-    //                                                 <span className={styles.text}>
-    //                                                     <span className={styles.title}>BKS:</span>
-    //                                                     {item.carNumber}
-    //                                                 </span>
-    //                                                 <span className={styles.text}>
-    //                                                     <span className={styles.title}>SĐT:</span>
-    //                                                     {item.tel}
-    //                                                 </span>
-    //                                                 <span className={styles.text}>
-    //                                                     <span className={styles.title}>Giá vé:</span>
-    //                                                     <span style={{ color: "red", fontWeight: "500" }}>
-    //                                                         {item.shipPrice > 0 ? item.shipPrice : item.travelPrice}
-    //                                                     </span>
-    //                                                 </span>
+                                                    <span className={styles.text2}>
+                                                        <span className={styles.title}>Hãng xe:</span>
+                                                        {item.carModel}
+                                                    </span>
+                                                    <span className={styles.text}>
+                                                        <span className={styles.title}>Màu xe:</span>
+                                                        {item.carColor}
+                                                    </span>
+                                                    <span className={styles.text}>
+                                                        <span className={styles.title}>BKS:</span>
+                                                        {item.carNumber}
+                                                    </span>
+                                                    <span className={styles.text}>
+                                                        <span className={styles.title}>SĐT:</span>
+                                                        {item.tel}
+                                                    </span>
+                                                    <span className={styles.text}>
+                                                        <span className={styles.title}>Giá vé:</span>
+                                                        <span style={{ color: "red", fontWeight: "500" }}>
+                                                            {item.shipPrice > 0 ? item.shipPrice : item.travelPrice}
+                                                        </span>
+                                                    </span>
 
-    //                                             </div>
-    //                                         </div>
-    //                                     </Grid>
-    //                                 )
-    //                             })
-    //                         }
-
-
+                                                </div>
+                                            </div>
+                                        </Grid>
+                                    )
+                                })
+                            }
 
 
 
-    //                     </Grid>
-    //                     <button className={styles.btnAddCircle}>+</button>
-    //                     <Snackbar
-    //                         anchorOrigin={{ vertical: "top", horizontal: "right" }}
-    //                         key={"top right"}
-    //                         open={openNotify}
-    //                         autoHideDuration={3000}
-    //                         onClose={handleCloseNotify}
-    //                     >
-    //                         <Alert
-    //                             color="info"
-    //                             onClose={handleCloseNotify}
-    //                             severity="success"
-    //                             sx={{ width: '100%' }}
-    //                         >
-    //                             {messageNotify}
-    //                         </Alert>
-    //                     </Snackbar>
-    //                 </>
-    //         }
-    //     </>
-    // )
 
-    return <CreateSeat />
+
+                        </Grid>
+                        <button className={styles.btnAddCircle}>+</button>
+                        <Snackbar
+                            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                            key={"top right"}
+                            open={openNotify}
+                            autoHideDuration={3000}
+                            onClose={handleCloseNotify}
+                        >
+                            <Alert
+                                color="info"
+                                onClose={handleCloseNotify}
+                                severity="success"
+                                sx={{ width: '100%' }}
+                            >
+                                {messageNotify}
+                            </Alert>
+                        </Snackbar>
+                    </>
+            }
+        </>
+    )
+
+    // return <CreateSeat />
 
 }
