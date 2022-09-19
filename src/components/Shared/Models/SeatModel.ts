@@ -4,7 +4,8 @@ interface SeatModel {
     id?: string,
     row?: string,
     col?: string,
-    status?: number
+    status?: number,
+    floor?: number,
 }
 
 export type { SeatModel }

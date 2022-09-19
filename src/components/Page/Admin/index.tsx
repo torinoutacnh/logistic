@@ -21,6 +21,7 @@ import BadgeIcon from '@mui/icons-material/Badge';
 import { ServiceType } from '../../Shared/Models/Everything';
 import { HeaderAdmin } from './headerAdmin';
 import { CreateCar } from './createCar';
+import { CarInfo } from './carInfo';
 
 
 export const Admin = () => {
@@ -91,7 +92,7 @@ export const Admin = () => {
     const id2 = open2 ? 'simple-popover' : undefined;
 
     /////////////////////////////////////////////////////////
- 
+
     const [isShowModal, setIsShowModal] = React.useState(false);
     const onClickShowModal = () => setIsShowModal(true);
     const onClickCloseModal = () => setIsShowModal(false);
@@ -99,7 +100,6 @@ export const Admin = () => {
     return (
         <>
 
-            <HeaderAdmin />
 
             <Grid container style={{ background: "#fff" }}>
                 <Grid item xs={0} sm={0} md={0.5} xl={0.5}></Grid>
@@ -142,11 +142,11 @@ export const Admin = () => {
                                     {
                                         listMenu.map((item, index) => {
                                             return (
-                                                <ListItemButton onClick={() => onClickItemMenu(item)}>
+                                                <ListItemButton onClick={() => onClickItemMenu(item)} key={index}>
                                                     <ListItemIcon>
                                                         {item.icon}
                                                     </ListItemIcon>
-                                                    <ListItemText key={index} primary={item.name} />
+                                                    <ListItemText primary={item.name} />
                                                 </ListItemButton>
                                             )
                                         })
@@ -169,11 +169,11 @@ export const Admin = () => {
                                 {
                                     listMenu.map((item, index) => {
                                         return (
-                                            <ListItemButton onClick={() => { onClickItemMenu(item) }}>
+                                            <ListItemButton onClick={() => { onClickItemMenu(item) }} key={index} >
                                                 <ListItemIcon>
                                                     {item.icon}
                                                 </ListItemIcon>
-                                                <ListItemText key={index} primary={item.name} />
+                                                <ListItemText primary={item.name} />
                                             </ListItemButton>
                                         )
                                     })
@@ -215,7 +215,7 @@ export const Admin = () => {
                                     size='small'
                                     startIcon={<AddIcon />}
                                     sx={{ marginRight: 3 }}
-                                    onClick={() => {onClickShowModal()}}
+                                    onClick={() => { onClickShowModal() }}
                                 >
                                     Thêm mới
                                 </Button>
@@ -230,7 +230,7 @@ export const Admin = () => {
                 </Grid>
                 <Grid item xs={0} sm={0} md={1} xl={1}></Grid>
             </Grid>
-            <CreateCar stateProps = {isShowModal} close={onClickCloseModal}/>
+            <CreateCar stateProps={isShowModal} close={onClickCloseModal} />
         </>
     )
 }

@@ -4,13 +4,17 @@ import { Header } from "../Header/header"
 import { Footer } from "../Footer"
 import styles from "../../../styles/Home.module.scss"
 import { useRouter } from "next/router"
+import { HeaderAdmin } from "../Admin/headerAdmin"
 
 
 export const MainLayout = (props: { children: React.ReactNode }) => {
 
     const router = useRouter();
     if (router.pathname.startsWith("/admin")) {
-        return <>{props.children}</>;
+        return <>
+            <HeaderAdmin />
+            {props.children}
+        </>;
     }
 
     return (
