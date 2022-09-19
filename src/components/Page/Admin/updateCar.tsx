@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
 import styles from './createCar.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
-import AddIcon from '@mui/icons-material/Add';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
 
@@ -19,7 +19,7 @@ const style = {
   textAlign: 'center',
 };
 
-export function CreateCar(props:{stateProps: boolean, close:any}) {
+export function UpdateCar( props:{stateProps: boolean, close:any}) {
     const [isShow, setIsShow] = useState(false)
 
     useEffect(()=>{
@@ -54,11 +54,16 @@ export function CreateCar(props:{stateProps: boolean, close:any}) {
 
     const handleSubmit = e => {
         e.preventDefault();
-
+        console.log("Dịch vụ >>", typeService);
+        console.log("Tên nhà xe >>", carName);
+        console.log("Hãng xe >>", carModel);
+        console.log("Màu xe >>", carColor);
+        console.log("BKS >>", carNumber);
+        console.log("SĐT >>", tel);
+        console.log("Giá vé >>", priceTravel);
 
         const Car = {
             serviceType: typeService,
-            // carsManagerName: carName,
             carModel: carModel,
             carColor: carColor,
             carNumber: carNumber,
@@ -68,62 +73,49 @@ export function CreateCar(props:{stateProps: boolean, close:any}) {
             travelPrice: priceTravel
         }
 
-        const tmp = `{
-            "shipPrice": 0,
-            "travelPrice": 0,
-            "carModel": "bbbb",
-            "carColor": "aaaa",
-            "imagePath": "ccc",
-            "tel": "03333333333333",
-            "carNumber": "f11111111111111111",
-            "serviceType": 0,
-            "carsManagerId": "bec05fbd-bfc7-4295-810c-c2038371662e"
-        }`
-
-          const tmp2 = {
+        const tmp = {
             shipPrice: 0,
-            travelPrice: 0,
-            carModel: "bbbb",
-            carColor: "aaaa",
-            imagePath: "ccc",
-            tel: "03333333333333",
-            carNumber: "f11111111111111111",
+            travelPrice: 200000,
+            carModel: 'bwmffffffffffffffffffff',
+            carColor: 'red',
+            imagePath: 'image',
+            tel: '543543545',
+            carNumber: '62f111111',
             serviceType: 0,
-            carsManagerId: "bec05fbd-bfc7-4295-810c-c2038371662e"
-        }
+            carsManagerId: 'bec05fbd-bfc7-4295-810c-c2038371662e'
+          }
 
-        // fetch(env.REACT_APP_API.concat("/car/create-car"), {
-        //     method: "POST",
-        //     headers: {
-        //     "Content-Type": "applic ation/json",
-        //     // Authorization: "Bearer ".concat(user.token),
-        //     },
-        //     body: JSON.stringify(tmp),
-        // })
-        //     .then(async (res) => {
+        fetch(env.REACT_APP_API.concat("/car/create-car"), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },
+            body: JSON.stringify(tmp),
+        })
+            .then(async (res) => {
 
-        //         const data = await res.json()
+                const data = await res.json()
 
-        //         if (res.status >= 500) {
-        //             console.log("create car status >= 500 ", data);
-        //             return
-        //         }
-        //         else if (res.status >= 400) {
-        //             console.log("create car status >= 400 ", data);
-        //             return
-        //         }
+                if (res.status >= 500) {
+                    console.log("create car status >= 500 ", data);
+                    return
+                }
+                else if (res.status >= 400) {
+                    console.log("create car status >= 400 ", data);
+                    return
+                }
 
-        //         console.log("create car => ", data.data);
+                console.log("create car => ", data.data);
 
-        //         // setCar(data.data)
+                // setCar(data.data)
 
-        //     })
-        //     .catch((error) => {
-        //         console.log(" error >>>>>>", error);
-        //     })
+            })
+            .catch((error) => {
+                console.log(" error >>>>>>", error);
+            })
 
-        console.log("json 2 =>>>> ",JSON.stringify(tmp));
-        console.log("json 1 =>>>> ",tmp);
+        console.log(JSON.stringify(tmp));
         
         setTypeService(ServiceType[1]);
         setCarName('');
@@ -196,7 +188,7 @@ return (
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h5" component="h2">
-                        Tạo mới thông tin xe
+                        Cập nhật thông tin xe
                     </Typography>
                     <div className={styles.container}>
                         <div className={styles.img}>
@@ -208,7 +200,7 @@ return (
                                 className={styles.btnUpload}
                                 size="small"
                             >
-                                Tải ảnh lên
+                                Tải ảnh mới lên
                                 <input hidden accept="image/*" multiple type="file" />
                             </Button>
                         </div>
@@ -255,6 +247,7 @@ return (
                                         id="demo-simple-select"
                                         onChange={handleChangeName}
                                         value={carName}
+                                        defaultValue={''}
                                     >
 
                                         {
@@ -338,12 +331,12 @@ return (
                     <div className={styles.action}>
                     <Button 
                         variant="outlined" 
-                        startIcon={<AddIcon />} 
+                        startIcon={<BorderColorIcon />} 
                         className={styles.btnCreate}
                         type="submit"
                         onClick={handleSubmit}
                     >
-                        Thêm mới
+                        Cập nhật
                     </Button>
                     {/* <Button variant="outlined" startIcon={<BorderColorIcon />}>
                         Cập nhật
