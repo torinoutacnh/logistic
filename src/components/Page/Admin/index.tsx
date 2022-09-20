@@ -1,27 +1,15 @@
-import styles from './admin.module.scss'
+import styles from './styles/admin.module.scss'
 import React from 'react';
-import Image from 'next/image';
-import { Grid, TextField, Box, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControl, MenuItem, Select, SelectChangeEvent, Button, IconButton, Stack, Tooltip, Menu, Divider, Badge, Dialog, DialogContent, DialogActions, Popover } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+import { Grid, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Button, Popover } from '@mui/material'
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import { ListiItemAdmin } from './ListItemAdmin';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import GroupsIcon from '@mui/icons-material/Groups';
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
 import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import BadgeIcon from '@mui/icons-material/Badge';
+import WarehouseIcon from '@mui/icons-material/Warehouse';
 import { ServiceType } from '../../Shared/Models/Everything';
-import { HeaderAdmin } from './headerAdmin';
-import { CreateCar } from './createCar';
-import { CarInfo } from './carInfo';
-
 
 export const Admin = () => {
 
@@ -35,6 +23,11 @@ export const Admin = () => {
         {
             icon: <GroupsIcon />,
             name: "Quản lý nhân viên",
+            type: 2
+        },
+        {
+            icon: <WarehouseIcon />,
+            name: "Quản lý thông tin nhà xe",
             type: 2
         },
         {
@@ -91,8 +84,6 @@ export const Admin = () => {
     const id2 = open2 ? 'simple-popover' : undefined;
 
     /////////////////////////////////////////////////////////
-
-   
 
     return (
         <>
@@ -152,16 +143,10 @@ export const Admin = () => {
                             </Popover>
 
                             <List
-
                                 className={`${styles.list_nav} ${styles.list_nav_invisible}`}
                                 sx={{ width: '100%', p: 0 }}
                                 component="nav"
                                 aria-labelledby="nested-list-subheader"
-                                subheader={
-                                    <ListSubheader component="div" id="nested-list-subheader" style={{ textAlign: "center" }} >
-                                        {/* <span className={styles.subheader}>Quản lý thông tin</span> */}
-                                    </ListSubheader>
-                                }
                             >
                                 {
                                     listMenu.map((item, index) => {

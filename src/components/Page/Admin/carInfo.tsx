@@ -1,26 +1,9 @@
-import styles from './carInfo.module.scss'
+import styles from './styles/carInfo.module.scss'
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Grid, TextField, Box, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, FormControl, MenuItem, Select, SelectChangeEvent, Button, IconButton, Stack, Tooltip, Menu, Divider, Badge, Dialog, DialogContent, DialogActions, Popover } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import { Grid, Button, IconButton } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
-import { ListiItemAdmin } from './ListItemAdmin';
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import GroupsIcon from '@mui/icons-material/Groups';
-import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
-import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import BadgeIcon from '@mui/icons-material/Badge';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-import { HeaderAdmin } from './headerAdmin';
-import { CreateCar } from './createCar';
 import imageTest from "../../../styles/img/imgTest.jpg"
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
