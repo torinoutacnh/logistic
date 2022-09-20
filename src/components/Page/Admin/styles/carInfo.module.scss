@@ -26,7 +26,7 @@ $background_item_left_color : rgb(243, 243, 243);
 
         .header_left {
             margin-top: 0;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             text-align: center;
             color: $text-back-color;
             font-size: 20px;
@@ -122,7 +122,7 @@ $background_item_left_color : rgb(243, 243, 243);
 
                 .item {
                     background: $background_item_left_color;
-                    margin-bottom: 20px;
+                    margin-bottom: 10px;
                     justify-content: space-between;
                     display: flex;
                     padding: 10px 0px 10px 10px;
@@ -132,7 +132,6 @@ $background_item_left_color : rgb(243, 243, 243);
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
-
 
                         .text {
                             margin-top: 4px;
@@ -152,6 +151,21 @@ $background_item_left_color : rgb(243, 243, 243);
 
                         .text+.text {
                             margin-top: 10px;
+                        }
+
+                        .dis_time {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            height: 50px;
+
+                            .distance,
+                            .time {
+                                width: 12vw;
+                                display: flex;
+                                align-items: center;
+                                color: #fc6c8f;
+                            }
                         }
                     }
 
