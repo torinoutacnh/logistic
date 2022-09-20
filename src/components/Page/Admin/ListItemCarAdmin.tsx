@@ -10,10 +10,10 @@ import { env, ServiceType } from "../../Shared/Models/Everything";
 import { useRouter } from "next/router";
 import { CreateSeat } from "./createSeat";
 import AddIcon from '@mui/icons-material/Add';
-import { CreateCar } from "./createCar";
+import { Create_Update_Car } from "./createUpdateCar";
 import { CarManager } from "../../Shared/Models/CarManager";
 
-export const ListiItemAdmin = (props: { typeProps?: number }) => {
+export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
 
     const [car, setCar] = useState<CarModel[]>([])
     const [filterCar, setFilterCar] = useState<CarModel[]>()
@@ -163,6 +163,7 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
     const onClickCloseModal = () => setIsShowModal(false);
     const reloadPage = () => {
         setReRender(reRender + 1)
+
         handleOpenNotify("Tạo xe thành công")
     }
 
@@ -172,7 +173,6 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
                 (filterCar && carManagers) ?
 
                     <>
-                        {console.log("carmanager", carManagers)}
                         <div className={styles.option}>
                             {/* <Box className={styles.area}>
                                     <span>Khu vực</span>
@@ -226,12 +226,12 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
                                                     </div>
                                                     <div className={styles.action}>
 
-                                                        <Button className={styles.btn}>
+                                                        {/* <Button className={styles.btn}>
                                                             <BorderColorIcon className={styles.icon} />
                                                             <span className={styles.text}>
                                                                 Chỉnh sửa
                                                             </span>
-                                                        </Button>
+                                                        </Button> */}
 
                                                         <Button
                                                             className={styles.btn} color={"error"}
@@ -272,7 +272,7 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
                                                     <span className={styles.text}>
                                                         <span className={styles.title}>Giá vé:</span>
                                                         <span style={{ color: "red", fontWeight: "500" }}>
-                                                            {item.shipPrice > 0 ? item.shipPrice : item.travelPrice}
+                                                            {item.serviceType === ServiceType["Chở hàng"] ? item.shipPrice : item.travelPrice}
                                                         </span>
                                                     </span>
 
@@ -305,7 +305,14 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
                                 {messageNotify}
                             </Alert>
                         </Snackbar>
-                        <CreateCar stateProps={isShowModal} close={onClickCloseModal} reloadPage={reloadPage} carManagers={carManagers} />
+                        <Create_Update_Car
+                            stateProps={isShowModal}
+                            close={onClickCloseModal}
+                            reloadPage={reloadPage}
+                            carManagers={carManagers}
+                            // car={filterCar[0]}
+                            car={null}
+                        />
                     </>
                     :
                     <><h1>Loading</h1></>

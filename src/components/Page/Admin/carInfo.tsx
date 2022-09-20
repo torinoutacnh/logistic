@@ -10,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { CarModel } from '../../Shared/Models/CarModel';
 import { StopPointModel } from '../../Shared/Models/StopPointModel';
+import { Create_Update_Car } from './createUpdateCar';
 
 export const CarInfo = () => {
 
@@ -18,6 +19,7 @@ export const CarInfo = () => {
     const { id } = router.query
 
     const [car, setCar] = useState<CarModel>()
+    const [reRender, setReRender] = useState(0)
 
     useEffect(() => {
         fetch(env.REACT_APP_API.concat("/car/").concat(id as string), {
@@ -51,7 +53,18 @@ export const CarInfo = () => {
                 console.log(" error >>>>>>", error);
             })
 
-    }, [])
+    }, [reRender])
+
+    ////////////////////////////////////////////////////////
+    const [isShowModal, setIsShowModal] = useState(false);
+    const onClickShowModal = () => setIsShowModal(true);
+    const onClickCloseModal = () => setIsShowModal(false);
+    const reloadPage = () => {
+        setReRender(reRender + 1)
+
+        // handleOpenNotify("Cập nhật xe thành công")
+
+    }
 
     return (
         <>
@@ -106,6 +119,15 @@ export const CarInfo = () => {
                                             </span>
                                         </span>
                                     </div>
+                                    <Button
+                                        className={styles.btn}
+                                        onClick={() => { onClickShowModal() }}
+                                    >
+                                        <BorderColorIcon className={styles.icon} />
+                                        <span className={styles.text}>
+                                            Chỉnh sửa
+                                        </span>
+                                    </Button>
                                 </Grid>
 
                                 <Grid item className={styles.item_left3} xs={12} sm={12} md={5.5} lg={5.5}>
@@ -207,6 +229,15 @@ export const CarInfo = () => {
                             </Grid>
 
                         </Grid >
+                        <Create_Update_Car
+                            stateProps={isShowModal}
+                            close={onClickCloseModal}
+                            reloadPage={reloadPage}
+                            carManagers={null}
+                            car={car}
+                            id={id as string}
+                        // car={null}
+                        />
 
                     </>
                     :

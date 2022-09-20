@@ -3,13 +3,13 @@ import React from 'react';
 import { Grid, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Button, Popover } from '@mui/material'
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import { ListiItemAdmin } from './ListItemAdmin';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import GroupsIcon from '@mui/icons-material/Groups';
 import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import { ServiceType } from '../../Shared/Models/Everything';
+import { ListiItemCarAdmin } from './ListItemCarAdmin';
 
 export const Admin = () => {
 
@@ -166,7 +166,7 @@ export const Admin = () => {
 
                             <div className={styles.wrapper}>
 
-                                <ListiItemAdmin typeProps={typeCar} />
+                                <ListiItemCarAdmin typeProps={typeCar} />
 
                             </div>
                         </Grid>

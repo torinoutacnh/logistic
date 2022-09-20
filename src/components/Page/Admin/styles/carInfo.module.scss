@@ -41,6 +41,8 @@ $background_item_left_color : rgb(243, 243, 243);
             margin: 10px;
             align-items: flex-start;
             display: flex;
+            flex-direction: column;
+            align-items: center;
 
             .box_info_left2 {
                 width: 100%;
@@ -86,6 +88,20 @@ $background_item_left_color : rgb(243, 243, 243);
                         font-weight: 500;
                         margin-right: 5px;
                     }
+                }
+            }
+
+            .btn {
+                height: 30px;
+
+                .icon {
+                    font-size: 15px;
+                    margin-top: -1px;
+                }
+
+                .text {
+                    font-size: 10px;
+                    margin-top: 3px;
                 }
             }
         }
