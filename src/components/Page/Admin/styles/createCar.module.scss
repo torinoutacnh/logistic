@@ -1,3 +1,10 @@
+$boxshadow-item-color: rgba(0, 86, 115, 0.3);
+$border-item-color: rgba(1, 161, 102, 0.2);
+$header-color: #f9e5e6;
+$text-back-color: black;
+$primary-color: #e93636;
+$white-color: rgb(255, 255, 255);
+
 .container {
     display: flex;
     justify-content: space-between;
@@ -71,5 +78,57 @@
         color: #ffffff;
         z-index: 2;
         transition: .2s;
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+/// CREATE SEAT////////////////////////////////////////////////////////////
+.container_create_list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 400px;
+    overflow-y: scroll;
+
+    .item_form {
+        display: flex;
+        margin-bottom: 20px;
+
+        .item {
+            display: flex;
+            flex-direction: column;
+
+            .box_input {
+                display: flex;
+
+                .title {
+                    text-align: left;
+                    display: block;
+                    width: 70px;
+                    font-size: 16px;
+                    color: $text-back-color;
+                }
+
+                .input {
+                    padding: 5px;
+                    border-radius: 3px;
+                    border-color: $border-item-color;
+                    outline: none;
+                }
+
+                .input+.input {
+                    margin-top: 5px;
+                }
+            }
+
+            .btnDelete {
+                margin-left: 10px;
+            }
+        }
+
+
+
     }
 }

@@ -38,17 +38,17 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
     }, [props.stateProps])
 
 
-    console.log("car", props.car);
+    // console.log("car", props.car);
 
 
     const handleChangeType = (event: SelectChangeEvent) => {
-        console.log(event.target.value);
+        // console.log(event.target.value);
 
         setTypeService(ServiceType[event.target.value as string]);
     };
 
     const handleChangeCarManager = (data: CarManager) => {
-        console.log(" carmanger click => ", data);
+        // console.log(" carmanger click => ", data);
 
         setCarManagerSelect(data);
     };

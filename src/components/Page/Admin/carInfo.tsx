@@ -11,6 +11,8 @@ import { useRouter } from 'next/router';
 import { CarModel } from '../../Shared/Models/CarModel';
 import { StopPointModel } from '../../Shared/Models/StopPointModel';
 import { Create_Update_Car } from './createUpdateCar';
+import { UpdatePrice } from './updatePrice';
+import { CreateSeat } from './createSeat';
 
 export const CarInfo = () => {
 
@@ -43,7 +45,7 @@ export const CarInfo = () => {
                     return
                 }
 
-                console.log("get car info=> ", data.data);
+                // console.log("get car info=> ", data.data);
 
                 setCar(data.data)
 
@@ -54,17 +56,26 @@ export const CarInfo = () => {
             })
 
     }, [reRender])
-
-    ////////////////////////////////////////////////////////
-    const [isShowModal, setIsShowModal] = useState(false);
-    const onClickShowModal = () => setIsShowModal(true);
-    const onClickCloseModal = () => setIsShowModal(false);
+    /////////////////////////////////////////////////////
     const reloadPage = () => {
         setReRender(reRender + 1)
-
         // handleOpenNotify("Cập nhật xe thành công")
-
     }
+    ////////////////////////////////////////////////////////
+    const [isShowModalUpdate, setIsShowModalUpdate] = useState(false);
+    const onClickShowModalUpdate = () => setIsShowModalUpdate(true);
+    const onClickCloseModalUpdate = () => setIsShowModalUpdate(false);
+    //////////////////////////////////////////////////////
+    const [isShowModalPrice, setIsShowModalPrice] = useState(false);
+    const onClickShowModalPrice = () => setIsShowModalPrice(true);
+    const onClickCloseModalPrice = () => setIsShowModalPrice(false);
+    //////////////////////////////////////////////////////
+    const [isShowModalCreateSeat, setIsShowModalCreateSeat] = useState(false);
+    const onClickShowModalCreateSeat = () => setIsShowModalCreateSeat(true);
+    const onClickCloseModalCreateSeat = () => setIsShowModalCreateSeat(false);
+    //////////////////////////////////////////////////////
+
+
 
     return (
         <>
@@ -119,15 +130,29 @@ export const CarInfo = () => {
                                             </span>
                                         </span>
                                     </div>
-                                    <Button
-                                        className={styles.btn}
-                                        onClick={() => { onClickShowModal() }}
-                                    >
-                                        <BorderColorIcon className={styles.icon} />
-                                        <span className={styles.text}>
-                                            Chỉnh sửa
-                                        </span>
-                                    </Button>
+                                    <div className={styles.action}>
+                                        <Button
+                                            className={styles.btn}
+                                            onClick={() => { onClickShowModalUpdate() }}
+                                        >
+                                            <BorderColorIcon className={styles.icon} />
+                                            <span className={styles.text}>
+                                                Cập nhật
+                                            </span>
+                                        </Button>
+
+                                        <Button
+                                            className={styles.btn}
+                                            onClick={() => { onClickShowModalPrice() }}
+                                        >
+                                            <BorderColorIcon
+                                                className={styles.icon}
+                                            />
+                                            <span className={styles.text}>
+                                                Sửa giá
+                                            </span>
+                                        </Button>
+                                    </div>
                                 </Grid>
 
                                 <Grid item className={styles.item_left3} xs={12} sm={12} md={5.5} lg={5.5}>
@@ -177,7 +202,13 @@ export const CarInfo = () => {
 
                                     </div>
 
-                                    <Button variant="outlined" startIcon={<AddIcon />} size="small" style={{ marginTop: "10px", marginBottom: "10px" }}>
+                                    <Button
+                                        variant="outlined"
+                                        startIcon={<AddIcon />}
+                                        size="small"
+                                        style={{ marginTop: "10px", marginBottom: "10px" }}
+
+                                    >
                                         Tạo mới
                                     </Button>
                                 </Grid>
@@ -225,19 +256,45 @@ export const CarInfo = () => {
                             </Grid>
 
                             <Grid className={styles.right} container xs={9} sm={3.5} md={2.5} lg={2.5} style={{ background: "orange" }}>
-                                a
+                                <div>
+                                    <Button
+                                        variant="outlined"
+                                        startIcon={<AddIcon />}
+                                        size="small"
+                                        style={{ marginTop: "10px", marginBottom: "10px" }}
+                                        onClick={() => { onClickShowModalCreateSeat() }}
+                                    >
+                                        Tạo mới
+                                    </Button>
+                                </div>
+
                             </Grid>
 
                         </Grid >
+
                         <Create_Update_Car
-                            stateProps={isShowModal}
-                            close={onClickCloseModal}
+                            stateProps={isShowModalUpdate}
+                            close={onClickCloseModalUpdate}
                             reloadPage={reloadPage}
                             carManagers={null}
                             car={car}
                             id={id as string}
                         // car={null}
                         />
+
+                        <UpdatePrice
+                            stateProps={isShowModalPrice}
+                            close={onClickCloseModalPrice}
+                            reloadPage={reloadPage}
+                            car={car}
+                            id={id as string} />
+
+                        <CreateSeat
+                            stateProps={isShowModalCreateSeat}
+                            close={onClickCloseModalCreateSeat}
+                            reloadPage={reloadPage}
+                            id={id as string} />
+
 
                     </>
                     :
