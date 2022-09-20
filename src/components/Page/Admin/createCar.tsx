@@ -5,6 +5,7 @@ import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
+import { CarManager } from '../../Shared/Models/CarManager';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -19,12 +20,12 @@ const style = {
     textAlign: 'center',
 };
 
-export function CreateCar(props: { stateProps: boolean, close: any }) {
+export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: any, carManagers: CarManager[] }) {
     const [isShow, setIsShow] = useState(false)
 
 
-    const [typeService, setTypeService] = useState<ServiceType>(ServiceType["Chở người"]);
-    const [carName, setCarName] = useState('');
+    const [typeService, setTypeService] = useState<ServiceType>();
+    const [carManagerSelect, setCarManagerSelect] = useState<CarManager>();
     const [carModel, setCarModel] = useState('');
     const [carColor, setCarColor] = useState('');
     const [carNumber, setCarNumber] = useState('');
@@ -43,7 +44,6 @@ export function CreateCar(props: { stateProps: boolean, close: any }) {
         "Vương Lệnh",
     ]
 
-    const [type, setType] = useState('');
 
     const handleChangeType = (event: SelectChangeEvent) => {
         console.log(event.target.value);
@@ -51,8 +51,10 @@ export function CreateCar(props: { stateProps: boolean, close: any }) {
         setTypeService(ServiceType[event.target.value as string]);
     };
 
-    const handleChangeName = (event: SelectChangeEvent) => {
-        setCarName(event.target.value as string);
+    const handleChangeCarManager = (data: CarManager) => {
+        console.log(" carmanger click => ", data);
+
+        setCarManagerSelect(data);
     };
 
 
@@ -67,9 +69,11 @@ export function CreateCar(props: { stateProps: boolean, close: any }) {
             tel: tel,
             carNumber: carNumber,
             serviceType: typeService,
-            carsManagerId: "bec05fbd-bfc7-4295-810c-c2038371662e"
+            carsManagerId: carManagerSelect.id
         }
 
+
+        // console.log("handle submit create car => ", Car);
 
 
         fetch(env.REACT_APP_API.concat("/car/create-car"), {
@@ -96,12 +100,13 @@ export function CreateCar(props: { stateProps: boolean, close: any }) {
                 console.log("create car => ", data.data);
 
                 setTypeService(ServiceType["Chở người"]);
-                setCarName('');
                 setCarModel('');
                 setCarColor('');
                 setCarNumber('');
                 setTel('');
                 setPriceTravel('');
+
+                props.reloadPage()
 
             })
             .catch((error) => {
@@ -112,7 +117,6 @@ export function CreateCar(props: { stateProps: boolean, close: any }) {
         props.close();
     }
 
-    const [reRender, setReRender] = useState(0)
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
@@ -123,10 +127,6 @@ export function CreateCar(props: { stateProps: boolean, close: any }) {
         setOpenNofity(false);
     };
 
-    const handleOpenNotify = (message: string) => {
-        setMessageNotify(message)
-        setOpenNofity(true)
-    }
 
 
     return (
@@ -170,7 +170,6 @@ export function CreateCar(props: { stateProps: boolean, close: any }) {
                                             id="demo-simple-select"
                                             onChange={handleChangeType}
                                             value={ServiceType[typeService]}
-                                            defaultValue={ServiceType[typeService]}
                                         >
                                             <MenuItem
                                                 key={1}
@@ -199,17 +198,17 @@ export function CreateCar(props: { stateProps: boolean, close: any }) {
                                             required={true}
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
-                                            onChange={handleChangeName}
-                                            value={carName}
+                                            value={carManagerSelect?.name}
                                         >
 
                                             {
-                                                dataCar.map((item, index) => (
+                                                props.carManagers.map((item, index) => (
                                                     <MenuItem
                                                         key={index}
-                                                        value={item}
+                                                        value={item.name}
+                                                        onClick={() => { handleChangeCarManager(item) }}
                                                     >
-                                                        {item}
+                                                        {item.name}
                                                     </MenuItem>
                                                 )
                                                 )

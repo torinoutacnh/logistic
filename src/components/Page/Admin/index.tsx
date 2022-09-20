@@ -92,7 +92,7 @@ export const Admin = () => {
 
     /////////////////////////////////////////////////////////
 
-   
+
 
     return (
         <>
@@ -179,7 +179,7 @@ export const Admin = () => {
 
                         </Grid>
                         <Grid item xs={12} sm={12} md={9} xl={9}>
-                            
+
                             <div className={styles.wrapper}>
 
                                 <ListiItemAdmin typeProps={typeCar} />
@@ -190,7 +190,7 @@ export const Admin = () => {
                 </Grid>
                 <Grid item xs={0} sm={0} md={1} xl={1}></Grid>
             </Grid>
-           
+
         </>
     )
 }

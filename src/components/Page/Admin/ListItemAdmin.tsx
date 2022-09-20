@@ -12,12 +12,14 @@ import { useRouter } from "next/router";
 import { CreateSeat } from "./createSeat";
 import AddIcon from '@mui/icons-material/Add';
 import { CreateCar } from "./createCar";
+import { CarManager } from "../../Shared/Models/CarManager";
 
 export const ListiItemAdmin = (props: { typeProps?: number }) => {
 
     const [car, setCar] = useState<CarModel[]>([])
     const [filterCar, setFilterCar] = useState<CarModel[]>()
     const [reRender, setReRender] = useState(0)
+    const [carManagers, setCarManagers] = useState<CarManager[]>()
 
     const router = useRouter()
 
@@ -79,6 +81,39 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
     }, [props.typeProps, reRender])
 
     useEffect(() => {
+        fetch(env.REACT_APP_API.concat("/cars-manager"), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },
+            // body: JSON.stringify(form.getFieldsValue()),
+        })
+            .then(async (res) => {
+
+                const data = await res.json()
+
+                if (res.status >= 500) {
+                    console.log("get car status >= 500 ", data);
+                    return
+                }
+                else if (res.status >= 400) {
+                    console.log("get car status >= 400 ", data);
+                    return
+                }
+
+                // console.log("get car => ", data.data);
+
+                setCarManagers(data.data)
+
+
+            })
+            .catch((error) => {
+                console.log(" error >>>>>>", error);
+            })
+    }, [])
+
+    useEffect(() => {
         const tmp = car.filter(item => item.serviceType == props.typeProps)
         setFilterCar(tmp)
     }, [car])
@@ -118,6 +153,7 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
 
     }
 
+
     const handelOnClickItem = (carId: string) => {
         router.push({ pathname: "/admin/carInfo", query: { id: carId } })
     }
@@ -126,16 +162,20 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
     const [isShowModal, setIsShowModal] = useState(false);
     const onClickShowModal = () => setIsShowModal(true);
     const onClickCloseModal = () => setIsShowModal(false);
+    const reloadPage = () => {
+        setReRender(reRender + 1)
+        handleOpenNotify("Tạo xe thành công")
+    }
 
     return (
         <>
             {
-                !filterCar ?
-                    <><h1>Loading</h1></>
-                    :
+                (filterCar && carManagers) ?
+
                     <>
-                    <div className={styles.option}>
-                                {/* <Box className={styles.area}>
+                        {console.log("carmanager", carManagers)}
+                        <div className={styles.option}>
+                            {/* <Box className={styles.area}>
                                     <span>Khu vực</span>
                                     <FormControl fullWidth size="small">
                                         <Select
@@ -162,16 +202,16 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
                                     </FormControl>
                                 </Box> */}
 
-                                <Button
-                                    variant="outlined"
-                                    size='small'
-                                    startIcon={<AddIcon />}
-                                    sx={{ marginRight: 3 }}
-                                    onClick={() => { onClickShowModal() }}
-                                >
-                                    Thêm mới
-                                </Button>
-                            </div>
+                            <Button
+                                variant="outlined"
+                                size='small'
+                                startIcon={<AddIcon />}
+                                sx={{ marginRight: 3 }}
+                                onClick={() => { onClickShowModal() }}
+                            >
+                                Thêm mới
+                            </Button>
+                        </div>
                         <Grid container className={styles.g_container}>
 
 
@@ -266,9 +306,12 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
                                 {messageNotify}
                             </Alert>
                         </Snackbar>
-                        <CreateCar stateProps={isShowModal} close={onClickCloseModal} />
+                        <CreateCar stateProps={isShowModal} close={onClickCloseModal} reloadPage={reloadPage} carManagers={carManagers} />
                     </>
-                    
+                    :
+                    <><h1>Loading</h1></>
+
+
             }
         </>
     )
