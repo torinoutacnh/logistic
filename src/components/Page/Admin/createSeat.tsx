@@ -3,8 +3,6 @@ import { useForm, useFieldArray } from "react-hook-form";
 import ReactDOM from "react-dom";
 import { SeatModel } from "../../Shared/Models/SeatModel";
 
-
-
 export const CreateSeat = () => {
 
     const defaultValues: SeatModel = { floor: 1, col: "", row: "", status: 0 }
