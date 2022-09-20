@@ -13,6 +13,8 @@ import { StopPointModel } from '../../Shared/Models/StopPointModel';
 import { Create_Update_Car } from './createUpdateCar';
 import { UpdatePrice } from './updatePrice';
 import { CreateSeat } from './createSeat';
+import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
+import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
 
 export const CarInfo = () => {
 
@@ -76,6 +78,54 @@ export const CarInfo = () => {
     //////////////////////////////////////////////////////
 
 
+
+    ////////////////////////////////////////////////////
+
+    const [openNotify, setOpenNofity] = useState(false);
+    const [messageNotify, setMessageNotify] = useState("")
+
+    const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenNofity(false);
+    };
+
+    const handleOpenNotify = (message: string) => {
+        setMessageNotify(message)
+        setOpenNofity(true)
+    }
+    ////////////////////////////////////////////////////
+
+    const onClickDeleteStopPoint = (idStopPoint: string) => {
+        fetch(env.REACT_APP_API.concat(`/stop-point/delete-point/${idStopPoint}`), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },
+            // body: JSON.stringify(form.getFieldsValue()),
+        })
+            .then(async (res) => {
+
+                const data = await res.json()
+
+                if (res.status >= 500) {
+                    console.log("delete stop point status >= 500 ", data);
+                    return
+                }
+                else if (res.status >= 400) {
+                    console.log("delete stop point status >= 400 ", data);
+                    return
+                }
+                console.log("delete stop point => ", data);
+                handleOpenNotify("Xóa điểm dừng thành công")
+                setReRender(pre => pre + 1)
+            })
+            .catch((error) => {
+                console.log(" error >>>>>>", error);
+            })
+    }
 
     return (
         <>
@@ -157,7 +207,7 @@ export const CarInfo = () => {
 
                                 <Grid item className={styles.item_left3} xs={12} sm={12} md={5.5} lg={5.5}>
 
-                                    <h3 className={styles.header_left}>Tuyến</h3>
+                                    <h3 className={styles.header_left}>TUYẾN</h3>
                                     <div className={styles.box_info_left_3_4}>
 
                                         {
@@ -182,6 +232,18 @@ export const CarInfo = () => {
                                                                     {RouterTo.houseNumber} {RouterTo.street} -
                                                                     {RouterTo.ward} - {RouterTo.district} - {RouterTo.city}
                                                                 </span>
+                                                                <div className={styles.dis_time}>
+                                                                    <p className={styles.distance}>
+                                                                        <RouteOutlinedIcon />
+                                                                        <span>{item.distanceByKm} km</span>
+                                                                    </p>
+                                                                    <p className={styles.time}>
+                                                                        <TimerOutlinedIcon />
+                                                                        {(item.day === 0) ? "" : (' ' + item.day + ' ngày')}
+                                                                        {(item.hour === 0) ? "" : (' ' + item.hour + ' giờ')}
+                                                                        {(item.minute === 0) ? "" : (' ' + item.minute + ' phút')}
+                                                                    </p>
+                                                                </div>
                                                             </div>
                                                             <div className={styles.item_right}>
                                                                 <IconButton color="primary" size='small'>
@@ -214,9 +276,8 @@ export const CarInfo = () => {
                                 </Grid>
 
                                 <Grid item className={styles.item_left4} xs={12} sm={12} md={5.5} lg={5.5}>
-                                    <h3 className={styles.header_left}>Điểm dừng</h3>
+                                    <h3 className={styles.header_left}>ĐIỂM DỪNG</h3>
                                     <div className={styles.box_info_left_3_4}>
-
                                         {
                                             car.stopPoints.map((item, index) => {
                                                 return (
@@ -230,11 +291,19 @@ export const CarInfo = () => {
                                                                 </span>
                                                             </div>
                                                             <div className={styles.item_right}>
-                                                                <IconButton color="primary" size='small'>
+                                                                <IconButton
+                                                                    onClick={() => { console.log('clicked') }}
+                                                                    color="primary"
+                                                                    size='small'
+                                                                >
                                                                     <BorderColorIcon fontSize='inherit' />
                                                                 </IconButton>
 
-                                                                <IconButton color="error" size='small'>
+                                                                <IconButton
+                                                                    onClick={() => { onClickDeleteStopPoint(item.id) }}
+                                                                    color="error"
+                                                                    size='small'
+                                                                >
                                                                     <DeleteIcon fontSize='inherit' />
                                                                 </IconButton>
                                                             </div>
@@ -252,7 +321,6 @@ export const CarInfo = () => {
                                     </Button>
                                 </Grid>
 
-
                             </Grid>
 
                             <Grid className={styles.right} container xs={9} sm={3.5} md={2.5} lg={2.5} style={{ background: "orange" }}>
@@ -267,6 +335,7 @@ export const CarInfo = () => {
                                         Tạo mới
                                     </Button>
                                 </div>
+
 
                             </Grid>
 
