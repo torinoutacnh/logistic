@@ -10,6 +10,8 @@ import { CarModel } from "../../Shared/Models/CarModel";
 import { env, ServiceType } from "../../Shared/Models/Everything";
 import { useRouter } from "next/router";
 import { CreateSeat } from "./createSeat";
+import AddIcon from '@mui/icons-material/Add';
+import { CreateCar } from "./createCar";
 
 export const ListiItemAdmin = (props: { typeProps?: number }) => {
 
@@ -120,6 +122,11 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
         router.push({ pathname: "/admin/carInfo", query: { id: carId } })
     }
 
+    ////////////////////////////////////////////////////////
+    const [isShowModal, setIsShowModal] = useState(false);
+    const onClickShowModal = () => setIsShowModal(true);
+    const onClickCloseModal = () => setIsShowModal(false);
+
     return (
         <>
             {
@@ -127,6 +134,44 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
                     <><h1>Loading</h1></>
                     :
                     <>
+                    <div className={styles.option}>
+                                {/* <Box className={styles.area}>
+                                    <span>Khu vực</span>
+                                    <FormControl fullWidth size="small">
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            MenuProps={MenuProps}
+                                            value={area}
+                                            onChange={handleChange}
+                                        >
+
+                                            {
+                                                dataDistrict.map((item, index) => (
+                                                    <MenuItem
+                                                        key={index}
+                                                        value={item}
+                                                    >
+                                                        {item}
+                                                    </MenuItem>
+                                                )
+                                                )
+                                            }
+
+                                        </Select>
+                                    </FormControl>
+                                </Box> */}
+
+                                <Button
+                                    variant="outlined"
+                                    size='small'
+                                    startIcon={<AddIcon />}
+                                    sx={{ marginRight: 3 }}
+                                    onClick={() => { onClickShowModal() }}
+                                >
+                                    Thêm mới
+                                </Button>
+                            </div>
                         <Grid container className={styles.g_container}>
 
 
@@ -221,7 +266,9 @@ export const ListiItemAdmin = (props: { typeProps?: number }) => {
                                 {messageNotify}
                             </Alert>
                         </Snackbar>
+                        <CreateCar stateProps={isShowModal} close={onClickCloseModal} />
                     </>
+                    
             }
         </>
     )

@@ -8,7 +8,6 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import AddIcon from '@mui/icons-material/Add';
 import { ListiItemAdmin } from './ListItemAdmin';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import BarChartIcon from '@mui/icons-material/BarChart';
@@ -93,9 +92,7 @@ export const Admin = () => {
 
     /////////////////////////////////////////////////////////
 
-    const [isShowModal, setIsShowModal] = React.useState(false);
-    const onClickShowModal = () => setIsShowModal(true);
-    const onClickCloseModal = () => setIsShowModal(false);
+   
 
     return (
         <>
@@ -182,44 +179,7 @@ export const Admin = () => {
 
                         </Grid>
                         <Grid item xs={12} sm={12} md={9} xl={9}>
-                            <div className={styles.option}>
-                                {/* <Box className={styles.area}>
-                                    <span>Khu vực</span>
-                                    <FormControl fullWidth size="small">
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            MenuProps={MenuProps}
-                                            value={area}
-                                            onChange={handleChange}
-                                        >
-
-                                            {
-                                                dataDistrict.map((item, index) => (
-                                                    <MenuItem
-                                                        key={index}
-                                                        value={item}
-                                                    >
-                                                        {item}
-                                                    </MenuItem>
-                                                )
-                                                )
-                                            }
-
-                                        </Select>
-                                    </FormControl>
-                                </Box> */}
-
-                                <Button
-                                    variant="outlined"
-                                    size='small'
-                                    startIcon={<AddIcon />}
-                                    sx={{ marginRight: 3 }}
-                                    onClick={() => { onClickShowModal() }}
-                                >
-                                    Thêm mới
-                                </Button>
-                            </div>
+                            
                             <div className={styles.wrapper}>
 
                                 <ListiItemAdmin typeProps={typeCar} />
@@ -230,7 +190,7 @@ export const Admin = () => {
                 </Grid>
                 <Grid item xs={0} sm={0} md={1} xl={1}></Grid>
             </Grid>
-            <CreateCar stateProps={isShowModal} close={onClickCloseModal} />
+           
         </>
     )
 }
