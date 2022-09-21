@@ -47,6 +47,11 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
+    const handleOpenNotify = (message: string) => {
+        setMessageNotify(message)
+        setOpenNofity(true)
+    }
+
     const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -101,6 +106,7 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
                 console.log(" create seat => ", data.data);
 
                 reset({ listSeat: [defaultValues] })
+                handleOpenNotify("Tạo ghế thành công")
                 onCloseModal()
                 props.reloadPage()
 
@@ -110,6 +116,10 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
             })
 
     }
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    // Hàng -> col               số ghế -> row
     ///////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
@@ -149,6 +159,7 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
                                                 <div className={styles.box_input}>
                                                     <span className={styles.title}>Hàng</span>
                                                     <input
+                                                        type="number"
                                                         required={true}
                                                         className={styles.input}
                                                         {...register(`listSeat.${index}.col`)}
@@ -158,6 +169,7 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
                                                 <div className={styles.box_input}>
                                                     <span className={styles.title}>Số ghế</span>
                                                     <input
+                                                        type="number"
                                                         required={true}
                                                         className={styles.input}
                                                         {...register(`listSeat.${index}.row`)}

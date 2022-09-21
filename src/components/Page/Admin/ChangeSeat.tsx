@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
+import { Box, Button, Typography, Modal, TextField, IconButton, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
@@ -8,6 +8,8 @@ import { env, ServiceType } from '../../Shared/Models/Everything';
 import { CarManager } from '../../Shared/Models/CarManager';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { SeatModel } from '../../Shared/Models/SeatModel';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -22,13 +24,13 @@ const style = {
     textAlign: 'center',
 };
 
-export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPage: any, car: CarModel, id: string }) {
+export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage: any, seat: SeatModel, id: string }) {
 
     const [isShow, setIsShow] = useState(false)
-    const [travelPrice, setTravelPrice] = useState(props.car.travelPrice)
-    const [shipPrice, setShipPrice] = useState(props.car.shipPrice)
+    const [seatUpdate, setSeatUpdate] = useState<SeatModel>()
 
     useEffect(() => {
+        setSeatUpdate(props.seat)
         setIsShow(props.stateProps)
     }, [props.stateProps])
 
@@ -36,39 +38,66 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
     const handleSubmit = () => {
 
 
-        var priceCar = {
-            id: props.id,
-            shipPrice: shipPrice,
-            travelPrice: travelPrice
-        }
-
-
-        fetch(env.REACT_APP_API.concat("/car/update-car-price"), {
+        fetch(env.REACT_APP_API.concat(`/seat/update-seat-info/${props.id}`), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 // Authorization: "Bearer ".concat(user.token),
             },
-            body: JSON.stringify(priceCar),
+            body: JSON.stringify(seatUpdate),
         })
             .then(async (res) => {
 
                 const data = await res.json()
 
                 if (res.status >= 500) {
-                    console.log("update price status >= 500 ", data);
+                    console.log("update seat status >= 500 ", data);
                     return
                 }
                 else if (res.status >= 400) {
-                    console.log("update price status >= 400 ", data);
+                    console.log("update seat status >= 400 ", data);
                     return
                 }
 
-                console.log("update price => ", data.data);
+                console.log("update seat => ", data.data);
+                handleOpenNotify("Cập nhật ghế thành công")
+                props.reloadPage()
 
-                setShipPrice(priceCar.shipPrice)
-                setTravelPrice(priceCar.travelPrice)
-                handleOpenNotify("Cập nhật giá thành công")
+            })
+            .catch((error) => {
+                console.log(" error >>>>>>", error);
+            })
+
+
+        props.close();
+    }
+    const handleDelete = () => {
+
+
+        fetch(env.REACT_APP_API.concat(`/seat/delete-seat/${seatUpdate.id}`), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },
+            // body: JSON.stringify(seatUpdate),
+        })
+            .then(async (res) => {
+
+                const data = await res.json()
+
+                if (res.status >= 500) {
+                    console.log("delete seat status >= 500 ", data);
+                    return
+                }
+                else if (res.status >= 400) {
+                    console.log("delete seat status >= 400 ", data);
+                    return
+                }
+
+                console.log("delete seat => ", data.data);
+                handleOpenNotify("Xóa ghế thành công")
+
                 props.reloadPage()
 
             })
@@ -81,8 +110,7 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
     }
 
     const onCloseModal = () => {
-        setShipPrice(props.car.shipPrice)
-        setTravelPrice(props.car.travelPrice)
+
         props.close()
     }
 
@@ -94,7 +122,6 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
         setOpenNofity(true)
     }
 
-
     const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -102,9 +129,11 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
         setOpenNofity(false);
     };
 
+
+
     return (
         <>
-            {isShow ?
+            {isShow && seatUpdate ?
                 <Modal
                     open={isShow}
                     onClose={() => props.close()}
@@ -112,38 +141,65 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
                     aria-describedby="modal-modal-description"
                 >
                     <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 3 }}>
-                            Cập nhật giá dịch vụ
+                        <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 3 }} style={{ position: "relative" }}>
+                            Thông tin ghế
+
+                            <IconButton
+                                style={{ position: "absolute", right: 0 }}
+                                color='error'
+                                size='small'
+                                className={styles.btnCancel}
+                                onClick={() => { onCloseModal() }}
+                            >
+                                <CloseIcon />
+                            </IconButton>
+
                         </Typography>
+
                         <div className={styles.container}>
 
 
                             <form noValidate autoComplete="off" id={styles.info}>
-
                                 <div className={styles.wrap}>
-                                    <p style={{ width: "120px", textAlign: "left" }}>Giá chở hàng</p>
+                                    <p style={{ width: "120px", textAlign: "left" }}>Tầng</p>
                                     <TextField
-                                        required={true}
+                                        type="number"
+                                        required
                                         className={styles.booking_input}
                                         id="outlined-basic"
                                         variant="outlined"
                                         size="small"
-                                        value={shipPrice}
-                                        onChange={(e) => setShipPrice(Number(e.target.value))}
+                                        value={seatUpdate.floor}
+                                        onChange={(e) => setSeatUpdate({ ...seatUpdate, floor: Number(e.target.value) })}
                                     />
                                 </div>
 
 
                                 <div className={styles.wrap}>
-                                    <p style={{ width: "120px", textAlign: "left" }}>Giá chở người</p>
+                                    <p style={{ width: "120px", textAlign: "left" }}>Hàng</p>
                                     <TextField
-                                        required={true}
+                                        type="number"
+                                        required
                                         className={styles.booking_input}
                                         id="outlined-basic"
                                         variant="outlined"
                                         size="small"
-                                        value={travelPrice}
-                                        onChange={(e) => setTravelPrice(Number(e.target.value))}
+                                        value={seatUpdate.col}
+                                        onChange={(e) => setSeatUpdate({ ...seatUpdate, col: String(Number(e.target.value)) })}
+                                    />
+                                </div>
+
+                                <div className={styles.wrap}>
+                                    <p style={{ width: "120px", textAlign: "left" }}>Ghế</p>
+                                    <TextField
+                                        type="number"
+                                        required
+                                        className={styles.booking_input}
+                                        id="outlined-basic"
+                                        variant="outlined"
+                                        size="small"
+                                        value={seatUpdate.row}
+                                        onChange={(e) => setSeatUpdate({ ...seatUpdate, row: String(Number(e.target.value)) })}
                                     />
                                 </div>
 
@@ -168,13 +224,16 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
                             <Button
                                 size='small'
                                 variant="outlined"
-                                startIcon={<CloseIcon />}
+                                startIcon={<DeleteIcon />}
                                 className={styles.btnCancel}
-                                onClick={() => { onCloseModal() }}
+                                onClick={() => { handleDelete() }}
                             >
-                                Hủy bỏ
+                                Xóa ghế
                             </Button>
                         </div>
+
+
+
                     </Box>
 
                 </Modal>

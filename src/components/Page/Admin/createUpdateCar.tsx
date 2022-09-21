@@ -158,6 +158,7 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
                 setCarNumber(Car.carNumber);
                 setTel(Car.tel);
 
+                handleOpenNotify("Cập nhật xe thành công")
                 props.reloadPage()
 
             })
@@ -184,6 +185,12 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
 
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
+
+    const handleOpenNotify = (message: string) => {
+        setMessageNotify(message)
+        setOpenNofity(true)
+    }
+
 
     const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -364,6 +371,7 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
                                         <div className={styles.wrap}>
                                             <p>Giá vé</p>
                                             <TextField
+                                                type="number"
                                                 required={true}
                                                 className={styles.booking_input}
                                                 id="outlined-basic"

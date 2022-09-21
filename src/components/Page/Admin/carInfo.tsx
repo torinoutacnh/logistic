@@ -15,6 +15,8 @@ import { UpdatePrice } from './updatePrice';
 import { CreateSeat } from './createSeat';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
+import { ChangeSeat } from './ChangeSeat';
+import { SeatModel } from '../../Shared/Models/SeatModel';
 
 export const CarInfo = () => {
 
@@ -49,7 +51,9 @@ export const CarInfo = () => {
 
                 // console.log("get car info=> ", data.data);
 
-                setCar(data.data)
+                const tmp: CarModel = data.data
+                tmp.seats.sort((a, b) => Number(a.row) - Number(b.row)).sort((a, b) => Number(a.col) - Number(b.col)).sort((a, b) => a.floor - b.floor)
+                setCar(tmp)
 
 
             })
@@ -58,6 +62,9 @@ export const CarInfo = () => {
             })
 
     }, [reRender])
+
+
+
     /////////////////////////////////////////////////////
     const reloadPage = () => {
         setReRender(reRender + 1)
@@ -75,6 +82,17 @@ export const CarInfo = () => {
     const [isShowModalCreateSeat, setIsShowModalCreateSeat] = useState(false);
     const onClickShowModalCreateSeat = () => setIsShowModalCreateSeat(true);
     const onClickCloseModalCreateSeat = () => setIsShowModalCreateSeat(false);
+    //////////////////////////////////////////////////////
+    const [seatChange, setSeatChange] = useState<SeatModel>()
+    const [isShowModalChangeSeat, setIsShowModalChangeSeat] = useState(false);
+    const onClickShowModalChangeSeat = (item: SeatModel) => {
+        setIsShowModalChangeSeat(true);
+        setSeatChange(item);
+
+    }
+    const onClickCloseModalChangeSeat = () => {
+        setIsShowModalChangeSeat(false);
+    };
     //////////////////////////////////////////////////////
 
 
@@ -133,9 +151,10 @@ export const CarInfo = () => {
                 car ?
 
                     <>
+
                         < Grid container className={styles.container} >
 
-                            <Grid className={styles.left} container xs={11} sm={6.5} md={7.5} lg={7.5}>
+                            <Grid className={styles.left} container xs={11} sm={10} md={10} lg={7.5}>
 
                                 <Grid item className={styles.item_left1} xs={12} sm={12} md={5.5} lg={5.5} >
 
@@ -145,6 +164,7 @@ export const CarInfo = () => {
 
                                 <Grid item className={styles.item_left2} xs={12} sm={12} md={5.5} lg={5.5}>
                                     <div className={styles.box_info_left2}>
+                                        <span className={styles.header_left}>Thông tin xe</span>
 
                                         {car.serviceType === ServiceType["Chở hàng"] ?
                                             <>
@@ -323,17 +343,48 @@ export const CarInfo = () => {
 
                             </Grid>
 
-                            <Grid className={styles.right} container xs={9} sm={3.5} md={2.5} lg={2.5} style={{ background: "orange" }}>
-                                <div>
+                            <Grid className={styles.right} container xs={9} sm={4} md={4} lg={2.5} >
+                                <div className={styles.header_right}>
+                                    <span className={styles.title}>Ghế ngồi</span>
                                     <Button
+                                        className={styles.btnCreate}
                                         variant="outlined"
-                                        startIcon={<AddIcon />}
                                         size="small"
-                                        style={{ marginTop: "10px", marginBottom: "10px" }}
                                         onClick={() => { onClickShowModalCreateSeat() }}
                                     >
-                                        Tạo mới
+                                        <AddIcon />
+
                                     </Button>
+                                </div>
+                                <div className={styles.body_seat}>
+
+                                    {car.seats.map((item, index) => {
+                                        return (
+                                            <>
+                                                <div
+                                                    onClick={() => { onClickShowModalChangeSeat(item) }}
+                                                    className={styles.item_seat}
+                                                    key={index}
+                                                >
+                                                    <div className={styles.text}>
+                                                        <span className={styles.str}>Tầng</span>
+                                                        <span className={styles.num}>: {item.floor}</span>
+                                                    </div>
+
+                                                    <div className={styles.text}>
+                                                        <span className={styles.str}>Hàng</span>
+                                                        <span className={styles.num}>: {item.col}</span>
+                                                    </div>
+                                                    <div className={styles.text}>
+                                                        <span className={styles.str}>Ghế</span>
+                                                        <span className={styles.num}>: {item.row}</span>
+                                                    </div>
+
+
+                                                </div>
+                                            </>
+                                        )
+                                    })}
                                 </div>
 
 
@@ -363,6 +414,16 @@ export const CarInfo = () => {
                             close={onClickCloseModalCreateSeat}
                             reloadPage={reloadPage}
                             id={id as string} />
+
+                        {
+                            seatChange &&
+                            <ChangeSeat
+                                stateProps={isShowModalChangeSeat}
+                                close={onClickCloseModalChangeSeat}
+                                reloadPage={reloadPage}
+                                seat={seatChange}
+                                id={id as string} />
+                        }
 
 
                     </>
