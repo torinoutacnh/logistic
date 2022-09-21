@@ -1,5 +1,5 @@
 import styles from './styles/admin.module.scss'
-import React from 'react';
+import React, { useState } from 'react';
 import { Grid, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Button, Popover } from '@mui/material'
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -19,36 +19,38 @@ export const Admin = () => {
     //     setArea(e.target.value as string);
     // };
 
+    const [showComponent, setShowComponent] = useState(<></>)
+
     const listMenu = [
         {
             icon: <GroupsIcon />,
             name: "Quản lý nhân viên",
-            type: 2
+            component: <></>
         },
         {
             icon: <WarehouseIcon />,
             name: "Quản lý thông tin nhà xe",
-            type: 2
+            component: <></>
         },
         {
             icon: <AirportShuttleIcon />,
             name: "Quản lý xe",
-            type: ServiceType["Chở người"]
+            component: <ListiItemCarAdmin typeProps={ServiceType["Chở người"]} />
         },
         {
             icon: <LocalShippingIcon />,
             name: "Quản lý chành xe",
-            type: ServiceType["Chở hàng"]
+            component: <ListiItemCarAdmin typeProps={ServiceType["Chở hàng"]} />
         },
         {
             icon: <BarChartIcon />,
             name: "Báo cáo thống kê",
-            type: 2
+            type: <></>
         },
         {
             icon: <ConfirmationNumberIcon />,
             name: "Vé xe",
-            type: 2
+            component: <></>
         },
     ]
 
@@ -66,11 +68,11 @@ export const Admin = () => {
     /////////////////////////////////////////////////////////
 
     const [dataTitleMenu, setDataTitleMenu] = React.useState("Quản lý xe")
-    const [typeCar, setTypeCar] = React.useState<number>(2)
+
 
     const onClickItemMenu = (data: any) => {
         setDataTitleMenu(data.name)
-        setTypeCar(data.type)
+        setShowComponent(data.component)
         handleClose2()
     }
 
@@ -88,11 +90,11 @@ export const Admin = () => {
         <>
 
 
-            <Grid container style={{ background: "#fff" }}>
+            <Grid container style={{ background: "#fff", minHeight: "calc(100vh - 60px)" }}>
                 <Grid item xs={0} sm={0} md={0.5} xl={0.5}></Grid>
                 <Grid item xs={12} sm={12} md={11} xl={11}>
-                    <Grid container>
-                        <Grid item xs={12} sm={12} md={3} xl={3}>
+                    <Grid container >
+                        <Grid item xs={12} sm={12} md={3} xl={3} className={styles.nav_body}>
 
                             <div className={styles.menuNavRes}>
                                 <Button onClick={handleClick2} size="small" className={styles.btnIconMenuRes}>
@@ -166,7 +168,7 @@ export const Admin = () => {
 
                             <div className={styles.wrapper}>
 
-                                <ListiItemCarAdmin typeProps={typeCar} />
+                                {showComponent}
 
                             </div>
                         </Grid>

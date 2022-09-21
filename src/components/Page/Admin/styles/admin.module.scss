@@ -17,7 +17,7 @@ $gradient: linear-gradient(-45deg,
 .bgheader {
     background-size: 400% 400%;
     background-image: $gradient;
-    animation: gradient 5s ease alternate infinite;
+    animation: gradient 10s ease alternate infinite;
     height: 60px;
 
     .header {
@@ -146,6 +146,10 @@ $gradient: linear-gradient(-45deg,
     margin: 0;
     padding: 0;
     max-height: 100%;
+}
+
+.nav_body {
+    color: $text-back-color;
 }
 
 .g_container {
