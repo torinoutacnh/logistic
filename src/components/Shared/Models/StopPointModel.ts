@@ -6,7 +6,11 @@ interface StopPointModel {
     street?: string,
     houseNumber?: string,
     longitude?: string,
-    latitude?: string
+    latitude?: string,
+    city?: string,
+    district?: string,
+    ward?: string,
+
 }
 
 export type { StopPointModel }

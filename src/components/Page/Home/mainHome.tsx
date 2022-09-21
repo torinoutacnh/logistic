@@ -29,11 +29,7 @@ export const MainHome = () => {
         setFrom('');
         setTo('');
         setDate(null);
-    }
-
-    // const { register, errors, control } = React.useForm({
-    //     mode: 'all',
-    //     });        
+    }      
 
     return (
         <>
@@ -54,7 +50,6 @@ export const MainHome = () => {
                             value={from}
                             onChange={(e) => setFrom(e.target.value)}
                             required
-                        // inputRef={register}
                         />
 
                         <p>
