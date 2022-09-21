@@ -3,17 +3,15 @@ $white-color: rgb(255, 255, 255);
 $gradient-1: #793E4D;
 $gradient-2: #7F4042;
 $gradient-3: #884136;
-$gradient: linear-gradient(
-  -45deg,
-  #fc6c8f,
-  #ff2ced,
-  #ffb86c,
-  #2cccff,
-  #20e3b2,
-  #ffcc70,
-  #c850c0,
-  #4158d0
-);
+$gradient: linear-gradient(-45deg,
+    #fc6c8f,
+    #ff2ced,
+    #ffb86c,
+    #2cccff,
+    #20e3b2,
+    #ffcc70,
+    #c850c0,
+    #4158d0);
 
 .container {
   padding: 0;
@@ -27,7 +25,7 @@ $gradient: linear-gradient(
   display: flex;
   background-size: 400% 400%;
   background-image: $gradient;
-  animation: gradient 5s ease alternate infinite;
+  animation: gradient 10s ease alternate infinite;
   height: 60px;
   color: $white-color;
   width: 100%;
@@ -88,9 +86,11 @@ $gradient: linear-gradient(
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -201,7 +201,7 @@ $gradient: linear-gradient(
 
       .right_icon {
         font-size: 35px;
-        animation: rotateIcon ease 0.3s, rotateIconF ease 0.3s forwards   ;
+        animation: rotateIcon ease 0.3s, rotateIconF ease 0.3s forwards;
         transform-origin: 50% 50%;
       }
     }
@@ -210,6 +210,7 @@ $gradient: linear-gradient(
       from {
         transform: rotate(180deg);
       }
+
       to {
         transform: rotate(270deg);
       }
@@ -219,6 +220,7 @@ $gradient: linear-gradient(
       from {
         transform: rotate(270deg);
       }
+
       to {
         transform: rotate(360deg);
       }
