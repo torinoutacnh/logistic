@@ -6,6 +6,7 @@ interface RouteModel {
     day?: number,
     hour?: number,
     minute?: number
+    dailyStartTime?: string
 }
 
 export type { RouteModel }

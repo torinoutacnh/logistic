@@ -97,10 +97,12 @@ $white-color: rgb(255, 255, 255);
         margin-bottom: 20px;
 
         .item {
+
             display: flex;
             flex-direction: column;
 
             .box_input {
+                margin-bottom: 2px;
                 display: flex;
 
                 .title {
@@ -112,10 +114,12 @@ $white-color: rgb(255, 255, 255);
                 }
 
                 .input {
+                    flex-grow: 1;
                     padding: 5px;
                     border-radius: 3px;
-                    border-color: $border-item-color;
+                    border: 1px solid $border-item-color;
                     outline: none;
+                    list-style: none;
                 }
 
                 .input+.input {

@@ -17,6 +17,7 @@ import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
 import { ChangeSeat } from './ChangeSeat';
 import { SeatModel } from '../../Shared/Models/SeatModel';
+import { CreateRoute } from './createRoute';
 
 export const CarInfo = () => {
 
@@ -82,6 +83,7 @@ export const CarInfo = () => {
     const [isShowModalCreateSeat, setIsShowModalCreateSeat] = useState(false);
     const onClickShowModalCreateSeat = () => setIsShowModalCreateSeat(true);
     const onClickCloseModalCreateSeat = () => setIsShowModalCreateSeat(false);
+
     //////////////////////////////////////////////////////
     const [seatChange, setSeatChange] = useState<SeatModel>()
     const [isShowModalChangeSeat, setIsShowModalChangeSeat] = useState(false);
@@ -94,6 +96,9 @@ export const CarInfo = () => {
         setIsShowModalChangeSeat(false);
     };
     //////////////////////////////////////////////////////
+    const [isShowModalCreateRoute, setIsShowModalCreateRoute] = useState(false);
+    const onClickShowModalCreateRoute = () => setIsShowModalCreateRoute(true);
+    const onClickCloseModalCreateRoute = () => setIsShowModalCreateRoute(false);
 
 
 
@@ -238,45 +243,52 @@ export const CarInfo = () => {
 
                                                 return (
                                                     <>
-                                                        <div className={styles.item} key={index}>
+                                                        {
+                                                            RouterFrom && RouterTo ?
+                                                                <>
+                                                                    <div className={styles.item} key={index}>
 
-                                                            <div className={styles.item_left}>
-                                                                <span className={styles.text}>
-                                                                    <span className={styles.title}>Từ:</span>
-                                                                    {RouterFrom.houseNumber} {RouterFrom.street} -
-                                                                    {RouterFrom.ward} - {RouterFrom.district} - {RouterFrom.city}
-                                                                </span>
+                                                                        <div className={styles.item_left}>
+                                                                            <span className={styles.text}>
+                                                                                <span className={styles.title}>Từ:</span>
+                                                                                {RouterFrom.houseNumber} {RouterFrom.street} -
+                                                                                {RouterFrom.ward} - {RouterFrom.district} - {RouterFrom.city}
+                                                                            </span>
 
-                                                                <span className={styles.text}>
-                                                                    <span className={styles.title}>Đến:</span>
-                                                                    {RouterTo.houseNumber} {RouterTo.street} -
-                                                                    {RouterTo.ward} - {RouterTo.district} - {RouterTo.city}
-                                                                </span>
-                                                                <div className={styles.dis_time}>
-                                                                    <p className={styles.distance}>
-                                                                        <RouteOutlinedIcon />
-                                                                        <span>{item.distanceByKm} km</span>
-                                                                    </p>
-                                                                    <p className={styles.time}>
-                                                                        <TimerOutlinedIcon />
-                                                                        {(item.day === 0) ? "" : (' ' + item.day + ' ngày')}
-                                                                        {(item.hour === 0) ? "" : (' ' + item.hour + ' giờ')}
-                                                                        {(item.minute === 0) ? "" : (' ' + item.minute + ' phút')}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div className={styles.item_right}>
-                                                                <IconButton color="primary" size='small'>
-                                                                    <BorderColorIcon fontSize='inherit' />
-                                                                </IconButton>
+                                                                            <span className={styles.text}>
+                                                                                <span className={styles.title}>Đến:</span>
+                                                                                {RouterTo.houseNumber} {RouterTo.street} -
+                                                                                {RouterTo.ward} - {RouterTo.district} - {RouterTo.city}
+                                                                            </span>
+                                                                            <div className={styles.dis_time}>
+                                                                                <p className={styles.distance}>
+                                                                                    <RouteOutlinedIcon />
+                                                                                    <span>{item.distanceByKm} km</span>
+                                                                                </p>
+                                                                                <p className={styles.time}>
+                                                                                    <TimerOutlinedIcon />
+                                                                                    {(item.day === 0) ? "" : (' ' + item.day + ' ngày')}
+                                                                                    {(item.hour === 0) ? "" : (' ' + item.hour + ' giờ')}
+                                                                                    {(item.minute === 0) ? "" : (' ' + item.minute + ' phút')}
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className={styles.item_right}>
+                                                                            <IconButton color="primary" size='small'>
+                                                                                <BorderColorIcon fontSize='inherit' />
+                                                                            </IconButton>
 
-                                                                <IconButton color="error" size='small'>
-                                                                    <DeleteIcon fontSize='inherit' />
-                                                                </IconButton>
+                                                                            <IconButton color="error" size='small'>
+                                                                                <DeleteIcon fontSize='inherit' />
+                                                                            </IconButton>
 
-                                                            </div>
+                                                                        </div>
 
-                                                        </div>
+                                                                    </div>
+                                                                </>
+                                                                :
+                                                                <></>
+                                                        }
                                                     </>
                                                 )
                                             })
@@ -285,6 +297,7 @@ export const CarInfo = () => {
                                     </div>
 
                                     <Button
+                                        onClick={() => { onClickShowModalCreateRoute() }}
                                         variant="outlined"
                                         startIcon={<AddIcon />}
                                         size="small"
@@ -299,7 +312,7 @@ export const CarInfo = () => {
                                     <h3 className={styles.header_left}>ĐIỂM DỪNG</h3>
                                     <div className={styles.box_info_left_3_4}>
                                         {
-                                            car.stopPoints.map((item, index) => {
+                                            car.stopPoints?.map((item, index) => {
                                                 return (
                                                     <>
                                                         <div className={styles.item} key={index}>
@@ -358,7 +371,7 @@ export const CarInfo = () => {
                                 </div>
                                 <div className={styles.body_seat}>
 
-                                    {car.seats.map((item, index) => {
+                                    {car.seats?.map((item, index) => {
                                         return (
                                             <>
                                                 <div
@@ -424,6 +437,13 @@ export const CarInfo = () => {
                                 seat={seatChange}
                                 id={id as string} />
                         }
+
+                        <CreateRoute
+                            stateProps={isShowModalCreateRoute}
+                            close={onClickCloseModalCreateRoute}
+                            reloadPage={reloadPage}
+                            id={id as string}
+                            car={car} />
 
 
                     </>
