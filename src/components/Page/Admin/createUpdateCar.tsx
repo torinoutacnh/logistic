@@ -30,6 +30,7 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
     const [carModel, setCarModel] = useState(props.car?.carModel);
     const [carColor, setCarColor] = useState(props.car?.carColor);
     const [carNumber, setCarNumber] = useState(props.car?.carNumber);
+    const [imagePath, setImagePath] = useState(props.car?.imagePath);
     const [tel, setTel] = useState(props.car?.tel);
     const [priceTravel, setPriceTravel] = useState(props.car ? (props.car?.serviceType === ServiceType["Chở người"] ? `${props.car?.travelPrice}` : `${props.car?.shipPrice}`) : '');
 
@@ -61,7 +62,7 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
             travelPrice: typeService === ServiceType["Chở người"] ? priceTravel : 0,
             carModel: carModel,
             carColor: carColor,
-            imagePath: "/image",
+            // imagePath: imagePath,
             tel: tel,
             carNumber: carNumber,
             serviceType: typeService,
@@ -75,7 +76,7 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
         fetch(env.REACT_APP_API.concat("/car/create-car"), {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "multipart/form-data",
                 // Authorization: "Bearer ".concat(user.token),
             },
             body: JSON.stringify(Car),
@@ -99,6 +100,7 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
                 setCarModel('');
                 setCarColor('');
                 setCarNumber('');
+                // setImagePath('');
                 setTel('');
                 setPriceTravel('');
 
@@ -119,7 +121,7 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
             id: props.id,
             carModel: carModel,
             carColor: carColor,
-            imagePath: "/image",
+            // imagePath: "/image",
             tel: tel,
             carNumber: carNumber,
             serviceType: typeService,
