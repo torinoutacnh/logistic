@@ -10,6 +10,7 @@ import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import { ServiceType } from '../../Shared/Models/Everything';
 import { ListiItemCarAdmin } from './ListItemCarAdmin';
+import { CreateManagerCar } from './createManagerCar';
 
 export const Admin = () => {
 
@@ -50,7 +51,7 @@ export const Admin = () => {
         {
             icon: <ConfirmationNumberIcon />,
             name: "Vé xe",
-            component: <></>
+            component: <CreateManagerCar stateProps={false} close={undefined} />
         },
     ]
 

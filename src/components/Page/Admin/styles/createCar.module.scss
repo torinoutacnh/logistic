@@ -21,6 +21,12 @@ $white-color: rgb(255, 255, 255);
             height: 250px;
             width: 250px;
             border-radius: 5px;
+
+            img {
+                height: 250px;
+                width: 250px;
+                border-radius: 5px;
+            }
         }
 
         .btnUpload {

@@ -10,7 +10,7 @@ import { env, ServiceType } from "../../Shared/Models/Everything";
 import { useRouter } from "next/router";
 import { CreateSeat } from "./createSeat";
 import AddIcon from '@mui/icons-material/Add';
-import { Create_Update_Car } from "./createUpdateCar";
+import { CreateCar } from "./createCar";
 import { CarManager } from "../../Shared/Models/CarManager";
 
 export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
@@ -232,13 +232,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
                                                     </div>
                                                     <div className={styles.action}>
 
-                                                        {/* <Button className={styles.btn}>
-                                                            <BorderColorIcon className={styles.icon} />
-                                                            <span className={styles.text}>
-                                                                Chỉnh sửa
-                                                            </span>
-                                                        </Button> */}
-
                                                         <Button
                                                             className={styles.btn} color={"error"}
                                                             onClick={() => { onClickDeleteCar(item.id) }}
@@ -311,13 +304,11 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
                                 {messageNotify}
                             </Alert>
                         </Snackbar>
-                        <Create_Update_Car
+                        <CreateCar
                             stateProps={isShowModal}
                             close={onClickCloseModal}
                             reloadPage={reloadPage}
                             carManagers={carManagers}
-                            // car={filterCar[0]}
-                            car={null}
                         />
                     </>
                     :

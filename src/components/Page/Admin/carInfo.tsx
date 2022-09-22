@@ -10,7 +10,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { CarModel } from '../../Shared/Models/CarModel';
 import { StopPointModel } from '../../Shared/Models/StopPointModel';
-import { Create_Update_Car } from './createUpdateCar';
 import { UpdatePrice } from './updatePrice';
 import { CreateSeat } from './createSeat';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
@@ -18,6 +17,7 @@ import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
 import { ChangeSeat } from './ChangeSeat';
 import { SeatModel } from '../../Shared/Models/SeatModel';
 import { CreateRoute } from './createRoute';
+import { UpdateCar } from './updateCar';
 
 export const CarInfo = () => {
 
@@ -411,14 +411,12 @@ export const CarInfo = () => {
 
                         </Grid >
 
-                        <Create_Update_Car
+                        <UpdateCar
                             stateProps={isShowModalUpdate}
                             close={onClickCloseModalUpdate}
                             reloadPage={reloadPage}
-                            carManagers={null}
                             car={car}
                             id={id as string}
-                        // car={null}
                         />
 
                         <UpdatePrice
