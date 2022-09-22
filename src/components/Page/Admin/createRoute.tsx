@@ -89,8 +89,7 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
         const list: RouteModel[] = data.listRoute
         list.map(i => i.dailyStartTime = getCurrentDateTime())
 
-
-        fetch(env.REACT_APP_API.concat(`/seat/create-seat-list/${props.id}`), {
+        fetch(env.REACT_APP_API.concat(`/route/create-routes/${props.id}`), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

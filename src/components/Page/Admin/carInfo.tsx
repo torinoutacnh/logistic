@@ -161,9 +161,15 @@ export const CarInfo = () => {
 
                             <Grid className={styles.left} container xs={11} sm={10} md={10} lg={7.5}>
 
-                                <Grid item className={styles.item_left1} xs={12} sm={12} md={5.5} lg={5.5} >
+                                <Grid item className={styles.item_left1} xs={12} sm={12} md={5.5} lg={5.5} style={{ textAlign: "center" }}>
 
-                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                    <Image
+                                        style={{ borderRadius: "5px" }}
+                                        src={env.REACT_APP_API.concat(car.imagePath)}
+                                        alt="Không có hình ảnh"
+                                        width={500}
+                                        height={400}
+                                    />
 
                                 </Grid>
 

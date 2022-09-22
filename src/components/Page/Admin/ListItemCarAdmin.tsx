@@ -222,7 +222,13 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
 
                                                 <div className={styles.left}>
                                                     <div className={styles.image} onClick={() => { handelOnClickItem(item.id) }}>
-                                                        <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                                        <Image
+                                                            style={{ borderRadius: "5px" }}
+                                                            src={env.REACT_APP_API.concat(item.imagePath)}
+                                                            alt="Không có hình ảnh"
+                                                            width={1000}
+                                                            height={1000}
+                                                        />
                                                     </div>
                                                     <div className={styles.action}>
 

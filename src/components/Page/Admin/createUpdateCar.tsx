@@ -62,7 +62,7 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
             travelPrice: typeService === ServiceType["Chở người"] ? priceTravel : 0,
             carModel: carModel,
             carColor: carColor,
-            // imagePath: imagePath,
+            imagePath: imagePath,
             tel: tel,
             carNumber: carNumber,
             serviceType: typeService,
@@ -76,7 +76,7 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
         fetch(env.REACT_APP_API.concat("/car/create-car"), {
             method: "POST",
             headers: {
-                "Content-Type": "multipart/form-data",
+                "Content-Type": "application/json",
                 // Authorization: "Bearer ".concat(user.token),
             },
             body: JSON.stringify(Car),
@@ -100,7 +100,7 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
                 setCarModel('');
                 setCarColor('');
                 setCarNumber('');
-                // setImagePath('');
+                setImagePath('');
                 setTel('');
                 setPriceTravel('');
 
