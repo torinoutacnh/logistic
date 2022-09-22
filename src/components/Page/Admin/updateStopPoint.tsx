@@ -24,31 +24,51 @@ const style = {
     textAlign: 'center',
 };
 
-export function Update_Stop_Point (props: { stateProps: boolean, close: any, reloadPage: any, stopPoint: StopPointModel, city: CityModel[], district: DistrictModel[], ward: WardModel[], id?: string }) {
+export function UpdateStopPoint (props: { stateProps: boolean, close: any, reloadPage: any, stopPoint: StopPointModel , city: CityModel[], district: DistrictModel[], ward: WardModel[]}) {
     const [isShow, setIsShow] = useState(false)
 
     const [cityId, setCityId] = useState<CityModel[]>();
-    const [cityName, setCityName] = useState('');
+    const [cityName, setCityName] = useState<string>();
     const [idCity, setIdCity] = useState<string>();
     const [districtId, setDistrictId] = useState<DistrictModel[]>();
-    const [districtName, setDistrictName] = useState('');
+    const [districtName, setDistrictName] = useState<string>();
     const [idDistrict, setIdDistrict] = useState<string>();
     const [wardId, setWardId] = useState<WardModel[]>();
-    const [wardName, setWardName] = useState('');
+    const [wardName, setWardName] = useState<string>();
     const [idWard, setIdWard] = useState<string>();
-    const [street, setStreet] = useState(props.stopPoint?.street);
-    const [houseNumber, setHouseNumber] = useState(props.stopPoint?.houseNumber);
+    const [street, setStreet] = useState<string>();
+    const [houseNumber, setHouseNumber] = useState<string>();
     const [reRender, setReRender] = useState(0);
 
     useEffect(() => {
         setIsShow(props.stateProps)
-    }, [props.stateProps])
+    }, [props.stateProps, props.stopPoint])
 
-    // const handleChangeCity = (event: SelectChangeEvent) => {
-    //     console.log(event.target.value);
+    const [openNotify, setOpenNofity] = useState(false);
+    const [messageNotify, setMessageNotify] = useState("")
 
-    //     setCityId(cityId[event.target.value as string]);
-    // };
+    const handleOpenNotify = (message: string) => {
+        setMessageNotify(message)
+        setOpenNofity(true)
+    }
+
+    const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenNofity(false);
+    };
+
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 220,
+            },
+        },
+    };
 
     useEffect(() => {
         fetch(env.REACT_APP_API.concat("/cities"), {
@@ -71,8 +91,10 @@ export function Update_Stop_Point (props: { stateProps: boolean, close: any, rel
                     console.log("get city status >= 400 ", data);
                     return
                 }
+                const tmp: CityModel[] = data.data
+                setIdCity(tmp.find(i => i.name === props.stopPoint.city).id)
                 setCityId(data.data)
-                setReRender(pre => pre + 1)
+                
             })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
@@ -168,7 +190,7 @@ export function Update_Stop_Point (props: { stateProps: boolean, close: any, rel
     const handleUpdate = () => {
 
         const StopPoint = {
-            // id: props.stopPoint.id,
+            id: props.stopPoint.id,
             cityId: idCity,
             districtId: idDistrict,
             wardId: idWard,
@@ -176,8 +198,7 @@ export function Update_Stop_Point (props: { stateProps: boolean, close: any, rel
             houseNumber: houseNumber,
         }
 
-        console.log("id stop point =>>", props.id )
-        // console.log("handle update stop point => ", StopPoint);
+        console.log("handle update stop point => ", StopPoint);
 
         fetch(env.REACT_APP_API.concat("/stop-point/update-stop-location"), {
             method: "POST",
@@ -202,12 +223,13 @@ export function Update_Stop_Point (props: { stateProps: boolean, close: any, rel
 
                 console.log("update point location => ", data.data);
 
-                // setCityId(StopPoint.cityId);
-                // setDistrictId(StopPoint.districtId);
-                // setWardId(StopPoint.wardId);
-                // setStreet(StopPoint.street);
-                // setHouseNumber(StopPoint.houseNumber);
+                setCityName(props.stopPoint.city);
+                setDistrictName(props.stopPoint.district);
+                setWardName(props.stopPoint.ward);
+                setStreet(props.stopPoint.street);
+                setHouseNumber(props.stopPoint.houseNumber);
 
+                handleOpenNotify("Cập nhật điểm dừng thành công")
                 props.reloadPage()
 
             })
@@ -217,40 +239,6 @@ export function Update_Stop_Point (props: { stateProps: boolean, close: any, rel
 
         props.close();
     }
-
-    // const onCloseModal = () => {
-
-    //     if (props.stopPoint !== null) {
-    //         // setCityId(props.stopPoint.cityId);
-    //         // setDistrictId(props.stopPoint.districtId);
-    //         // setWardId(props.stopPoint.wardId);
-    //         setStreet(props.stopPoint.street);
-    //         setHouseNumber(props.stopPoint.houseNumber);
-    //     }
-
-    //     props.close()
-    // }
-
-    const [openNotify, setOpenNofity] = useState(false);
-    const [messageNotify, setMessageNotify] = useState("")
-
-    const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpenNofity(false);
-    };
-
-    const ITEM_HEIGHT = 48;
-    const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 220,
-            },
-        },
-    };
 
     return (
         <>
@@ -279,9 +267,8 @@ export function Update_Stop_Point (props: { stateProps: boolean, close: any, rel
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
                                             MenuProps={MenuProps}
-                                            // onChange={handleChangeCity}
                                             value={cityName}
-                                            // defaultValue={cityId[props.stopPoint?.cityId]}
+                                            defaultValue={props.stopPoint?.city}
                                         >
                                             {
                                                 cityId?.map((item, index) => (
@@ -313,6 +300,7 @@ export function Update_Stop_Point (props: { stateProps: boolean, close: any, rel
                                             id="demo-simple-select"
                                             value={districtName}
                                             MenuProps={MenuProps}
+                                            defaultValue={props.stopPoint?.district}
                                         >
 
                                             {
@@ -346,6 +334,7 @@ export function Update_Stop_Point (props: { stateProps: boolean, close: any, rel
                                             id="demo-simple-select"
                                             value={wardName}
                                             MenuProps={MenuProps}
+                                            defaultValue={props.stopPoint?.ward}
                                         >
 
                                             {
@@ -367,7 +356,6 @@ export function Update_Stop_Point (props: { stateProps: boolean, close: any, rel
                                     </FormControl>
                                 </div>
 
-
                                 <div className={styles.wrap}>
                                     <p>Tên đường</p>
                                     <TextField
@@ -377,6 +365,7 @@ export function Update_Stop_Point (props: { stateProps: boolean, close: any, rel
                                         variant="outlined"
                                         size="small"
                                         value={street}
+                                        defaultValue={props.stopPoint?.street}
                                         onChange={(e) => setStreet(e.target.value)}
                                     />
                                 </div>
@@ -390,6 +379,7 @@ export function Update_Stop_Point (props: { stateProps: boolean, close: any, rel
                                         variant="outlined"
                                         size="small"
                                         value={houseNumber}
+                                        defaultValue={props.stopPoint?.houseNumber}
                                         onChange={(e) => setHouseNumber(e.target.value)}
                                     />
                                 </div>                              
@@ -411,7 +401,7 @@ export function Update_Stop_Point (props: { stateProps: boolean, close: any, rel
                                 variant="outlined"
                                 startIcon={<CloseIcon />}
                                 className={styles.btnCancel}
-                                // onClick={() => { onCloseModal() }}
+                                onClick={() => { props.close() }}
                             >
                                 Hủy bỏ
                             </Button>
