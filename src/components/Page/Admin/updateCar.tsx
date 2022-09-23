@@ -134,7 +134,7 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}>
+                    <Box sx={style} style={{ color: "black" }}>
                         <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 3 }}>
                             {"Cập nhật thông tin xe"}
                         </Typography>
@@ -244,7 +244,7 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
                                 </div>
                             </form>
                         </div>
-                        
+
                         <div className={styles.action}>
 
                             <Button

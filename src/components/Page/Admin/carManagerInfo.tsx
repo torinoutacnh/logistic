@@ -10,8 +10,9 @@ import { CarModel } from '../../Shared/Models/CarModel';
 import { StopPointModel } from '../../Shared/Models/StopPointModel';
 import { SeatModel } from '../../Shared/Models/SeatModel';
 import { RouteModel } from '../../Shared/Models/RouteModel';
-import { CarManager } from '../../Shared/Models/CarManager';
-import { ListiItemCarAdmin } from './listItemCarAdmin';
+import { CarManagerModel } from '../../Shared/Models/CarManager';
+import { ListiItemCarAdmin } from './ListItemCarAdmin';
+import { UpdateCarManager } from './updateCarManager';
 
 export const CarManagerInfo = () => {
 
@@ -163,32 +164,13 @@ export const CarManagerInfo = () => {
 
                         </Grid >
 
-                        {/* <UpdateCar
+
+                        <UpdateCarManager
                             stateProps={isShowModalUpdate}
                             close={onClickCloseModalUpdate}
-                            reloadPage={reloadPage}
-                            car={car}
                             id={id as string}
-                        />
-
-
-                        <UpdateStopPoint
-                            stateProps={isShowModalUpdateStopPoint}
-                            close={onClickCloseUpdateStopPoint}
                             reloadPage={reloadPage}
-                            stopPoint={infoStopPoint}
-                            city={null}
-                            district={null}
-                            ward={null}
-                        />
-
-                        <UpdateRoute
-                            stateProps={isShowModalUpdateRoute}
-                            close={onClickCloseUpdateRoute}
-                            reloadPage={reloadPage}
-                            route={infoRoute}
-                        />
- */}
+                            manage={carManager} />
 
                     </>
                     :
