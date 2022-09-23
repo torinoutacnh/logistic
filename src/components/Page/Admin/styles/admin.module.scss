@@ -17,7 +17,7 @@ $gradient: linear-gradient(-45deg,
 .bgheader {
     background-size: 400% 400%;
     background-image: $gradient;
-    animation: gradient 10s ease alternate infinite;
+    animation: gradient 30s ease alternate infinite;
     height: 60px;
 
     .header {
@@ -252,6 +252,14 @@ $gradient: linear-gradient(-45deg,
                     font-weight: 500;
                     margin-right: 5px;
                 }
+            }
+
+            .discription {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 6;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
         }
 
