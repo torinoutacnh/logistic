@@ -24,25 +24,26 @@ const style = {
     textAlign: 'center',
 };
 
-export function UpdateStopPoint (props: { stateProps: boolean, close: any, reloadPage: any, stopPoint: StopPointModel , city: CityModel[], district: DistrictModel[], ward: WardModel[]}) {
+export function UpdateStopPoint(props: { stateProps: boolean, close: any, reloadPage: any, stopPoint: StopPointModel }) {
     const [isShow, setIsShow] = useState(false)
 
-    const [cityId, setCityId] = useState<CityModel[]>();
-    const [cityName, setCityName] = useState<string>();
     const [idCity, setIdCity] = useState<string>();
-    const [districtId, setDistrictId] = useState<DistrictModel[]>();
-    const [districtName, setDistrictName] = useState<string>();
     const [idDistrict, setIdDistrict] = useState<string>();
-    const [wardId, setWardId] = useState<WardModel[]>();
-    const [wardName, setWardName] = useState<string>();
     const [idWard, setIdWard] = useState<string>();
+
+    const [cityName, setCityName] = useState<string>();
+    const [districtName, setDistrictName] = useState<string>();
+    const [wardName, setWardName] = useState<string>();
     const [street, setStreet] = useState<string>();
     const [houseNumber, setHouseNumber] = useState<string>();
-    const [reRender, setReRender] = useState(0);
 
-    useEffect(() => {
-        setIsShow(props.stateProps)
-    }, [props.stateProps, props.stopPoint])
+    const [listCity, setListCity] = useState<CityModel[]>()
+    const [listDistrict, setListDistrict] = useState<DistrictModel[]>()
+    const [listWard, setListWard] = useState<WardModel[]>()
+
+
+
+
 
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
@@ -70,75 +71,107 @@ export function UpdateStopPoint (props: { stateProps: boolean, close: any, reloa
         },
     };
 
-    useEffect(() => {
-        fetch(env.REACT_APP_API.concat("/cities"), {
+    const loadData = async () => {
+
+        setHouseNumber(props.stopPoint?.houseNumber)
+        setStreet(props.stopPoint?.street)
+
+        const res_city = await fetch(env.REACT_APP_API.concat("/cities"), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 // Authorization: "Bearer ".concat(user.token),
-            },
-            // body: JSON.stringify(form.getFieldsValue()),
+            },// body: JSON.stringify(form.getFieldsValue()),
         })
-            .then(async (res) => {
+        if (res_city.status > 200) { return }
+        const data_res_city = await res_city.json()
+        const list_city_tmp: CityModel[] = data_res_city.data
+        const city_tmp = list_city_tmp?.find(item => item.name === props.stopPoint?.city)
+        setCityName(city_tmp?.name)
+        setIdCity(city_tmp?.id)
+        setListCity(list_city_tmp)
 
-                const data = await res.json()
 
-                if (res.status >= 500) {
-                    console.log("get city status >= 500 ", data);
-                    return
-                }
-                else if (res.status >= 400) {
-                    console.log("get city status >= 400 ", data);
-                    return
-                }
-                const tmp: CityModel[] = data.data
-                setIdCity(tmp.find(i => i.name === props.stopPoint.city).id)
-                setCityId(data.data)
-                
-            })
-            .catch((error) => {
-                console.log(" error >>>>>>", error);
-            })
-    }, [])
+        const res_district = await fetch(env.REACT_APP_API.concat(`/districts/${city_tmp?.id}`), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },// body: JSON.stringify(form.getFieldsValue()),
+        })
+        if (res_district.status > 200) { return }
+        const data_res_district = await res_district.json()
+        const list_district_tmp: DistrictModel[] = data_res_district.data
+        const district_tmp = list_district_tmp?.find(item => item.name === props.stopPoint?.district)
+        setDistrictName(district_tmp?.name)
+        setIdDistrict(district_tmp?.id)
+        setListDistrict(list_district_tmp)
+
+
+        const res_ward = await fetch(env.REACT_APP_API.concat(`/wards/${district_tmp?.id}`), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },// body: JSON.stringify(form.getFieldsValue()),
+        })
+        if (res_ward.status > 200) { return }
+        const data_res_ward = await res_ward.json()
+        const list_ward_tmp: WardModel[] = data_res_ward.data
+        const ward_tmp = list_ward_tmp?.find(item => item.name === props.stopPoint?.ward)
+        setWardName(ward_tmp?.name)
+        setIdWard(ward_tmp?.id)
+        setListWard(list_ward_tmp)
+
+
+    }
+
+    useEffect(() => {
+        setIsShow(props.stateProps)
+        loadData()
+    }, [props.stateProps])
+
+
 
     const handleChangeCityName = (data: CityModel) => {
         // console.log(" City click => ", data);
         setCityName(data.name);
         setIdCity(data.id);
+        setListWard([])
     };
 
     //////////////////////////////////////////////////////
 
     useEffect(() => {
         if (idCity) {
-        fetch(env.REACT_APP_API.concat(`/districts/${idCity}`), {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            // body: JSON.stringify(form.getFieldsValue()),
-        })
-            .then(async (res) => {
-
-                const data = await res.json()
-
-                if (res.status >= 500) {
-                    console.log("get district status >= 500 ", data);
-                    return
-                }
-                else if (res.status >= 400) {
-                    console.log("get district status >= 400 ", data);
-                    return
-                }
-                setDistrictId(data.data)
-                setWardName('')
+            fetch(env.REACT_APP_API.concat(`/districts/${idCity}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
             })
-            .catch((error) => {
-                console.log(" error >>>>>>", error);
-            })
-        }        
-    }, [idCity]) 
+                .then(async (res) => {
+
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get district status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get district status >= 400 ", data);
+                        return
+                    }
+                    setListDistrict(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [idCity])
 
     const handleChangeDistrictName = (data: DistrictModel) => {
         // console.log(" District click => ", data);
@@ -150,34 +183,34 @@ export function UpdateStopPoint (props: { stateProps: boolean, close: any, reloa
 
     useEffect(() => {
         if (idDistrict) {
-        fetch(env.REACT_APP_API.concat(`/wards/${idDistrict}`), {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            // body: JSON.stringify(form.getFieldsValue()),
-        })
-            .then(async (res) => {
-
-                const data = await res.json()
-
-                if (res.status >= 500) {
-                    console.log("get ward status >= 500 ", data);
-                    return
-                }
-                else if (res.status >= 400) {
-                    console.log("get ward status >= 400 ", data);
-                    return
-                }
-                setWardId(data.data)
-                
+            fetch(env.REACT_APP_API.concat(`/wards/${idDistrict}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
             })
-            .catch((error) => {
-                console.log(" error >>>>>>", error);
-            })
-        }        
-    }, [idDistrict]) 
+                .then(async (res) => {
+
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get ward status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get ward status >= 400 ", data);
+                        return
+                    }
+                    setListWard(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [idDistrict])
 
     const handleChangeWardName = (data: WardModel) => {
         // console.log(" Ward click => ", data);
@@ -189,8 +222,7 @@ export function UpdateStopPoint (props: { stateProps: boolean, close: any, reloa
 
     const handleUpdate = () => {
 
-        const StopPoint = {
-            id: props.stopPoint.id,
+        const StopPointUpdate = {
             cityId: idCity,
             districtId: idDistrict,
             wardId: idWard,
@@ -198,15 +230,19 @@ export function UpdateStopPoint (props: { stateProps: boolean, close: any, reloa
             houseNumber: houseNumber,
         }
 
-        console.log("handle update stop point => ", StopPoint);
+        console.log("handle update stop point => ", StopPointUpdate);
+        console.log("id update stop point => ", props.stopPoint.id);
+        // console.log("cityName => ", cityName);
+        // console.log("districtName => ", districtName);
+        // console.log("wardName => ", wardName);
 
-        fetch(env.REACT_APP_API.concat("/stop-point/update-stop-location"), {
+        fetch(env.REACT_APP_API.concat(`/stop-point/update-point-location/${props.stopPoint.id}`), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 // Authorization: "Bearer ".concat(user.token),
             },
-            body: JSON.stringify(StopPoint),
+            body: JSON.stringify(StopPointUpdate),
         })
             .then(async (res) => {
 
@@ -223,11 +259,11 @@ export function UpdateStopPoint (props: { stateProps: boolean, close: any, reloa
 
                 console.log("update point location => ", data.data);
 
-                setCityName(props.stopPoint.city);
-                setDistrictName(props.stopPoint.district);
-                setWardName(props.stopPoint.ward);
-                setStreet(props.stopPoint.street);
-                setHouseNumber(props.stopPoint.houseNumber);
+                // setCityName(props.stopPoint.city);
+                // setDistrictName(props.stopPoint.district);
+                // setWardName(props.stopPoint.ward);
+                // setStreet(props.stopPoint.street);
+                // setHouseNumber(props.stopPoint.houseNumber);
 
                 handleOpenNotify("Cập nhật điểm dừng thành công")
                 props.reloadPage()
@@ -242,7 +278,7 @@ export function UpdateStopPoint (props: { stateProps: boolean, close: any, reloa
 
     return (
         <>
-            {isShow ?
+            {(isShow && listCity && listDistrict && listWard) ?
                 <Modal
                     open={isShow}
                     onClose={() => props.close()}
@@ -271,13 +307,13 @@ export function UpdateStopPoint (props: { stateProps: boolean, close: any, reloa
                                             defaultValue={props.stopPoint?.city}
                                         >
                                             {
-                                                cityId?.map((item, index) => (
+                                                listCity?.map((item, index) => (
                                                     <MenuItem
                                                         sx={{ width: '220px' }}
                                                         key={index}
                                                         value={item.name}
                                                         onClick={() => { handleChangeCityName(item) }}
-                                              >
+                                                    >
                                                         <Typography noWrap>
                                                             {item.name}
                                                         </Typography>
@@ -304,7 +340,7 @@ export function UpdateStopPoint (props: { stateProps: boolean, close: any, reloa
                                         >
 
                                             {
-                                                districtId?.map((item, index) => (
+                                                listDistrict?.map((item, index) => (
                                                     <MenuItem
                                                         sx={{ width: '220px' }}
                                                         key={index}
@@ -338,7 +374,7 @@ export function UpdateStopPoint (props: { stateProps: boolean, close: any, reloa
                                         >
 
                                             {
-                                                wardId?.map((item, index) => (
+                                                listWard?.map((item, index) => (
                                                     <MenuItem
                                                         sx={{ width: '220px' }}
                                                         key={index}
@@ -382,7 +418,7 @@ export function UpdateStopPoint (props: { stateProps: boolean, close: any, reloa
                                         defaultValue={props.stopPoint?.houseNumber}
                                         onChange={(e) => setHouseNumber(e.target.value)}
                                     />
-                                </div>                              
+                                </div>
                             </form>
                         </div>
                         <div className={styles.action}>

@@ -19,6 +19,7 @@ import { SeatModel } from '../../Shared/Models/SeatModel';
 import { CreateRoute } from './createRoute';
 import { UpdateCar } from './updateCar';
 import { UpdateStopPoint } from './updateStopPoint';
+import { CreateStoppoint } from './createStoppoint';
 
 export const CarInfo = () => {
 
@@ -80,8 +81,13 @@ export const CarInfo = () => {
     const [isShowModalCreateSeat, setIsShowModalCreateSeat] = useState(false);
     const onClickShowModalCreateSeat = () => setIsShowModalCreateSeat(true);
     const onClickCloseModalCreateSeat = () => setIsShowModalCreateSeat(false);
-
     //////////////////////////////////////////////////////
+
+    const [isShowModalCreateStoppoint, setIsShowModalCreateStoppoint] = useState(false);
+    const onClickShowModalCreateStoppoint = () => setIsShowModalCreateStoppoint(true);
+    const onClickCloseModalCreateStoppoint = () => setIsShowModalCreateStoppoint(false);
+    //////////////////////////////////////////////////////
+
     const [seatChange, setSeatChange] = useState<SeatModel>()
     const [isShowModalChangeSeat, setIsShowModalChangeSeat] = useState(false);
     const onClickShowModalChangeSeat = (item: SeatModel) => {
@@ -97,12 +103,10 @@ export const CarInfo = () => {
     const onClickCloseModalCreateRoute = () => setIsShowModalCreateRoute(false);
     //////////////////////////////////////////////////////
     const [isShowModalUpdateStopPoint, setIsShowModalUpdateStopPoint] = useState(false);
-    const [infoStopPoint, setInfoStopPoint] = useState<StopPointModel>();
-    const onClickShowModalUpdateStopPoint = (stopPoint: StopPointModel) => {
+    const [stopPointUpdate, setStopPointUpdate] = useState<StopPointModel>();
+    const onClickShowModalUpdateStopPoint = (item: StopPointModel) => {
         setIsShowModalUpdateStopPoint(true);
-        setInfoStopPoint(stopPoint);
-        // setReRender(reRender + 1)
-        console.log(stopPoint.id)
+        setStopPointUpdate(item);
     }
     const onClickCloseUpdateStopPoint = () => setIsShowModalUpdateStopPoint(false);
 
@@ -159,6 +163,8 @@ export const CarInfo = () => {
             {
                 car ?
                     <>
+
+
                         < Grid container className={styles.container} >
 
                             <Grid className={styles.left} container xs={11} sm={10} md={10} lg={7.5}>
@@ -363,7 +369,11 @@ export const CarInfo = () => {
 
 
                                     </div>
-                                    <Button variant="outlined" startIcon={<AddIcon />} size="small" style={{ marginTop: "10px", marginBottom: "10px" }}>
+                                    <Button
+                                        variant="outlined"
+                                        startIcon={<AddIcon />}
+                                        size="small" style={{ marginTop: "10px", marginBottom: "10px" }}
+                                        onClick={() => { onClickShowModalCreateStoppoint() }}>
                                         Tạo mới
                                     </Button>
                                 </Grid>
@@ -462,10 +472,14 @@ export const CarInfo = () => {
                             stateProps={isShowModalUpdateStopPoint}
                             close={onClickCloseUpdateStopPoint}
                             reloadPage={reloadPage}
-                            stopPoint={infoStopPoint}
-                            city={null}
-                            district={null}
-                            ward={null}
+                            stopPoint={stopPointUpdate}
+                        />
+
+                        <CreateStoppoint
+                            stateProps={isShowModalCreateStoppoint}
+                            close={onClickCloseModalCreateStoppoint}
+                            reloadPage={reloadPage}
+                            id={id as string}
                         />
 
 

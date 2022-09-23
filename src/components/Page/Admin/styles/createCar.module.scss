@@ -111,6 +111,12 @@ $white-color: rgb(255, 255, 255);
                 margin-bottom: 2px;
                 display: flex;
 
+                @media screen and (max-width:768px) {
+                    .input {
+                        width: 230px !important;
+                    }
+                }
+
                 .title {
                     text-align: left;
                     display: block;
@@ -120,6 +126,7 @@ $white-color: rgb(255, 255, 255);
                 }
 
                 .input {
+                    background: white;
                     flex-grow: 1;
                     padding: 5px;
                     border-radius: 3px;
