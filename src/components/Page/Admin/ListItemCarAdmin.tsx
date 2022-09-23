@@ -105,8 +105,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                 // console.log("get car => ", data.data);
 
                 setCarManagers(data.data)
-
-
             })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
@@ -151,7 +149,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
-
     }
 
     const handelOnClickItem = (carId: string) => {
@@ -164,7 +161,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
     const onClickCloseModal = () => setIsShowModal(false);
     const reloadPage = () => {
         setReRender(reRender + 1)
-
         handleOpenNotify("Tạo xe thành công")
     }
 
@@ -172,7 +168,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
         <>
             {
                 (filterCar && carManagers) ?
-
                     <>
                         <div className={styles.option}>
                             {/* <Box className={styles.area}>
@@ -201,7 +196,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                                         </Select>
                                     </FormControl>
                                 </Box> */}
-{
+                        {
                         (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"])
                          ? 
                             <Button
@@ -219,7 +214,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                             
                         </div>
                         <Grid container className={styles.g_container}>
-
 
                             {
                                 filterCar.map((item, index) => {
@@ -289,18 +283,14 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                                 })
                             }
 
-
-
-
-
                         </Grid>
                         {
                         (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"])
-                         ? 
+                            ? 
                             <button className={styles.btnAddCircle} onClick={() => onClickShowModal()}>+</button> 
-                         : 
+                            : 
                             <></>
-                         }
+                        }
                         <Snackbar
                             anchorOrigin={{ vertical: "top", horizontal: "right" }}
                             key={"top right"}
@@ -326,12 +316,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                     </>
                     :
                     <><h1>Loading</h1></>
-
-
             }
         </>
     )
-
-    // return <CreateSeat />
-
 }

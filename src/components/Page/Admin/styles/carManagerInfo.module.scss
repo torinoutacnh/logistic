@@ -36,12 +36,12 @@ $background_item_left_color : rgb(243, 243, 243);
     .top {
         display: flex;
         justify-content: center;
-        // max-width: 70vw;
         flex-direction: row;
+        margin-bottom: 20px;
 
         .item_logo {
             margin: 10px;
-            float: right;
+            flex-basis: 27%;
         }
 
         .item_info {
@@ -93,6 +93,18 @@ $background_item_left_color : rgb(243, 243, 243);
                 }
             }
         }
+    }
 
+    .item_bottom {
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .container {
+
+        .top {
+            flex-direction: column;
+        }
     }
 }

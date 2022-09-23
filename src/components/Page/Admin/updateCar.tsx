@@ -2,13 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
-import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-import { CarManager } from '../../Shared/Models/CarManager';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { type } from 'os';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -37,19 +34,10 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
         setIsShow(props.stateProps)
     }, [props.stateProps])
 
-
-    // console.log("car", props.car);
-
-
     const handleChangeType = (event: SelectChangeEvent) => {
         // console.log(event.target.value);
-
         setTypeService(ServiceType[event.target.value as string]);
     };
-
-
-
-
 
     const handleUpdate = () => {
 
@@ -121,7 +109,6 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
         setMessageNotify(message)
         setOpenNofity(true)
     }
-
 
     const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -201,8 +188,6 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
                                     </FormControl>
                                 </div>
 
-
-
                                 <div className={styles.wrap}>
                                     <p>Hãng xe</p>
                                     <TextField
@@ -257,11 +242,9 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
                                         onChange={(e) => setTel(e.target.value)}
                                     />
                                 </div>
-
-
                             </form>
-
                         </div>
+                        
                         <div className={styles.action}>
 
                             <Button

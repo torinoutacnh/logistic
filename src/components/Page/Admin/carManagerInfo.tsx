@@ -267,7 +267,7 @@ export const CarManagerInfo = () => {
                             </Grid>
 
                             <Grid item className={styles.item_bottom} xs={11} sm={11} md={9} lg={8}>
-                                    <span className={styles.header_top}>Thông tin xe</span>
+                                    <span className={styles.header_top}>Danh sách xe</span>
                                     <ListiItemCarAdmin typeProps={3} carManagerID={id as string} />
 
                                 </Grid>

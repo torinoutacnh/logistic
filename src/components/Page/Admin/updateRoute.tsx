@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
+import { Box, Button, Typography, Modal, TextField, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType } from '../../Shared/Models/Everything';
-import { CarManager } from '../../Shared/Models/CarManager';
-import { CarModel } from '../../Shared/Models/CarModel';
+import { env } from '../../Shared/Models/Everything';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { RouteModel } from '../../Shared/Models/RouteModel';
-import { useMonthPickerDefaultizedProps } from '@mui/x-date-pickers/MonthPicker/MonthPicker';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -124,7 +121,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}>
+                    <Box sx={style} style={{color: 'black'}}>
                         <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 3 }}>
                             Cập nhật tuyến
                         </Typography>
@@ -207,7 +204,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                         size="small"
                                         value={distances}
                                         defaultValue={props.route.distanceByKm}
-                                        onChange={(e) => setDistances(e.target.value)}
+                                        onChange={(e) => setDistances(Number(e.target.value))}
                                     />
                                 </div>
 
@@ -221,7 +218,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                         size="small"
                                         value={days}
                                         defaultValue={props.route.day}
-                                        onChange={(e) => setDays(e.target.value)}
+                                        onChange={(e) => setDays(Number(e.target.value))}
                                     />
                                 </div>
 
@@ -235,7 +232,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                         size="small"
                                         value={hours}
                                         defaultValue={props.route.hour}
-                                        onChange={(e) => setHours(e.target.value)}
+                                        onChange={(e) => setHours(Number(e.target.value))}
                                     />
                                 </div>
 
@@ -249,7 +246,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                         size="small"
                                         value={minutes}
                                         defaultValue={props.route.minute}
-                                        onChange={(e) => setMinutes(e.target.value)}
+                                        onChange={(e) => setMinutes(Number(e.target.value))}
                                     />
                                 </div>                             
                             </form>
