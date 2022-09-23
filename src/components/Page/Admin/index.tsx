@@ -9,9 +9,9 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import { ServiceType } from '../../Shared/Models/Everything';
-import { ListiItemCarAdmin } from './ListItemCarAdmin';
-import { CreateManagerCar } from './createManagerCar';
 import { ListCarManager } from './listCarManager';
+import { CreateCarManager } from './createCarManager';
+import { ListiItemCarAdmin } from './ListItemCarAdmin';
 
 export const Admin = () => {
 
@@ -21,7 +21,7 @@ export const Admin = () => {
     //     setArea(e.target.value as string);
     // };
 
-    const [showComponent, setShowComponent] = useState(<></>)
+    const [showComponent, setShowComponent] = useState(<>HOME</>)
 
     const listMenu = [
         {
@@ -52,7 +52,7 @@ export const Admin = () => {
         {
             icon: <ConfirmationNumberIcon />,
             name: "Vé xe",
-            component: <CreateManagerCar stateProps={false} close={undefined} />
+            component: <></>
         },
     ]
 

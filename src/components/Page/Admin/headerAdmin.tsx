@@ -7,8 +7,11 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import BadgeIcon from '@mui/icons-material/Badge';
+import { useRouter } from 'next/router';
 
 export const HeaderAdmin = () => {
+
+    const router = useRouter()
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -48,13 +51,18 @@ export const HeaderAdmin = () => {
     ////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////
 
+    const onClickHome = () => {
+        router.push("/admin")
+
+    }
+
     return <>
         <Grid container className={styles.bgheader}>
             <Grid item xs={0.5} sm={0.5} md={0.5} xl={0.5}></Grid>
             <Grid item xs={11} sm={11} md={11} xl={11}>
                 <div className={styles.header}>
 
-                    <div className={styles.logoDesktop}>LogoPC</div>
+                    <div className={styles.logoDesktop} onClick={() => { onClickHome() }} >LogoPC</div>
                     <Box className={styles.search}>
                         <SearchIcon />
                         <TextField
@@ -90,7 +98,7 @@ export const HeaderAdmin = () => {
                         </Dialog>
 
                     </div>
-                    <div className={styles.logoMobile}>LogoMb</div>
+                    <div className={styles.logoMobile} onClick={() => { onClickHome() }}>LogoMb</div>
                     <div className={styles.icon}>
                         <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
                             <Tooltip title="Thông báo">

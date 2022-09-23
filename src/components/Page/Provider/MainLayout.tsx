@@ -11,10 +11,14 @@ export const MainLayout = (props: { children: React.ReactNode }) => {
 
     const router = useRouter();
     if (router.pathname.startsWith("/admin")) {
-        return <>
-            <HeaderAdmin />
-            {props.children}
-        </>;
+        return (
+            <>
+                <div style={{ background: "white" }}>
+                    <HeaderAdmin />
+                    {props.children}
+                </div>
+            </>
+        )
     }
 
     return (

@@ -9,6 +9,7 @@ import { env, ServiceType } from "../../Shared/Models/Everything";
 import { useRouter } from "next/router";
 import AddIcon from '@mui/icons-material/Add';
 import { CarManager } from "../../Shared/Models/CarManager";
+import { CreateCarManager } from "./createCarManager";
 
 export const ListCarManager = (props: { typeProps?: number }) => {
 
@@ -262,12 +263,11 @@ export const ListCarManager = (props: { typeProps?: number }) => {
                                 {messageNotify}
                             </Alert>
                         </Snackbar>
-                        {/* <CreateCar
+                        <CreateCarManager
                             stateProps={isShowModal}
                             close={onClickCloseModal}
                             reloadPage={reloadPage}
-                            carManagers={carManagers}
-                        /> */}
+                        />
                     </>
                     :
                     <><h1>Loading</h1></>
