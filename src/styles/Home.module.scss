@@ -25,7 +25,7 @@ $gradient: linear-gradient(-45deg,
   display: flex;
   background-size: 400% 400%;
   background-image: $gradient;
-  animation: gradient 10s ease alternate infinite;
+  animation: gradient 30s ease alternate infinite;
   height: 60px;
   color: $white-color;
   width: 100%;
@@ -98,7 +98,7 @@ $gradient: linear-gradient(-45deg,
 
 .main {
   position: relative;
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - 60px);
   width: 100%;
   background-image: url('./img/home.png');
   background-repeat: no-repeat;

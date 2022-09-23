@@ -11,6 +11,7 @@ import WarehouseIcon from '@mui/icons-material/Warehouse';
 import { ServiceType } from '../../Shared/Models/Everything';
 import { ListiItemCarAdmin } from './ListItemCarAdmin';
 import { CreateManagerCar } from './createManagerCar';
+import { ListCarManager } from './listCarManager';
 
 export const Admin = () => {
 
@@ -31,7 +32,7 @@ export const Admin = () => {
         {
             icon: <WarehouseIcon />,
             name: "Quản lý thông tin nhà xe",
-            component: <></>
+            component: <ListCarManager />
         },
         {
             icon: <AirportShuttleIcon />,

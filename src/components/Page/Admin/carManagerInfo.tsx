@@ -1,10 +1,9 @@
-import styles from './styles/carInfo.module.scss'
+import styles from './styles/carManagerInfo.module.scss'
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Grid, Button, IconButton, Alert, Snackbar } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-import imageTest from "../../../styles/img/imgTest.jpg"
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
@@ -21,17 +20,56 @@ import { UpdateCar } from './updateCar';
 import { UpdateStopPoint } from './updateStopPoint';
 import { RouteModel } from '../../Shared/Models/RouteModel';
 import { UpdateRoute } from './updateRoute';
+import { CarManager } from '../../Shared/Models/CarManager';
 
-export const CarInfo = () => {
+export const CarManagerInfo = () => {
 
     const router = useRouter()
     const { id } = router.query
 
     const [car, setCar] = useState<CarModel>()
     const [reRender, setReRender] = useState(0)
+    const [carManager, setCarManager] = useState<CarManager>()
 
+    // useEffect(() => {
+    //     fetch(env.REACT_APP_API.concat("/car/").concat(id as string), {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             // Authorization: "Bearer ".concat(user.token),
+    //         },
+    //         // body: JSON.stringify(form.getFieldsValue()),
+    //     })
+    //         .then(async (res) => {
+
+    //             const data = await res.json()
+
+    //             if (res.status >= 500) {
+    //                 console.log("get car status >= 500 ", data);
+    //                 return
+    //             }
+    //             else if (res.status >= 400) {
+    //                 console.log("get car status >= 400 ", data);
+    //                 return
+    //             }
+
+    //             // console.log("get car info=> ", data.data);
+
+    //             const tmp: CarModel = data.data
+    //             tmp.seats.sort((a, b) => Number(a.row) - Number(b.row)).sort((a, b) => Number(a.col) - Number(b.col)).sort((a, b) => a.floor - b.floor)
+    //             setCar(tmp)
+
+    //         })
+    //         .catch((error) => {
+    //             console.log(" error >>>>>>", error);
+    //         })
+
+    // }, [reRender])
+
+    /////////////////////////////////////////////////////
+    
     useEffect(() => {
-        fetch(env.REACT_APP_API.concat("/car/").concat(id as string), {
+        fetch(env.REACT_APP_API.concat("/cars-manager/").concat(id as string), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -44,25 +82,19 @@ export const CarInfo = () => {
                 const data = await res.json()
 
                 if (res.status >= 500) {
-                    console.log("get car status >= 500 ", data);
+                    console.log("get car manager status >= 500 ", data);
                     return
                 }
                 else if (res.status >= 400) {
-                    console.log("get car status >= 400 ", data);
+                    console.log("get car manager status >= 400 ", data);
                     return
                 }
-
-                // console.log("get car info=> ", data.data);
-
-                const tmp: CarModel = data.data
-                tmp.seats.sort((a, b) => Number(a.row) - Number(b.row)).sort((a, b) => Number(a.col) - Number(b.col)).sort((a, b) => a.floor - b.floor)
-                setCar(tmp)
-
+                console.log("get car manager info => ", data.data);
+                setCarManager(data.data)
             })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
-
     }, [reRender])
 
     /////////////////////////////////////////////////////
@@ -133,89 +165,89 @@ export const CarInfo = () => {
     }
     ////////////////////////////////////////////////////
 
-    const onClickDeleteRoute = (idRoute: string) => {
-        fetch(env.REACT_APP_API.concat(`/route/delete-route/${idRoute}`), {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            // body: JSON.stringify(form.getFieldsValue()),
-        })
-            .then(async (res) => {
+    // const onClickDeleteRoute = (idRoute: string) => {
+    //     fetch(env.REACT_APP_API.concat(`/route/delete-route/${idRoute}`), {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             // Authorization: "Bearer ".concat(user.token),
+    //         },
+    //         // body: JSON.stringify(form.getFieldsValue()),
+    //     })
+    //         .then(async (res) => {
 
-                const data = await res.json()
+    //             const data = await res.json()
 
-                if (res.status >= 500) {
-                    console.log("delete route status >= 500 ", data);
-                    return
-                }
-                else if (res.status >= 400) {
-                    console.log("delete route status >= 400 ", data);
-                    return
-                }
-                console.log("delete route point => ", data);
-                handleOpenNotify("Xóa tuyến thành công")
-                reloadPage();
-            })
-            .catch((error) => {
-                console.log(" error >>>>>>", error);
-            })
-    }
-    //////////////////////////////////////////////////////////////////
+    //             if (res.status >= 500) {
+    //                 console.log("delete route status >= 500 ", data);
+    //                 return
+    //             }
+    //             else if (res.status >= 400) {
+    //                 console.log("delete route status >= 400 ", data);
+    //                 return
+    //             }
+    //             console.log("delete route point => ", data);
+    //             handleOpenNotify("Xóa tuyến thành công")
+    //             reloadPage();
+    //         })
+    //         .catch((error) => {
+    //             console.log(" error >>>>>>", error);
+    //         })
+    // }
+    // //////////////////////////////////////////////////////////////////
 
-    const onClickDeleteStopPoint = (idStopPoint: string) => {
-        fetch(env.REACT_APP_API.concat(`/stop-point/delete-point/${idStopPoint}`), {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            // body: JSON.stringify(form.getFieldsValue()),
-        })
-            .then(async (res) => {
+    // const onClickDeleteStopPoint = (idStopPoint: string) => {
+    //     fetch(env.REACT_APP_API.concat(`/stop-point/delete-point/${idStopPoint}`), {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             // Authorization: "Bearer ".concat(user.token),
+    //         },
+    //         // body: JSON.stringify(form.getFieldsValue()),
+    //     })
+    //         .then(async (res) => {
 
-                const data = await res.json()
+    //             const data = await res.json()
 
-                if (res.status >= 500) {
-                    console.log("delete stop point status >= 500 ", data);
-                    return
-                }
-                else if (res.status >= 400) {
-                    console.log("delete stop point status >= 400 ", data);
-                    return
-                }
-                console.log("delete stop point => ", data);
-                handleOpenNotify("Xóa điểm dừng thành công")
-                setReRender(pre => pre + 1)
-            })
-            .catch((error) => {
-                console.log(" error >>>>>>", error);
-            })
-    }
+    //             if (res.status >= 500) {
+    //                 console.log("delete stop point status >= 500 ", data);
+    //                 return
+    //             }
+    //             else if (res.status >= 400) {
+    //                 console.log("delete stop point status >= 400 ", data);
+    //                 return
+    //             }
+    //             console.log("delete stop point => ", data);
+    //             handleOpenNotify("Xóa điểm dừng thành công")
+    //             setReRender(pre => pre + 1)
+    //         })
+    //         .catch((error) => {
+    //             console.log(" error >>>>>>", error);
+    //         })
+    // }
 
     return (
         <>
             {
-                car ?
+                carManager ?
                     <>
                         < Grid container className={styles.container} >
 
-                            <Grid className={styles.left} container xs={11} sm={10} md={10} lg={7.5}>
+                            <Grid className={styles.top} container xs={11} sm={10} md={10} lg={7.5}>
 
-                                <Grid item className={styles.item_left1} xs={12} sm={12} md={5.5} lg={5.5} style={{ textAlign: "center" }}>
+                                <Grid item className={styles.item_logo} xs={12} sm={12} md={5.5} lg={5.5} style={{ textAlign: "center" }}>
 
                                     <Image
                                         style={{ borderRadius: "5px" }}
-                                        src={env.REACT_APP_API.concat(car.imagePath)}
-                                        alt="Không có hình ảnh"
-                                        width={500}
-                                        height={400}
+                                        src={env.REACT_APP_API.concat(carManager.logoPath)}
+                                        alt="Không có logo"
+                                        width={400}
+                                        height={300}
                                     />
 
                                 </Grid>
 
-                                <Grid item className={styles.item_left2} xs={12} sm={12} md={5.5} lg={5.5}>
+                                {/* <Grid item className={styles.item_left2} xs={12} sm={12} md={5.5} lg={5.5}>
                                     <div className={styles.box_info_left2}>
                                         <span className={styles.header_left}>Thông tin xe</span>
 
@@ -408,54 +440,7 @@ export const CarInfo = () => {
                                     <Button variant="outlined" startIcon={<AddIcon />} size="small" style={{ marginTop: "10px", marginBottom: "10px" }}>
                                         Tạo mới
                                     </Button>
-                                </Grid>
-
-                            </Grid>
-
-                            <Grid className={styles.right} container xs={9} sm={4} md={4} lg={2.5} >
-                                <div className={styles.header_right}>
-                                    <span className={styles.title}>Ghế ngồi</span>
-                                    <Button
-                                        className={styles.btnCreate}
-                                        variant="outlined"
-                                        size="small"
-                                        onClick={() => { onClickShowModalCreateSeat() }}
-                                    >
-                                        <AddIcon />
-
-                                    </Button>
-                                </div>
-                                <div className={styles.body_seat}>
-
-                                    {car.seats?.map((item, index) => {
-                                        return (
-                                            <>
-                                                <div
-                                                    onClick={() => { onClickShowModalChangeSeat(item) }}
-                                                    className={styles.item_seat}
-                                                    key={index}
-                                                >
-                                                    <div className={styles.text}>
-                                                        <span className={styles.str}>Tầng</span>
-                                                        <span className={styles.num}>: {item.floor}</span>
-                                                    </div>
-
-                                                    <div className={styles.text}>
-                                                        <span className={styles.str}>Hàng</span>
-                                                        <span className={styles.num}>: {item.col}</span>
-                                                    </div>
-                                                    <div className={styles.text}>
-                                                        <span className={styles.str}>Ghế</span>
-                                                        <span className={styles.num}>: {item.row}</span>
-                                                    </div>
-
-
-                                                </div>
-                                            </>
-                                        )
-                                    })}
-                                </div>
-
+                                </Grid> */}
 
                             </Grid>
 

@@ -1,6 +1,5 @@
 import { Alert, Button, Grid, Snackbar } from "@mui/material"
 import styles from './styles/admin.module.scss'
-import imageTest from "../../../styles/img/imgTest.jpg"
 import Image from "next/image"
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -8,22 +7,17 @@ import { useEffect, useState } from "react";
 import { CarModel } from "../../Shared/Models/CarModel";
 import { env, ServiceType } from "../../Shared/Models/Everything";
 import { useRouter } from "next/router";
-import { CreateSeat } from "./createSeat";
 import AddIcon from '@mui/icons-material/Add';
-import { CreateCar } from "./createCar";
 import { CarManager } from "../../Shared/Models/CarManager";
 
-export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
+export const ListCarManager = (props: { typeProps?: number }) => {
 
-    const [car, setCar] = useState<CarModel[]>([])
-    const [filterCar, setFilterCar] = useState<CarModel[]>()
+    const [filterCarManager, setFilterCarManager] = useState<CarManager[]>()
     const [reRender, setReRender] = useState(0)
-    const [carManagers, setCarManagers] = useState<CarManager[]>()
+    const [carManager, setCarManager] = useState<CarManager[]>()
 
     const router = useRouter()
 
-    ////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////
     ////////////////////////////////////////////////////
 
     const [openNotify, setOpenNofity] = useState(false);
@@ -41,43 +35,41 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
         setOpenNofity(true)
     }
     ////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////
 
-    useEffect(() => {
-        setFilterCar(null)
-        fetch(env.REACT_APP_API.concat("/car"), {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            // body: JSON.stringify(form.getFieldsValue()),
-        })
-            .then(async (res) => {
+    // useEffect(() => {
+    //     setFilterCarManager(null)
+    //     fetch(env.REACT_APP_API.concat("/cars-manager"), {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             // Authorization: "Bearer ".concat(user.token),
+    //         },
+    //         // body: JSON.stringify(form.getFieldsValue()),
+    //     })
+    //         .then(async (res) => {
 
-                const data = await res.json()
+    //             const data = await res.json()
 
-                if (res.status >= 500) {
-                    console.log("get car status >= 500 ", data);
-                    return
-                }
-                else if (res.status >= 400) {
-                    console.log("get car status >= 400 ", data);
-                    return
-                }
+    //             if (res.status >= 500) {
+    //                 console.log("get car status >= 500 ", data);
+    //                 return
+    //             }
+    //             else if (res.status >= 400) {
+    //                 console.log("get car status >= 400 ", data);
+    //                 return
+    //             }
 
-                // console.log("get car => ", data.data);
+    //             console.log("get car => ", data.data);
 
-                setCar(data.data)
+    //             setCarManager(data.data)
 
 
-            })
-            .catch((error) => {
-                console.log(" error >>>>>>", error);
-            })
+    //         })
+    //         .catch((error) => {
+    //             console.log(" error >>>>>>", error);
+    //         })
 
-    }, [props.typeProps, reRender])
+    // }, [props.typeProps, reRender])
 
     useEffect(() => {
         fetch(env.REACT_APP_API.concat("/cars-manager"), {
@@ -100,26 +92,21 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
                     console.log("get car status >= 400 ", data);
                     return
                 }
-
-                // console.log("get car => ", data.data);
-
-                setCarManagers(data.data)
-
-
+                // console.log("get car manager => ", data.data);
+                setCarManager(data.data)
             })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
-    }, [])
+    }, [reRender])
 
-    useEffect(() => {
-        const tmp = car.filter(item => item.serviceType == props.typeProps)
-        setFilterCar(tmp)
-    }, [car])
+    // useEffect(() => {
+    //     const tmp = car.filter(item => item.serviceType == props.typeProps)
+    //     setFilterCar(tmp)
+    // }, [car])
 
-
-    const onClickDeleteCar = (idCar: string) => {
-        fetch(env.REACT_APP_API.concat(`/car/delete-car/${idCar}`), {
+    const onClickDeleteCarManager = (idCarManager: string) => {
+        fetch(env.REACT_APP_API.concat(`/cars-manager/delete-manager/${idCarManager}`), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -132,28 +119,25 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
                 const data = await res.json()
 
                 if (res.status >= 500) {
-                    console.log("delete car status >= 500 ", data);
+                    console.log("delete car manager status >= 500 ", data);
                     return
                 }
                 else if (res.status >= 400) {
-                    console.log("delete car status >= 400 ", data);
+                    console.log("delete car manager status >= 400 ", data);
                     return
                 }
 
-                console.log("delete car => ", data);
-                handleOpenNotify("Xóa xe thành công")
+                console.log("delete car manager => ", data);
+                handleOpenNotify("Xóa nhà xe thành công")
                 setReRender(pre => pre + 1)
-
-
             })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
-
     }
 
-    const handelOnClickItem = (carId: string) => {
-        router.push({ pathname: "/admin/carInfo", query: { id: carId } })
+    const handelOnClickItemManager = (carManagerId: string) => {
+        router.push({ pathname: "/admin/carManagerInfo", query: { id: carManagerId } })
     }
 
     ////////////////////////////////////////////////////////
@@ -169,8 +153,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
     return (
         <>
             {
-                (filterCar && carManagers) ?
-
+                (carManager) ?
                     <>
                         <div className={styles.option}>
                             {/* <Box className={styles.area}>
@@ -212,19 +195,18 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
                         </div>
                         <Grid container className={styles.g_container}>
 
-
                             {
-                                filterCar.map((item, index) => {
+                                carManager?.map((item, index) => {
                                     return (
                                         <Grid xs={11.5} sm={9} md={9} lg={8} xl={5.9} key={index}>
                                             <div className={styles.g_item} >
 
                                                 <div className={styles.left}>
-                                                    <div className={styles.image} onClick={() => { handelOnClickItem(item.id) }}>
+                                                    <div className={styles.image} onClick={() => { handelOnClickItemManager(item.id) }}>
                                                         <Image
                                                             style={{ borderRadius: "5px" }}
-                                                            src={env.REACT_APP_API.concat(item.imagePath)}
-                                                            alt="Không có hình ảnh"
+                                                            src={env.REACT_APP_API.concat(item.logoPath)}
+                                                            alt="Không có logo"
                                                             width={1000}
                                                             height={1000}
                                                         />
@@ -233,7 +215,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
 
                                                         <Button
                                                             className={styles.btn} color={"error"}
-                                                            onClick={() => { onClickDeleteCar(item.id) }}
+                                                            onClick={() => { onClickDeleteCarManager(item.id) }}
                                                         >
                                                             <DeleteIcon className={styles.icon} />
                                                             <span className={styles.text}>
@@ -244,34 +226,16 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
                                                     </div>
                                                 </div>
 
-                                                <div className={styles.right} onClick={() => { handelOnClickItem(item.id) }}>
+                                                <div className={styles.right} onClick={() => { handelOnClickItemManager(item.id) }}>
 
                                                     <span className={styles.text2}>
-                                                        <span className={styles.title}>Tên nhà xe:</span>
-                                                        {item.carsManagerName}
+                                                        <span className={styles.title}>Tên nhà xe: </span>
+                                                        {item.name}
                                                     </span>
 
                                                     <span className={styles.text2}>
-                                                        <span className={styles.title}>Hãng xe:</span>
-                                                        {item.carModel}
-                                                    </span>
-                                                    <span className={styles.text}>
-                                                        <span className={styles.title}>Màu xe:</span>
-                                                        {item.carColor}
-                                                    </span>
-                                                    <span className={styles.text}>
-                                                        <span className={styles.title}>BKS:</span>
-                                                        {item.carNumber}
-                                                    </span>
-                                                    <span className={styles.text}>
-                                                        <span className={styles.title}>SĐT:</span>
-                                                        {item.tel}
-                                                    </span>
-                                                    <span className={styles.text}>
-                                                        <span className={styles.title}>Giá vé:</span>
-                                                        <span style={{ color: "red", fontWeight: "500" }}>
-                                                            {item.serviceType === ServiceType["Chở hàng"] ? item.shipPrice : item.travelPrice}
-                                                        </span>
+                                                        <span className={styles.title}>Mô tả: </span>
+                                                        <span className={styles.discription}>{item.description}</span>
                                                     </span>
 
                                                 </div>
@@ -281,12 +245,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
                                 })
                             }
 
-
-
-
-
                         </Grid>
-                        <button className={styles.btnAddCircle}>+</button>
                         <Snackbar
                             anchorOrigin={{ vertical: "top", horizontal: "right" }}
                             key={"top right"}
@@ -303,21 +262,17 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
                                 {messageNotify}
                             </Alert>
                         </Snackbar>
-                        <CreateCar
+                        {/* <CreateCar
                             stateProps={isShowModal}
                             close={onClickCloseModal}
                             reloadPage={reloadPage}
                             carManagers={carManagers}
-                        />
+                        /> */}
                     </>
                     :
                     <><h1>Loading</h1></>
 
-
             }
         </>
     )
-
-    // return <CreateSeat />
-
 }
