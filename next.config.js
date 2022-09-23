@@ -6,3 +6,8 @@ const nextConfig = {
 
 module.exports = nextConfig
 
+module.exports = {
+  images: {
+    domains: ['45.119.84.227'],
+  },
+}

@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
-import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-import { CarManager } from '../../Shared/Models/CarManager';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
@@ -22,146 +20,67 @@ const style = {
     textAlign: 'center',
 };
 
-export function Create_Update_Car(props: { stateProps: boolean, close: any, reloadPage: any, carManagers: CarManager[], car: CarModel, id?: string }) {
+export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: any, car: CarModel, id?: string }) {
     const [isShow, setIsShow] = useState(false)
 
     const [typeService, setTypeService] = useState<ServiceType>(props.car?.serviceType);
-    const [carManagerSelect, setCarManagerSelect] = useState<CarManager>();
     const [carModel, setCarModel] = useState(props.car?.carModel);
     const [carColor, setCarColor] = useState(props.car?.carColor);
     const [carNumber, setCarNumber] = useState(props.car?.carNumber);
+    const [imagePath, setImagePath] = useState(props.car?.imagePath);
     const [tel, setTel] = useState(props.car?.tel);
-    const [priceTravel, setPriceTravel] = useState(props.car ? (props.car?.serviceType === ServiceType["Chở người"] ? `${props.car?.travelPrice}` : `${props.car?.shipPrice}`) : '');
 
     useEffect(() => {
         setIsShow(props.stateProps)
     }, [props.stateProps])
 
-
-    // console.log("car", props.car);
-
-
     const handleChangeType = (event: SelectChangeEvent) => {
         // console.log(event.target.value);
-
         setTypeService(ServiceType[event.target.value as string]);
     };
 
-    const handleChangeCarManager = (data: CarManager) => {
-        // console.log(" carmanger click => ", data);
-
-        setCarManagerSelect(data);
-    };
-
-
-    const handleSubmit = () => {
-
-        const Car = {
-            shipPrice: typeService === ServiceType["Chở hàng"] ? priceTravel : 0,
-            travelPrice: typeService === ServiceType["Chở người"] ? priceTravel : 0,
-            carModel: carModel,
-            carColor: carColor,
-            imagePath: "/image",
-            tel: tel,
-            carNumber: carNumber,
-            serviceType: typeService,
-            carsManagerId: carManagerSelect.id
-        }
-
-
-        // console.log("handle submit create car => ", Car);
-
-
-        fetch(env.REACT_APP_API.concat("/car/create-car"), {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            body: JSON.stringify(Car),
-        })
-            .then(async (res) => {
-
-                const data = await res.json()
-
-                if (res.status >= 500) {
-                    console.log("create car status >= 500 ", data);
-                    return
-                }
-                else if (res.status >= 400) {
-                    console.log("create car status >= 400 ", data);
-                    return
-                }
-
-                console.log("create car => ", data.data);
-
-                setTypeService(ServiceType["Chở người"]);
-                setCarModel('');
-                setCarColor('');
-                setCarNumber('');
-                setTel('');
-                setPriceTravel('');
-
-                props.reloadPage()
-
-            })
-            .catch((error) => {
-                console.log(" error >>>>>>", error);
-            })
-
-
-        props.close();
-    }
-
     const handleUpdate = () => {
 
-        const Car = {
-            id: props.id,
-            carModel: carModel,
-            carColor: carColor,
-            imagePath: "/image",
-            tel: tel,
-            carNumber: carNumber,
-            serviceType: typeService,
-        }
+        const inputFile = document.getElementById("inputFile") as HTMLInputElement;
 
-
-        // console.log("handle submit create car => ", Car);
-
+        const formData = new FormData();
+        formData.append("id", `${props.id}`)
+        formData.append("carModel", carModel)
+        formData.append("carColor", carColor)
+        formData.append("imagePath", inputFile.files[0])
+        formData.append("tel", tel)
+        formData.append("carNumber", carNumber)
+        formData.append("serviceType", `${typeService}`)
 
         fetch(env.REACT_APP_API.concat("/car/update-car-detail"), {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            body: JSON.stringify(Car),
+
+            body: formData,
+        }).then(async (res) => {
+
+            const data = await res.json()
+
+            if (res.status >= 500) {
+                console.log("update car status >= 500 ", data);
+                return
+            }
+            else if (res.status >= 400) {
+                console.log("update car status >= 400 ", data);
+                return
+            }
+
+            console.log("update car => ", data.data);
+
+            setTypeService(typeService);
+            setCarModel(carModel);
+            setCarColor(carColor);
+            setCarNumber(carNumber);
+            setTel(tel);
+
+            handleOpenNotify("Cập nhật xe thành công")
+            props.reloadPage()
+
         })
-            .then(async (res) => {
-
-                const data = await res.json()
-
-                if (res.status >= 500) {
-                    console.log("update car status >= 500 ", data);
-                    return
-                }
-                else if (res.status >= 400) {
-                    console.log("update car status >= 400 ", data);
-                    return
-                }
-
-                console.log("update car => ", data.data);
-
-                setTypeService(Car.serviceType);
-                setCarModel(Car.carModel);
-                setCarColor(Car.carColor);
-                setCarNumber(Car.carNumber);
-                setTel(Car.tel);
-
-                handleOpenNotify("Cập nhật xe thành công")
-                props.reloadPage()
-
-            })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
@@ -191,7 +110,6 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
         setOpenNofity(true)
     }
 
-
     const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -199,15 +117,12 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
         setOpenNofity(false);
     };
 
-    const ITEM_HEIGHT = 48;
-    const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 220,
-            },
-        },
+    const loadFile = (event) => {
+        var output = document.getElementById('output') as HTMLImageElement;
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src) // free memory
+        }
     };
 
     return (
@@ -219,15 +134,16 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}>
+                    <Box sx={style} style={{ color: "black" }}>
                         <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 3 }}>
-                            {props.car === null ? "Tạo mới thông tin xe" : "Cập nhật thông tin xe"}
-
-
+                            {"Cập nhật thông tin xe"}
                         </Typography>
+
                         <div className={styles.container}>
                             <div className={styles.img}>
-                                <div className={styles.image}>ảnh</div>
+                                <div className={styles.image}>
+                                    <img src={env.REACT_APP_API.concat(props.car.imagePath)} id={"output"}></img>
+                                </div>
                                 <Button
                                     variant="contained"
                                     component="label"
@@ -236,7 +152,7 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
                                     size="small"
                                 >
                                     Tải ảnh lên
-                                    <input hidden accept="image/*" multiple type="file" />
+                                    <input hidden id={"inputFile"} accept="image/*" type="file" onChange={loadFile} />
                                 </Button>
                             </div>
 
@@ -271,44 +187,6 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
                                         </Select>
                                     </FormControl>
                                 </div>
-
-                                {
-                                    !props.car &&
-                                    <>
-                                        <div className={styles.wrap}>
-                                            <p>Tên nhà xe</p>
-                                            <FormControl
-                                                size="small"
-                                                className={styles.selection}
-                                            >
-                                                <Select
-                                                    required={true}
-                                                    labelId="demo-simple-select-label"
-                                                    id="demo-simple-select"
-                                                    value={carManagerSelect?.name}
-                                                    MenuProps={MenuProps}
-                                                >
-
-                                                    {
-                                                        props.carManagers?.map((item, index) => (
-                                                            <MenuItem
-                                                                sx={{ width: '220px' }}
-                                                                key={index}
-                                                                value={item.name}
-                                                                onClick={() => { handleChangeCarManager(item) }}
-                                                            >
-                                                                <Typography noWrap>
-                                                                    {item.name}
-                                                                </Typography>
-                                                            </MenuItem>
-                                                        ))
-                                                    }
-
-                                                </Select>
-                                            </FormControl>
-                                        </div>
-                                    </>
-                                }
 
                                 <div className={styles.wrap}>
                                     <p>Hãng xe</p>
@@ -364,57 +242,22 @@ export function Create_Update_Car(props: { stateProps: boolean, close: any, relo
                                         onChange={(e) => setTel(e.target.value)}
                                     />
                                 </div>
-
-                                {
-                                    !props.car &&
-                                    <>
-                                        <div className={styles.wrap}>
-                                            <p>Giá vé</p>
-                                            <TextField
-                                                type="number"
-                                                required={true}
-                                                className={styles.booking_input}
-                                                id="outlined-basic"
-                                                variant="outlined"
-                                                size="small"
-                                                value={priceTravel}
-                                                onChange={(e) => setPriceTravel(e.target.value)}
-                                            />
-                                        </div>
-                                    </>
-                                }
                             </form>
-
                         </div>
+
                         <div className={styles.action}>
 
-                            {
-                                props.car === null ?
-                                    <Button
-                                        size='small'
-                                        variant="outlined"
-                                        startIcon={<AddIcon />}
-                                        className={styles.btnCreate}
-                                        type="submit"
-                                        onClick={handleSubmit}
-                                    >
-                                        Thêm mới
-                                    </Button>
-                                    :
-                                    <Button
-                                        size='small'
+                            <Button
+                                size='small'
+                                // type="submit"
+                                variant="outlined"
+                                startIcon={<BorderColorIcon />}
+                                className={styles.btnCreate}
+                                onClick={handleUpdate}
 
-                                        variant="outlined"
-                                        startIcon={<BorderColorIcon />}
-                                        className={styles.btnCreate}
-                                        onClick={handleUpdate}
-
-                                    >
-                                        Cập nhật
-                                    </Button>
-
-
-                            }
+                            >
+                                Cập nhật
+                            </Button>
 
                             <Button
                                 size='small'

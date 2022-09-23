@@ -15,6 +15,10 @@ import { SeatModel } from "../../Shared/Models/SeatModel";
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { RouteModel } from '../../Shared/Models/RouteModel';
+import { StopPointModel } from '../../Shared/Models/StopPointModel';
+import { CityModel } from '../../Shared/Models/CityModel';
+import { DistrictModel } from '../../Shared/Models/DistrictModel';
+import { WardModel } from '../../Shared/Models/WardModel';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -29,15 +33,124 @@ const style = {
     textAlign: 'center',
 };
 
-export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPage: any, id: string, car: CarModel }) {
+export function CreateStoppoint(props?: { stateProps: boolean, close: any, reloadPage: any, id: string }) {
 
     const [isShow, setIsShow] = useState(false)
 
 
+    const [idCity, setIdCity] = useState<string>();
+    const [idDistrict, setIdDistrict] = useState<string>();
+    const [idWard, setIdWard] = useState<string>();
+
+    const [listCity, setListCity] = useState<CityModel[]>()
+    const [listDistrict, setListDistrict] = useState<DistrictModel[]>()
+    const [listWard, setListWard] = useState<WardModel[]>()
+
+    const loadData = async () => {
+
+
+        const res_city = await fetch(env.REACT_APP_API.concat("/cities"), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },// body: JSON.stringify(form.getFieldsValue()),
+        })
+        if (res_city.status > 200) { return }
+        const data_res_city = await res_city.json()
+        setListCity(data_res_city.data)
+    }
+
     useEffect(() => {
         setIsShow(props.stateProps)
+        loadData()
     }, [props.stateProps])
 
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    const handleChangeCityName = (data: string) => {
+        setIdCity(data);
+        setListWard([])
+        setListDistrict([])
+    };
+
+    //////////////////////////////////////////////////////
+
+    useEffect(() => {
+        if (idCity) {
+            fetch(env.REACT_APP_API.concat(`/districts/${idCity}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
+            })
+                .then(async (res) => {
+
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get district status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get district status >= 400 ", data);
+                        return
+                    }
+                    setListDistrict(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [idCity])
+
+    const handleChangeDistrictName = (data: string) => {
+        // console.log(" District click => ", data);
+        setIdDistrict(data);
+        setListWard([])
+    };
+
+    /////////////////////////////////////////////////////////////
+
+    useEffect(() => {
+        if (idDistrict) {
+            fetch(env.REACT_APP_API.concat(`/wards/${idDistrict}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
+            })
+                .then(async (res) => {
+
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get ward status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get ward status >= 400 ", data);
+                        return
+                    }
+                    setListWard(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [idDistrict])
+
+
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
 
     const onCloseModal = () => {
         props.close()
@@ -67,11 +180,11 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
         return mySqlDT;
     }
     ///////////////////////////////////////////////////////////////////////////
-    const defaultValues: RouteModel = { fromId: "", toId: "", distanceByKm: 0, day: 0, hour: 0, minute: 0, dailyStartTime: "" }
+    const defaultValues: StopPointModel = { cityId: "", districtId: "", wardId: "", street: "", houseNumber: "", longitude: "", latitude: "" }
 
     const { register, control, handleSubmit, reset, } = useForm({
         defaultValues: {
-            listRoute: [defaultValues]
+            listStoppoint: [defaultValues]
         }
     });
 
@@ -81,15 +194,15 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
         remove,
     } = useFieldArray({
         control,
-        name: "listRoute"
+        name: "listStoppoint"
     });
 
     const onSubmit = (data) => {
 
-        const list: RouteModel[] = data.listRoute
-        list.map(i => i.dailyStartTime = getCurrentDateTime())
+        const list: StopPointModel[] = data.listStoppoint
+        console.log("list stopppoint", list)
 
-        fetch(env.REACT_APP_API.concat(`/route/create-routes/${props.id}`), {
+        fetch(env.REACT_APP_API.concat(`/stop-point/create-point-list/${props.id}`), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -102,18 +215,18 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                 const data = await res.json()
 
                 if (res.status >= 500) {
-                    console.log(" create route status >= 500 ", data);
+                    console.log(" create point status >= 500 ", data);
                     return
                 }
                 else if (res.status >= 400) {
-                    console.log(" create route status >= 400 ", data);
+                    console.log(" create point status >= 400 ", data);
                     return
                 }
 
-                console.log(" create route => ", data.data);
+                console.log(" create point => ", data.data);
 
-                reset({ listRoute: [defaultValues] })
-                handleOpenNotify("Tạo tuyến đường thành công")
+                reset({ listStoppoint: [defaultValues] })
+                handleOpenNotify("Tạo điểm dừng thành công")
                 onCloseModal()
                 props.reloadPage()
 
@@ -132,7 +245,7 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     return (
         <>
-            {isShow ?
+            {isShow && listCity ?
                 <Modal
                     open={isShow}
                     onClose={() => props.close()}
@@ -141,12 +254,12 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                 >
                     <Box sx={style} style={{ color: "black" }}>
                         <Typography id="modal-modal-title" variant="h5" component="h3" sx={{ mb: 3 }}>
-                            Tạo tuyến đường
+                            Tạo điểm dừng
                         </Typography>
 
 
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <ul className={styles.container_create_list}>
+                            <ul className={styles.container_create_list} style={{ overflowY: "hidden" }}>
                                 {fields.map((item, index) => {
                                     return (
                                         <li key={item.id} className={styles.item_form}>
@@ -154,19 +267,20 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                             <div className={styles.item}>
 
                                                 <div className={styles.box_input}>
-                                                    <span className={styles.title} style={{ width: "100px" }} >Điểm đi</span>
+                                                    <span className={styles.title} style={{ width: "100px" }} >Tỉnh/TP</span>
                                                     <select
                                                         required={true}
                                                         className={styles.input}
-                                                        {...register(`listRoute.${index}.fromId`)}
-                                                    // style={{ width: "230px", background: "white" }}
+                                                        {...register(`listStoppoint.${index}.cityId`)}
+                                                        onChange={(event) => { handleChangeCityName(event.target.value) }}
                                                     >
                                                         {
-                                                            props.car?.stopPoints.map((item, index) => {
+                                                            listCity?.map((item, index) => {
                                                                 return (
                                                                     <>
+                                                                        {index === 0 ? <option value="" selected disabled hidden></option> : <></>}
                                                                         <option value={item.id} key={index} >
-                                                                            {item.houseNumber} {item.street}  {item.ward} - {item.district} - {item.city}
+                                                                            {item.name}
                                                                         </option>
                                                                     </>
                                                                 )
@@ -175,18 +289,42 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                                     </select>
                                                 </div>
                                                 <div className={styles.box_input}>
-                                                    <span className={styles.title} style={{ width: "100px" }} >Điểm đến</span>
+                                                    <span className={styles.title} style={{ width: "100px" }} >Quận/Huyện</span>
                                                     <select
                                                         required={true}
                                                         className={styles.input}
-                                                        {...register(`listRoute.${index}.toId`)}
+                                                        {...register(`listStoppoint.${index}.districtId`)}
+                                                        onChange={(event) => { handleChangeDistrictName(event.target.value) }}
                                                     >
                                                         {
-                                                            props.car?.stopPoints.map((item, index) => {
+                                                            listDistrict?.map((item, index) => {
                                                                 return (
                                                                     <>
-                                                                        <option value={item.id} key={index} >
-                                                                            {item.houseNumber} {item.street} - {item.ward} - {item.district} - {item.city}
+                                                                        {index === 0 ? <option value="" selected disabled hidden></option> : <></>}
+                                                                        <option value={item.id} key={index}>
+                                                                            {item.name}
+                                                                        </option>
+                                                                    </>
+                                                                )
+                                                            })
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div className={styles.box_input}>
+                                                    <span className={styles.title} style={{ width: "100px" }} >Phường/Xã</span>
+                                                    <select
+                                                        required={true}
+                                                        className={styles.input}
+                                                        {...register(`listStoppoint.${index}.wardId`)}
+                                                    >
+
+                                                        {
+                                                            listWard?.map((item, index) => {
+                                                                return (
+                                                                    <>
+                                                                        {index === 0 ? <option value="" selected disabled hidden></option> : <></>}
+                                                                        <option value={item.id} key={index}>
+                                                                            {item.name}
                                                                         </option>
                                                                     </>
                                                                 )
@@ -196,35 +334,19 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                                 </div>
 
                                                 <div className={styles.box_input}>
-                                                    <span className={styles.title} style={{ width: "100px" }}>Khoảng cách</span>
+                                                    <span className={styles.title} style={{ width: "100px" }}>Đường</span>
                                                     <input
                                                         required={true}
                                                         className={styles.input}
-                                                        {...register(`listRoute.${index}.distanceByKm`, { value: Number() })} type="number"
+                                                        {...register(`listStoppoint.${index}.street`)}
                                                     />
                                                 </div>
                                                 <div className={styles.box_input}>
-                                                    <span className={styles.title} style={{ width: "100px" }}>Ngày</span>
+                                                    <span className={styles.title} style={{ width: "100px" }}>Số nhà</span>
                                                     <input
                                                         required={true}
                                                         className={styles.input}
-                                                        {...register(`listRoute.${index}.day`, { value: Number() })} type="number"
-                                                    />
-                                                </div>
-                                                <div className={styles.box_input}>
-                                                    <span className={styles.title} style={{ width: "100px" }}>Giờ</span>
-                                                    <input
-                                                        required={true}
-                                                        className={styles.input}
-                                                        {...register(`listRoute.${index}.hour`, { value: Number() })} type="number"
-                                                    />
-                                                </div>
-                                                <div className={styles.box_input}>
-                                                    <span className={styles.title} style={{ width: "100px" }}>Phút</span>
-                                                    <input
-                                                        required={true}
-                                                        className={styles.input}
-                                                        {...register(`listRoute.${index}.minute`, { value: Number() })} type="number"
+                                                        {...register(`listStoppoint.${index}.houseNumber`)}
                                                     />
                                                 </div>
 
@@ -236,21 +358,21 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                                         type="number"
                                                         required={true}
                                                         className={styles.input}
-                                                        {...register(`listRoute.${index}.row`)}
+                                                        {...register(`listStoppoint.${index}.row`)}
                                                     />
                                                 </div> */}
 
                                             </div>
 
-                                            <IconButton className={styles.btnDelete} color="error" size='small' onClick={() => remove(index)}>
+                                            {/* <IconButton className={styles.btnDelete} color="error" size='small' onClick={() => remove(index)}>
                                                 <DeleteIcon fontSize='small' />
-                                            </IconButton>
+                                            </IconButton> */}
 
                                         </li>
                                     );
                                 })}
                             </ul>
-                            <section>
+                            {/* <section>
 
 
                                 <Button
@@ -259,13 +381,16 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                     color="primary" size='small'
                                     onClick={() => {
                                         append(defaultValues);
+                                        setIdCity("")
+                                        setIdDistrict("")
+                                        setIdWard("")
                                     }}>
 
-                                    Thêm tuyến đường
+                                    Thêm điểm dừng
                                 </Button>
 
 
-                            </section>
+                            </section> */}
 
                             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
 

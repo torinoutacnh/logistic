@@ -9,7 +9,8 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import { ServiceType } from '../../Shared/Models/Everything';
-import { ListiItemCarAdmin } from './ListItemCarAdmin';
+import { ListCarManager } from './listCarManager';
+import { ListiItemCarAdmin } from './listItemCarAdmin';
 
 export const Admin = () => {
 
@@ -19,7 +20,7 @@ export const Admin = () => {
     //     setArea(e.target.value as string);
     // };
 
-    const [showComponent, setShowComponent] = useState(<></>)
+    const [showComponent, setShowComponent] = useState(<>HOME</>)
 
     const listMenu = [
         {
@@ -30,7 +31,7 @@ export const Admin = () => {
         {
             icon: <WarehouseIcon />,
             name: "Quản lý thông tin nhà xe",
-            component: <></>
+            component: <ListCarManager />
         },
         {
             icon: <AirportShuttleIcon />,

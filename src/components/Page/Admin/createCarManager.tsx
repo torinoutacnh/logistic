@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Typography, Modal, TextField, Alert, Snackbar } from '@mui/material';
+import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
+import UploadIcon from '@mui/icons-material/Upload';
+import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
@@ -19,50 +21,60 @@ const style = {
     textAlign: 'center',
 };
 
-export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPage: any, car: CarModel, id: string }) {
-
+export function CreateCarManager(props: { stateProps: boolean, close: any, reloadPage: any }) {
     const [isShow, setIsShow] = useState(false)
-    const [travelPrice, setTravelPrice] = useState(props.car?.travelPrice)
-    const [shipPrice, setShipPrice] = useState(props.car?.shipPrice)
+
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
 
     useEffect(() => {
         setIsShow(props.stateProps)
     }, [props.stateProps])
 
+
+    // console.log("car", props.car);
+
+
+
     const handleSubmit = () => {
 
-        var priceCar = {
-            id: props.id,
-            shipPrice: shipPrice,
-            travelPrice: travelPrice
-        }
 
-        fetch(env.REACT_APP_API.concat("/car/update-car-price"), {
+        const inputFile = document.getElementById("inputFile") as HTMLInputElement;
+
+
+        // console.log("handle submit create car => ", Car);
+
+        const formData = new FormData();
+
+        formData.append("LogoPath", inputFile.files[0])
+        formData.append("Name", name)
+        formData.append("Description", description)
+
+
+
+        fetch(env.REACT_APP_API.concat("/cars-manager/create-manager"), {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            body: JSON.stringify(priceCar),
+            body: formData,
         })
             .then(async (res) => {
 
                 const data = await res.json()
 
                 if (res.status >= 500) {
-                    console.log("update price status >= 500 ", data);
+                    console.log("create carManager status >= 500 ", data);
                     return
                 }
                 else if (res.status >= 400) {
-                    console.log("update price status >= 400 ", data);
+                    console.log("create carManager status >= 400 ", data);
                     return
                 }
 
-                console.log("update price => ", data.data);
+                console.log("create manager => ", data.data);
 
-                setShipPrice(priceCar.shipPrice)
-                setTravelPrice(priceCar.travelPrice)
-                handleOpenNotify("Cập nhật giá thành công")
+                setName('');
+                setDescription('');
+
+
                 props.reloadPage()
 
             })
@@ -70,12 +82,16 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
                 console.log(" error >>>>>>", error);
             })
 
+
         props.close();
     }
 
+
+
     const onCloseModal = () => {
-        setShipPrice(props.car.shipPrice)
-        setTravelPrice(props.car.travelPrice)
+
+
+
         props.close()
     }
 
@@ -87,12 +103,33 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
         setOpenNofity(true)
     }
 
+
     const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
         setOpenNofity(false);
     };
+
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 220,
+            },
+        },
+    };
+
+    const loadFile = (event) => {
+        var output = document.getElementById('output') as HTMLImageElement;
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src) // free memory
+        }
+    };
+
 
     return (
         <>
@@ -103,39 +140,67 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style} style={{ color: "black" }}>
+                    <Box sx={style}>
                         <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 3 }}>
-                            Cập nhật giá dịch vụ
+                            {"Tạo mới thông tin nhà xe"}
                         </Typography>
                         <div className={styles.container}>
 
-                            <form noValidate autoComplete="off" id={styles.info}>
+                            <div className={styles.img}>
+                                <div className={styles.image}>
+                                    <img id={"output"}></img>
+                                </div>
+                                <Button
+                                    variant="contained"
+                                    component="label"
+                                    startIcon={<UploadIcon />}
+                                    className={styles.btnUpload}
+                                    size="small"
+                                >
+                                    Tải ảnh lên
+                                    <input hidden id={"inputFile"} accept="image/*" type="file" onChange={loadFile} />
+                                </Button>
+                            </div>
+
+                            <form noValidate autoComplete="off" id={styles.info} encType="multipart/form-data">
+
+
+
+
 
                                 <div className={styles.wrap}>
-                                    <p style={{ width: "120px", textAlign: "left" }}>Giá chở hàng</p>
+                                    <p >Tên nhà xe</p>
                                     <TextField
+                                        style={{ width: "230px" }}
                                         required={true}
                                         className={styles.booking_input}
                                         id="outlined-basic"
                                         variant="outlined"
                                         size="small"
-                                        value={shipPrice}
-                                        onChange={(e) => setShipPrice(Number(e.target.value))}
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
                                     />
                                 </div>
 
                                 <div className={styles.wrap}>
-                                    <p style={{ width: "120px", textAlign: "left" }}>Giá chở người</p>
+                                    <p>Mô tả</p>
                                     <TextField
+                                        style={{ width: "230px" }}
+                                        maxRows={8}
+                                        minRows={5}
+                                        multiline={true}
                                         required={true}
                                         className={styles.booking_input}
                                         id="outlined-basic"
                                         variant="outlined"
                                         size="small"
-                                        value={travelPrice}
-                                        onChange={(e) => setTravelPrice(Number(e.target.value))}
+                                        value={description}
+                                        onChange={(e) => setDescription(e.target.value)}
                                     />
                                 </div>
+
+
+
                             </form>
 
                         </div>
@@ -143,16 +208,14 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
 
                             <Button
                                 size='small'
-
                                 variant="outlined"
-                                startIcon={<BorderColorIcon />}
+                                startIcon={<AddIcon />}
                                 className={styles.btnCreate}
-                                onClick={() => { handleSubmit() }}
-
+                                type="submit"
+                                onClick={handleSubmit}
                             >
-                                Cập nhật
+                                Thêm mới
                             </Button>
-
                             <Button
                                 size='small'
                                 variant="outlined"

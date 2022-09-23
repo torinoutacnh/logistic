@@ -5,6 +5,9 @@ import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
+import { CarModel } from '../../Shared/Models/CarModel';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { CarManagerModel } from '../../Shared/Models/CarManager';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -19,85 +22,86 @@ const style = {
     textAlign: 'center',
 };
 
-export function CreateManagerCar(props: { stateProps: boolean, close: any }) {
+export function UpdateCarManager(props: { stateProps: boolean, close: any, reloadPage: any, manage: CarManagerModel, id: string }) {
     const [isShow, setIsShow] = useState(false)
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+
+    const [name, setName] = useState(props.manage.name);
+    const [description, setDescription] = useState(props.manage.description);
 
     useEffect(() => {
+        setName(props.manage.name)
+        setDescription(props.manage.description)
         setIsShow(props.stateProps)
     }, [props.stateProps])
 
-    // const [type, setType] = useState('');
 
-    // const handleChangeType = (event: SelectChangeEvent) => {
-    //     console.log(event.target.value);
+    // console.log("car", props.car);
 
-    //     setTypeService(ServiceType[event.target.value as string]);
-    // };
-
-    // const handleChangeName = (event: SelectChangeEvent) => {
-    //     setCarName(event.target.value as string);
-    // };
 
 
     const handleSubmit = () => {
 
-        const Car = {
-            // shipPrice: typeService === ServiceType["Chở hàng"] ? priceTravel : 0,
-            // travelPrice: typeService === ServiceType["Chở người"] ? priceTravel : 0,
-            // carModel: carModel,
-            // carColor: carColor,
-            // imagePath: "/image",
-            // tel: tel,
-            // carNumber: carNumber,
-            // serviceType: typeService,
-            // carsManagerId: "bec05fbd-bfc7-4295-810c-c2038371662e"
-        }
 
-        fetch(env.REACT_APP_API.concat("/car/create-car"), {
+        const inputFile = document.getElementById("inputFile") as HTMLInputElement;
+
+
+        // console.log("handle submit create car => ", Car);
+
+        const formData = new FormData();
+
+        formData.append("Id", props.id)
+        formData.append("LogoPath", inputFile.files[0])
+        formData.append("Name", name)
+        formData.append("Description", description)
+
+
+
+        fetch(env.REACT_APP_API.concat("/cars-manager/update-manager"), {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            body: JSON.stringify(Car),
+            body: formData,
         })
             .then(async (res) => {
 
                 const data = await res.json()
 
                 if (res.status >= 500) {
-                    console.log("create car status >= 500 ", data);
+                    console.log("update carManager status >= 500 ", data);
                     return
                 }
                 else if (res.status >= 400) {
-                    console.log("create car status >= 400 ", data);
+                    console.log("update carManager status >= 400 ", data);
                     return
                 }
 
-                console.log("create car => ", data.data);
-                handleOpenNotify("Thêm xe thành công")
+                console.log("update manager => ", data.data);
 
-                // setTypeService(ServiceType["Chở người"]);
-                // setCarName('');
-                // setCarModel('');
-                // setCarColor('');
-                // setCarNumber('');
-                // setTel('');
-                // setPriceTravel('');
+                handleOpenNotify("Cập nhật nhà xe thành công")
+
+                props.reloadPage()
 
             })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
 
+
         props.close();
     }
 
-    const [reRender, setReRender] = useState(0)
+
+
+    const onCloseModal = () => {
+        props.close()
+    }
+
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
+
+    const handleOpenNotify = (message: string) => {
+        setMessageNotify(message)
+        setOpenNofity(true)
+    }
+
 
     const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -106,10 +110,24 @@ export function CreateManagerCar(props: { stateProps: boolean, close: any }) {
         setOpenNofity(false);
     };
 
-    const handleOpenNotify = (message: string) => {
-        setMessageNotify(message)
-        setOpenNofity(true)
-    }
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 220,
+            },
+        },
+    };
+
+    const loadFile = (event) => {
+        var output = document.getElementById('output') as HTMLImageElement;
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src) // free memory
+        }
+    };
 
 
     return (
@@ -121,18 +139,16 @@ export function CreateManagerCar(props: { stateProps: boolean, close: any }) {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}>
-                        <Typography 
-                            id="modal-modal-title" 
-                            variant="h5" 
-                            component="h2" 
-                            sx={{mb: 3}}
-                        >
-                            Tạo mới thông tin nhà xe
+                    <Box sx={style} style={{ color: "black" }}>
+                        <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 3 }}>
+                            {"Cập nhật thông tin nhà xe"}
                         </Typography>
                         <div className={styles.container}>
+
                             <div className={styles.img}>
-                                <div className={styles.logo}>logo</div>
+                                <div className={styles.image}>
+                                    <img src={env.REACT_APP_API.concat(props.manage.logoPath)} id={"output"}></img>
+                                </div>
                                 <Button
                                     variant="contained"
                                     component="label"
@@ -140,21 +156,28 @@ export function CreateManagerCar(props: { stateProps: boolean, close: any }) {
                                     className={styles.btnUpload}
                                     size="small"
                                 >
-                                    Tải logo lên
-                                    <input hidden accept="image/*" multiple type="file" />
+                                    Tải ảnh lên
+                                    <input hidden id={"inputFile"} accept="image/*" type="file" onChange={loadFile} />
                                 </Button>
                             </div>
 
-                            <form noValidate autoComplete="off" id={styles.info}>
+                            <form noValidate autoComplete="off" id={styles.info} encType="multipart/form-data">
+
+
+
+
+
                                 <div className={styles.wrap}>
-                                    <p>Tên nhà xe</p>
+                                    <p >Tên nhà xe</p>
                                     <TextField
+                                        style={{ width: "240px" }}
                                         required={true}
                                         className={styles.booking_input}
                                         id="outlined-basic"
                                         variant="outlined"
                                         size="small"
                                         value={name}
+                                        defaultValue={name}
                                         onChange={(e) => setName(e.target.value)}
                                     />
                                 </div>
@@ -162,36 +185,42 @@ export function CreateManagerCar(props: { stateProps: boolean, close: any }) {
                                 <div className={styles.wrap}>
                                     <p>Mô tả</p>
                                     <TextField
+                                        style={{ width: "240px" }}
+                                        maxRows={8}
+                                        minRows={5}
+                                        multiline={true}
                                         required={true}
                                         className={styles.booking_input}
                                         id="outlined-basic"
                                         variant="outlined"
                                         size="small"
-                                        multiline
-                                        rows={5}
-                                        sx={{width: "223px"}}
                                         value={description}
+                                        defaultValue={description}
                                         onChange={(e) => setDescription(e.target.value)}
                                     />
                                 </div>
+
                             </form>
 
                         </div>
                         <div className={styles.action}>
+
                             <Button
+                                size='small'
                                 variant="outlined"
-                                startIcon={<AddIcon />}
+                                startIcon={<BorderColorIcon />}
                                 className={styles.btnCreate}
                                 type="submit"
                                 onClick={handleSubmit}
                             >
-                                Thêm mới
+                                Cập nhật
                             </Button>
                             <Button
+                                size='small'
                                 variant="outlined"
                                 startIcon={<CloseIcon />}
                                 className={styles.btnCancel}
-                                onClick={() => props.close()}
+                                onClick={() => { onCloseModal() }}
                             >
                                 Hủy bỏ
                             </Button>
@@ -201,6 +230,7 @@ export function CreateManagerCar(props: { stateProps: boolean, close: any }) {
                 </Modal>
                 :
                 <></>
+
             }
             <Snackbar
                 anchorOrigin={{ vertical: "top", horizontal: "right" }}

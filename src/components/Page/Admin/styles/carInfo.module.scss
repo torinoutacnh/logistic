@@ -265,10 +265,7 @@ $background_item_left_color : rgb(243, 243, 243);
                     .num {
                         white-space: nowrap;
                     }
-
                 }
-
-
             }
 
             .item_seat:hover,
@@ -276,9 +273,16 @@ $background_item_left_color : rgb(243, 243, 243);
                 background-color: $white-color;
                 cursor: pointer;
             }
-
         }
     }
+}
 
+@media screen and (max-width:768px) {
+    .dis_time {
 
+        .distance,
+        .time {
+            width: 35vw !important;
+        } 
+    }
 }

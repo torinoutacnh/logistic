@@ -1,7 +1,7 @@
 import { type } from "os"
 import { CarModel } from "./CarModel"
 
-interface CarManager {
+interface CarManagerModel {
     id?: string,
     name?: string,
     description?: string,
@@ -9,4 +9,4 @@ interface CarManager {
     cars?: CarModel[],
 }
 
-export type { CarManager }
+export type { CarManagerModel }

@@ -1,26 +1,28 @@
 import styles from './styles/carInfo.module.scss'
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Grid, Button, IconButton } from '@mui/material'
+import { Grid, Button, IconButton, Alert, Snackbar } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-import imageTest from "../../../styles/img/imgTest.jpg"
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { CarModel } from '../../Shared/Models/CarModel';
 import { StopPointModel } from '../../Shared/Models/StopPointModel';
-import { Create_Update_Car } from './createUpdateCar';
 import { UpdatePrice } from './updatePrice';
 import { CreateSeat } from './createSeat';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
-import { ChangeSeat } from './ChangeSeat';
 import { SeatModel } from '../../Shared/Models/SeatModel';
 import { CreateRoute } from './createRoute';
+import { UpdateCar } from './updateCar';
+import { UpdateStopPoint } from './updateStopPoint';
+import { CreateStoppoint } from './createStoppoint';
+import { RouteModel } from '../../Shared/Models/RouteModel';
+import { UpdateRoute } from './updateRoute';
+import { ChangeSeat } from './ChangeSeat';
 
 export const CarInfo = () => {
-
 
     const router = useRouter()
     const { id } = router.query
@@ -56,15 +58,12 @@ export const CarInfo = () => {
                 tmp.seats.sort((a, b) => Number(a.row) - Number(b.row)).sort((a, b) => Number(a.col) - Number(b.col)).sort((a, b) => a.floor - b.floor)
                 setCar(tmp)
 
-
             })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
 
     }, [reRender])
-
-
 
     /////////////////////////////////////////////////////
     const reloadPage = () => {
@@ -83,14 +82,18 @@ export const CarInfo = () => {
     const [isShowModalCreateSeat, setIsShowModalCreateSeat] = useState(false);
     const onClickShowModalCreateSeat = () => setIsShowModalCreateSeat(true);
     const onClickCloseModalCreateSeat = () => setIsShowModalCreateSeat(false);
-
     //////////////////////////////////////////////////////
+
+    const [isShowModalCreateStoppoint, setIsShowModalCreateStoppoint] = useState(false);
+    const onClickShowModalCreateStoppoint = () => setIsShowModalCreateStoppoint(true);
+    const onClickCloseModalCreateStoppoint = () => setIsShowModalCreateStoppoint(false);
+    //////////////////////////////////////////////////////
+
     const [seatChange, setSeatChange] = useState<SeatModel>()
     const [isShowModalChangeSeat, setIsShowModalChangeSeat] = useState(false);
     const onClickShowModalChangeSeat = (item: SeatModel) => {
         setIsShowModalChangeSeat(true);
         setSeatChange(item);
-
     }
     const onClickCloseModalChangeSeat = () => {
         setIsShowModalChangeSeat(false);
@@ -99,8 +102,23 @@ export const CarInfo = () => {
     const [isShowModalCreateRoute, setIsShowModalCreateRoute] = useState(false);
     const onClickShowModalCreateRoute = () => setIsShowModalCreateRoute(true);
     const onClickCloseModalCreateRoute = () => setIsShowModalCreateRoute(false);
+    //////////////////////////////////////////////////////
+    const [isShowModalUpdateRoute, setIsShowModalUpdateRoute] = useState(false);
+    const [infoRoute, setInfoRoute] = useState<RouteModel>();
+    const onClickShowModalUpdateRoute = (route: RouteModel) => {
+        setIsShowModalUpdateRoute(true);
+        setInfoRoute(route);
 
-
+    }
+    const onClickCloseUpdateRoute = () => setIsShowModalUpdateRoute(false);
+    //////////////////////////////////////////////////////
+    const [isShowModalUpdateStopPoint, setIsShowModalUpdateStopPoint] = useState(false);
+    const [stopPointUpdate, setStopPointUpdate] = useState<StopPointModel>();
+    const onClickShowModalUpdateStopPoint = (item: StopPointModel) => {
+        setIsShowModalUpdateStopPoint(true);
+        setStopPointUpdate(item);
+    }
+    const onClickCloseUpdateStopPoint = () => setIsShowModalUpdateStopPoint(false);
 
     ////////////////////////////////////////////////////
 
@@ -119,6 +137,37 @@ export const CarInfo = () => {
         setOpenNofity(true)
     }
     ////////////////////////////////////////////////////
+
+    const onClickDeleteRoute = (idRoute: string) => {
+        fetch(env.REACT_APP_API.concat(`/route/delete-route/${idRoute}`), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },
+            // body: JSON.stringify(form.getFieldsValue()),
+        })
+            .then(async (res) => {
+
+                const data = await res.json()
+
+                if (res.status >= 500) {
+                    console.log("delete route status >= 500 ", data);
+                    return
+                }
+                else if (res.status >= 400) {
+                    console.log("delete route status >= 400 ", data);
+                    return
+                }
+                console.log("delete route point => ", data);
+                handleOpenNotify("Xóa tuyến thành công")
+                reloadPage();
+            })
+            .catch((error) => {
+                console.log(" error >>>>>>", error);
+            })
+    }
+    //////////////////////////////////////////////////////////////////
 
     const onClickDeleteStopPoint = (idStopPoint: string) => {
         fetch(env.REACT_APP_API.concat(`/stop-point/delete-point/${idStopPoint}`), {
@@ -154,16 +203,22 @@ export const CarInfo = () => {
         <>
             {
                 car ?
-
                     <>
+
 
                         < Grid container className={styles.container} >
 
                             <Grid className={styles.left} container xs={11} sm={10} md={10} lg={7.5}>
 
-                                <Grid item className={styles.item_left1} xs={12} sm={12} md={5.5} lg={5.5} >
+                                <Grid item className={styles.item_left1} xs={12} sm={12} md={5.5} lg={5.5} style={{ textAlign: "center" }}>
 
-                                    <Image src={imageTest} style={{ borderRadius: "5px" }} />
+                                    <Image
+                                        style={{ borderRadius: "5px" }}
+                                        src={env.REACT_APP_API.concat(car.imagePath)}
+                                        alt="Không có hình ảnh"
+                                        width={500}
+                                        height={400}
+                                    />
 
                                 </Grid>
 
@@ -274,11 +329,19 @@ export const CarInfo = () => {
                                                                             </div>
                                                                         </div>
                                                                         <div className={styles.item_right}>
-                                                                            <IconButton color="primary" size='small'>
+                                                                            <IconButton
+                                                                                onClick={() => onClickShowModalUpdateRoute(item)}
+                                                                                color="primary"
+                                                                                size='small'
+                                                                            >
                                                                                 <BorderColorIcon fontSize='inherit' />
                                                                             </IconButton>
 
-                                                                            <IconButton color="error" size='small'>
+                                                                            <IconButton
+                                                                                onClick={() => { onClickDeleteRoute(item.id) }}
+                                                                                color="error"
+                                                                                size='small'
+                                                                            >
                                                                                 <DeleteIcon fontSize='inherit' />
                                                                             </IconButton>
 
@@ -325,7 +388,7 @@ export const CarInfo = () => {
                                                             </div>
                                                             <div className={styles.item_right}>
                                                                 <IconButton
-                                                                    onClick={() => { console.log('clicked') }}
+                                                                    onClick={() => { onClickShowModalUpdateStopPoint(item) }}
                                                                     color="primary"
                                                                     size='small'
                                                                 >
@@ -349,7 +412,11 @@ export const CarInfo = () => {
 
 
                                     </div>
-                                    <Button variant="outlined" startIcon={<AddIcon />} size="small" style={{ marginTop: "10px", marginBottom: "10px" }}>
+                                    <Button
+                                        variant="outlined"
+                                        startIcon={<AddIcon />}
+                                        size="small" style={{ marginTop: "10px", marginBottom: "10px" }}
+                                        onClick={() => { onClickShowModalCreateStoppoint() }}>
                                         Tạo mới
                                     </Button>
                                 </Grid>
@@ -405,14 +472,12 @@ export const CarInfo = () => {
 
                         </Grid >
 
-                        <Create_Update_Car
+                        <UpdateCar
                             stateProps={isShowModalUpdate}
                             close={onClickCloseModalUpdate}
                             reloadPage={reloadPage}
-                            carManagers={null}
                             car={car}
                             id={id as string}
-                        // car={null}
                         />
 
                         <UpdatePrice
@@ -443,7 +508,29 @@ export const CarInfo = () => {
                             close={onClickCloseModalCreateRoute}
                             reloadPage={reloadPage}
                             id={id as string}
-                            car={car} />
+                            car={car}
+                        />
+
+                        <UpdateStopPoint
+                            stateProps={isShowModalUpdateStopPoint}
+                            close={onClickCloseUpdateStopPoint}
+                            reloadPage={reloadPage}
+                            stopPoint={stopPointUpdate}
+                        />
+
+                        <CreateStoppoint
+                            stateProps={isShowModalCreateStoppoint}
+                            close={onClickCloseModalCreateStoppoint}
+                            reloadPage={reloadPage}
+                            id={id as string}
+                        />
+
+                        <UpdateRoute
+                            stateProps={isShowModalUpdateRoute}
+                            close={onClickCloseUpdateRoute}
+                            reloadPage={reloadPage}
+                            route={infoRoute}
+                        />
 
 
                     </>
@@ -451,7 +538,22 @@ export const CarInfo = () => {
                     <><h1>Loading</h1></>
 
             }
+            <Snackbar
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                key={"top right"}
+                open={openNotify}
+                autoHideDuration={3000}
+                onClose={handleCloseNotify}
+            >
+                <Alert
+                    color="info"
+                    onClose={handleCloseNotify}
+                    severity="success"
+                    sx={{ width: '100%' }}
+                >
+                    {messageNotify}
+                </Alert>
+            </Snackbar>
         </>
     )
-
 }
