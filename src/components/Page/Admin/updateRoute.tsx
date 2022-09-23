@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
+import { Box, Button, Typography, Modal, TextField, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { RouteModel } from '../../Shared/Models/RouteModel';
-import { useMonthPickerDefaultizedProps } from '@mui/x-date-pickers/MonthPicker/MonthPicker';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -206,7 +205,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                         size="small"
                                         value={distances}
                                         defaultValue={props.route.distanceByKm}
-                                        onChange={(e) => setDistances(Number(e.target.value))}
+                                        onChange={(e) => setDistances(Number(Number(e.target.value)))}
                                     />
                                 </div>
 
@@ -220,7 +219,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                         size="small"
                                         value={days}
                                         defaultValue={props.route.day}
-                                        onChange={(e) => setDays(Number(e.target.value))}
+                                        onChange={(e) => setDays(Number(Number(e.target.value)))}
                                     />
                                 </div>
 
@@ -234,7 +233,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                         size="small"
                                         value={hours}
                                         defaultValue={props.route.hour}
-                                        onChange={(e) => setHours(Number(e.target.value))}
+                                        onChange={(e) => setHours(Number(Number(e.target.value)))}
                                     />
                                 </div>
 
@@ -248,7 +247,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                         size="small"
                                         value={minutes}
                                         defaultValue={props.route.minute}
-                                        onChange={(e) => setMinutes(Number(e.target.value))}
+                                        onChange={(e) => setMinutes(Number(Number(e.target.value)))}
                                     />
                                 </div>
                             </form>

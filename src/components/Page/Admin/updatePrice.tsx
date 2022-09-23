@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
+import { Box, Button, Typography, Modal, TextField, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
-import UploadIcon from '@mui/icons-material/Upload';
-import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
@@ -31,16 +29,13 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
         setIsShow(props.stateProps)
     }, [props.stateProps])
 
-
     const handleSubmit = () => {
-
 
         var priceCar = {
             id: props.id,
             shipPrice: shipPrice,
             travelPrice: travelPrice
         }
-
 
         fetch(env.REACT_APP_API.concat("/car/update-car-price"), {
             method: "POST",
@@ -75,7 +70,6 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
                 console.log(" error >>>>>>", error);
             })
 
-
         props.close();
     }
 
@@ -92,7 +86,6 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
         setMessageNotify(message)
         setOpenNofity(true)
     }
-
 
     const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -116,7 +109,6 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
                         </Typography>
                         <div className={styles.container}>
 
-
                             <form noValidate autoComplete="off" id={styles.info}>
 
                                 <div className={styles.wrap}>
@@ -132,7 +124,6 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
                                     />
                                 </div>
 
-
                                 <div className={styles.wrap}>
                                     <p style={{ width: "120px", textAlign: "left" }}>Giá chở người</p>
                                     <TextField
@@ -145,12 +136,10 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
                                         onChange={(e) => setTravelPrice(Number(e.target.value))}
                                     />
                                 </div>
-
                             </form>
 
                         </div>
                         <div className={styles.action}>
-
 
                             <Button
                                 size='small'

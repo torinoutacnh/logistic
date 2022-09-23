@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
+import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
-import UploadIcon from '@mui/icons-material/Upload';
-import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType } from '../../Shared/Models/Everything';
+import { env } from '../../Shared/Models/Everything';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { StopPointModel } from '../../Shared/Models/StopPointModel';
 import { CityModel } from '../../Shared/Models/CityModel';

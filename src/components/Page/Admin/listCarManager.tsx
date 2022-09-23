@@ -1,11 +1,9 @@
 import { Alert, Button, Grid, Snackbar } from "@mui/material"
 import styles from './styles/admin.module.scss'
 import Image from "next/image"
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from "react";
-import { CarModel } from "../../Shared/Models/CarModel";
-import { env, ServiceType } from "../../Shared/Models/Everything";
+import { env } from "../../Shared/Models/Everything";
 import { useRouter } from "next/router";
 import AddIcon from '@mui/icons-material/Add';
 import { CreateCarManager } from "./createCarManager";
@@ -37,41 +35,6 @@ export const ListCarManager = (props: { typeProps?: number }) => {
     }
     ////////////////////////////////////////////////////
 
-    // useEffect(() => {
-    //     setFilterCarManager(null)
-    //     fetch(env.REACT_APP_API.concat("/cars-manager"), {
-    //         method: "GET",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             // Authorization: "Bearer ".concat(user.token),
-    //         },
-    //         // body: JSON.stringify(form.getFieldsValue()),
-    //     })
-    //         .then(async (res) => {
-
-    //             const data = await res.json()
-
-    //             if (res.status >= 500) {
-    //                 console.log("get car status >= 500 ", data);
-    //                 return
-    //             }
-    //             else if (res.status >= 400) {
-    //                 console.log("get car status >= 400 ", data);
-    //                 return
-    //             }
-
-    //             console.log("get car => ", data.data);
-
-    //             setCarManager(data.data)
-
-
-    //         })
-    //         .catch((error) => {
-    //             console.log(" error >>>>>>", error);
-    //         })
-
-    // }, [props.typeProps, reRender])
-
     useEffect(() => {
         fetch(env.REACT_APP_API.concat("/cars-manager"), {
             method: "GET",
@@ -100,11 +63,6 @@ export const ListCarManager = (props: { typeProps?: number }) => {
                 console.log(" error >>>>>>", error);
             })
     }, [reRender])
-
-    // useEffect(() => {
-    //     const tmp = car.filter(item => item.serviceType == props.typeProps)
-    //     setFilterCar(tmp)
-    // }, [car])
 
     const onClickDeleteCarManager = (idCarManager: string) => {
         fetch(env.REACT_APP_API.concat(`/cars-manager/delete-manager/${idCarManager}`), {
@@ -271,7 +229,6 @@ export const ListCarManager = (props: { typeProps?: number }) => {
                     </>
                     :
                     <><h1>Loading</h1></>
-
             }
         </>
     )

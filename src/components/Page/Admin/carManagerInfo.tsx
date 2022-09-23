@@ -10,9 +10,8 @@ import { CarModel } from '../../Shared/Models/CarModel';
 import { StopPointModel } from '../../Shared/Models/StopPointModel';
 import { SeatModel } from '../../Shared/Models/SeatModel';
 import { RouteModel } from '../../Shared/Models/RouteModel';
-import { CarManagerModel } from '../../Shared/Models/CarManager';
-import { ListiItemCarAdmin } from './ListItemCarAdmin';
-import { UpdateCarManager } from './updateCarManager';
+import { CarManager } from '../../Shared/Models/CarManager';
+import { ListiItemCarAdmin } from './listItemCarAdmin';
 
 export const CarManagerInfo = () => {
 
@@ -23,6 +22,29 @@ export const CarManagerInfo = () => {
     const [reRender, setReRender] = useState(0)
     const [carManager, setCarManager] = useState<CarManagerModel>()
 
+    //             const data = await res.json()
+
+    //             if (res.status >= 500) {
+    //                 console.log("get car status >= 500 ", data);
+    //                 return
+    //             }
+    //             else if (res.status >= 400) {
+    //                 console.log("get car status >= 400 ", data);
+    //                 return
+    //             }
+
+    //             // console.log("get car info=> ", data.data);
+
+    //             const tmp: CarModel = data.data
+    //             tmp.seats.sort((a, b) => Number(a.row) - Number(b.row)).sort((a, b) => Number(a.col) - Number(b.col)).sort((a, b) => a.floor - b.floor)
+    //             setCar(tmp)
+
+    //         })
+    //         .catch((error) => {
+    //             console.log(" error >>>>>>", error);
+    //         })
+
+    // }, [reRender])
 
     /////////////////////////////////////////////////////
 
@@ -134,21 +156,39 @@ export const CarManagerInfo = () => {
                             </Grid>
 
                             <Grid item className={styles.item_bottom} xs={11} sm={11} md={9} lg={8}>
-                                <span className={styles.header_top}>Thông tin xe</span>
+                                <span className={styles.header_top}>Danh sách xe</span>
                                 <ListiItemCarAdmin typeProps={3} carManagerID={id as string} />
 
                             </Grid>
 
                         </Grid >
 
-                        <UpdateCarManager
+                        {/* <UpdateCar
                             stateProps={isShowModalUpdate}
                             close={onClickCloseModalUpdate}
                             reloadPage={reloadPage}
+                            car={car}
                             id={id as string}
-                            manage={carManager}
                         />
 
+
+                        <UpdateStopPoint
+                            stateProps={isShowModalUpdateStopPoint}
+                            close={onClickCloseUpdateStopPoint}
+                            reloadPage={reloadPage}
+                            stopPoint={infoStopPoint}
+                            city={null}
+                            district={null}
+                            ward={null}
+                        />
+
+                        <UpdateRoute
+                            stateProps={isShowModalUpdateRoute}
+                            close={onClickCloseUpdateRoute}
+                            reloadPage={reloadPage}
+                            route={infoRoute}
+                        />
+ */}
 
                     </>
                     :
