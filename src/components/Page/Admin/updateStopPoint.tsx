@@ -285,7 +285,7 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}>
+                    <Box sx={style} style={{ color: "black" }}>
                         <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 3 }}>
                             Cập nhật điểm dừng
                         </Typography>

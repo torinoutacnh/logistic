@@ -5,7 +5,6 @@ import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-import { CarManager } from '../../Shared/Models/CarManager';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useForm, useFieldArray } from "react-hook-form";
@@ -133,7 +132,7 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}>
+                    <Box sx={style} style={{ color: "black" }}>
                         <Typography id="modal-modal-title" variant="h5" component="h3" sx={{ mb: 3 }}>
                             Tạo ghế ngồi
                         </Typography>

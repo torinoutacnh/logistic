@@ -6,6 +6,7 @@ $primary-color: #e93636;
 $white-color: rgb(255, 255, 255);
 
 .container {
+    color: $text-back-color;
     display: flex;
     justify-content: space-between;
 
@@ -39,6 +40,7 @@ $white-color: rgb(255, 255, 255);
 
     #info {
         width: 320px;
+        color: $text-back-color;
 
         .idCar {
             display: flex;
@@ -93,11 +95,11 @@ $white-color: rgb(255, 255, 255);
 
             .wrap {
                 .booking_input {
-                    width: 230px;
+                    width: 200px;
                 }
 
                 .selection {
-                    width: 230px;
+                    width: 200px;
                 }
             }
         }
@@ -156,12 +158,13 @@ $white-color: rgb(255, 255, 255);
             flex-direction: column;
 
             .box_input {
+                color: $text-back-color;
                 margin-bottom: 2px;
                 display: flex;
 
                 @media screen and (max-width:768px) {
                     .input {
-                        width: 230px !important;
+                        width: 200px !important;
                     }
                 }
 
@@ -174,6 +177,7 @@ $white-color: rgb(255, 255, 255);
                 }
 
                 .input {
+                    color: $text-back-color;
                     background: white;
                     flex-grow: 1;
                     padding: 5px;
