@@ -13,7 +13,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { CreateCar } from "./createCar";
 import { CarManager } from "../../Shared/Models/CarManager";
 
-export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
+export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: string }) => {
 
     const [car, setCar] = useState<CarModel[]>([])
     const [filterCar, setFilterCar] = useState<CarModel[]>()
@@ -46,7 +46,8 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
 
     useEffect(() => {
         setFilterCar(null)
-        fetch(env.REACT_APP_API.concat("/car"), {
+        const url = (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"]) ? "/car" : `/car/manager/${props.carManagerID}`
+        fetch(env.REACT_APP_API.concat(url), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -113,7 +114,8 @@ export const ListiItemCarAdmin = (props: { typeProps?: number }) => {
     }, [])
 
     useEffect(() => {
-        const tmp = car.filter(item => item.serviceType == props.typeProps)
+
+        const tmp = (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"]) ? car.filter(item => item.serviceType == props.typeProps) : car
         setFilterCar(tmp)
     }, [car])
 
