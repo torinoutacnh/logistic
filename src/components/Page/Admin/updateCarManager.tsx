@@ -7,6 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { CarManagerModel } from '../../Shared/Models/CarManager';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -21,53 +22,61 @@ const style = {
     textAlign: 'center',
 };
 
-export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPage: any, car: CarModel, id: string }) {
-
+export function UpdateCarManager(props: { stateProps: boolean, close: any, reloadPage: any, manage: CarManagerModel, id: string }) {
     const [isShow, setIsShow] = useState(false)
-    const [travelPrice, setTravelPrice] = useState(props.car?.travelPrice)
-    const [shipPrice, setShipPrice] = useState(props.car?.shipPrice)
+
+    const [name, setName] = useState(props.manage.name);
+    const [description, setDescription] = useState(props.manage.description);
 
     useEffect(() => {
+        setName(props.manage.name)
+        setDescription(props.manage.description)
         setIsShow(props.stateProps)
     }, [props.stateProps])
+
+
+    // console.log("car", props.car);
+
 
 
     const handleSubmit = () => {
 
 
-        var priceCar = {
-            id: props.id,
-            shipPrice: shipPrice,
-            travelPrice: travelPrice
-        }
+        const inputFile = document.getElementById("inputFile") as HTMLInputElement;
 
 
-        fetch(env.REACT_APP_API.concat("/car/update-car-price"), {
+        // console.log("handle submit create car => ", Car);
+
+        const formData = new FormData();
+
+        formData.append("Id", props.id)
+        formData.append("LogoPath", inputFile.files[0])
+        formData.append("Name", name)
+        formData.append("Description", description)
+
+
+
+        fetch(env.REACT_APP_API.concat("/cars-manager/update-manager"), {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            body: JSON.stringify(priceCar),
+            body: formData,
         })
             .then(async (res) => {
 
                 const data = await res.json()
 
                 if (res.status >= 500) {
-                    console.log("update price status >= 500 ", data);
+                    console.log("update carManager status >= 500 ", data);
                     return
                 }
                 else if (res.status >= 400) {
-                    console.log("update price status >= 400 ", data);
+                    console.log("update carManager status >= 400 ", data);
                     return
                 }
 
-                console.log("update price => ", data.data);
+                console.log("update manager => ", data.data);
 
-                setShipPrice(priceCar.shipPrice)
-                setTravelPrice(priceCar.travelPrice)
-                handleOpenNotify("Cập nhật giá thành công")
+                handleOpenNotify("Cập nhật nhà xe thành công")
+
                 props.reloadPage()
 
             })
@@ -79,9 +88,9 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
         props.close();
     }
 
+
+
     const onCloseModal = () => {
-        setShipPrice(props.car.shipPrice)
-        setTravelPrice(props.car.travelPrice)
         props.close()
     }
 
@@ -101,6 +110,26 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
         setOpenNofity(false);
     };
 
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 220,
+            },
+        },
+    };
+
+    const loadFile = (event) => {
+        var output = document.getElementById('output') as HTMLImageElement;
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src) // free memory
+        }
+    };
+
+
     return (
         <>
             {isShow ?
@@ -112,37 +141,62 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
                 >
                     <Box sx={style}>
                         <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 3 }}>
-                            Cập nhật giá dịch vụ
+                            {"Cập nhật thông tin nhà xe"}
                         </Typography>
                         <div className={styles.container}>
 
+                            <div className={styles.img}>
+                                <div className={styles.image}>
+                                    <img src={env.REACT_APP_API.concat(props.manage.logoPath)} id={"output"}></img>
+                                </div>
+                                <Button
+                                    variant="contained"
+                                    component="label"
+                                    startIcon={<UploadIcon />}
+                                    className={styles.btnUpload}
+                                    size="small"
+                                >
+                                    Tải ảnh lên
+                                    <input hidden id={"inputFile"} accept="image/*" type="file" onChange={loadFile} />
+                                </Button>
+                            </div>
 
-                            <form noValidate autoComplete="off" id={styles.info}>
+                            <form noValidate autoComplete="off" id={styles.info} encType="multipart/form-data">
+
+
+
+
 
                                 <div className={styles.wrap}>
-                                    <p style={{ width: "120px", textAlign: "left" }}>Giá chở hàng</p>
+                                    <p >Tên nhà xe</p>
                                     <TextField
+                                        style={{ width: "240px" }}
                                         required={true}
                                         className={styles.booking_input}
                                         id="outlined-basic"
                                         variant="outlined"
                                         size="small"
-                                        value={shipPrice}
-                                        onChange={(e) => setShipPrice(Number(e.target.value))}
+                                        value={name}
+                                        defaultValue={name}
+                                        onChange={(e) => setName(e.target.value)}
                                     />
                                 </div>
 
-
                                 <div className={styles.wrap}>
-                                    <p style={{ width: "120px", textAlign: "left" }}>Giá chở người</p>
+                                    <p>Mô tả</p>
                                     <TextField
+                                        style={{ width: "240px" }}
+                                        maxRows={8}
+                                        minRows={5}
+                                        multiline={true}
                                         required={true}
                                         className={styles.booking_input}
                                         id="outlined-basic"
                                         variant="outlined"
                                         size="small"
-                                        value={travelPrice}
-                                        onChange={(e) => setTravelPrice(Number(e.target.value))}
+                                        value={description}
+                                        defaultValue={description}
+                                        onChange={(e) => setDescription(e.target.value)}
                                     />
                                 </div>
 
@@ -151,19 +205,16 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
                         </div>
                         <div className={styles.action}>
 
-
                             <Button
                                 size='small'
-
                                 variant="outlined"
                                 startIcon={<BorderColorIcon />}
                                 className={styles.btnCreate}
-                                onClick={() => { handleSubmit() }}
-
+                                type="submit"
+                                onClick={handleSubmit}
                             >
                                 Cập nhật
                             </Button>
-
                             <Button
                                 size='small'
                                 variant="outlined"

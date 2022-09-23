@@ -8,14 +8,14 @@ import { CarModel } from "../../Shared/Models/CarModel";
 import { env, ServiceType } from "../../Shared/Models/Everything";
 import { useRouter } from "next/router";
 import AddIcon from '@mui/icons-material/Add';
-import { CarManager } from "../../Shared/Models/CarManager";
 import { CreateCarManager } from "./createCarManager";
+import { CarManagerModel } from "../../Shared/Models/CarManager";
 
 export const ListCarManager = (props: { typeProps?: number }) => {
 
-    const [filterCarManager, setFilterCarManager] = useState<CarManager[]>()
+    const [filterCarManager, setFilterCarManager] = useState<CarManagerModel[]>()
     const [reRender, setReRender] = useState(0)
-    const [carManager, setCarManager] = useState<CarManager[]>()
+    const [carManager, setCarManager] = useState<CarManagerModel[]>()
 
     const router = useRouter()
 

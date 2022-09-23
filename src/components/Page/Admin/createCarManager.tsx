@@ -5,7 +5,6 @@ import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-import { CarManager } from '../../Shared/Models/CarManager';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
@@ -70,7 +69,7 @@ export function CreateCarManager(props: { stateProps: boolean, close: any, reloa
                     return
                 }
 
-                console.log("create car => ", data.data);
+                console.log("create manager => ", data.data);
 
                 setName('');
                 setDescription('');

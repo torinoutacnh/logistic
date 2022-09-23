@@ -11,14 +11,14 @@ import { useRouter } from "next/router";
 import { CreateSeat } from "./createSeat";
 import AddIcon from '@mui/icons-material/Add';
 import { CreateCar } from "./createCar";
-import { CarManager } from "../../Shared/Models/CarManager";
+import { CarManagerModel } from "../../Shared/Models/CarManager";
 
 export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: string }) => {
 
     const [car, setCar] = useState<CarModel[]>([])
     const [filterCar, setFilterCar] = useState<CarModel[]>()
     const [reRender, setReRender] = useState(0)
-    const [carManagers, setCarManagers] = useState<CarManager[]>()
+    const [carManagers, setCarManagers] = useState<CarManagerModel[]>()
 
     const router = useRouter()
 
@@ -202,15 +202,21 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                                     </FormControl>
                                 </Box> */}
 
-                            <Button
-                                variant="outlined"
-                                size='small'
-                                startIcon={<AddIcon />}
-                                sx={{ marginRight: 3 }}
-                                onClick={() => { onClickShowModal() }}
-                            >
-                                Thêm mới
-                            </Button>
+                            {
+                                (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"])
+                                    ?
+                                    <Button
+                                        variant="outlined"
+                                        size='small'
+                                        startIcon={<AddIcon />}
+                                        sx={{ marginRight: 3 }}
+                                        onClick={() => { onClickShowModal() }}
+                                    >
+                                        Thêm mới
+                                    </Button>
+                                    :
+                                    <></>
+                            }
                         </div>
                         <Grid container className={styles.g_container}>
 
@@ -288,7 +294,13 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
 
 
                         </Grid>
-                        <button className={styles.btnAddCircle} onClick={() => onClickShowModal()}>+</button>
+                        {
+                            (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"])
+                                ?
+                                <button className={styles.btnAddCircle} onClick={() => onClickShowModal()}>+</button>
+                                :
+                                <></>
+                        }
                         <Snackbar
                             anchorOrigin={{ vertical: "top", horizontal: "right" }}
                             key={"top right"}

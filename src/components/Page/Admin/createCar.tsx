@@ -5,9 +5,9 @@ import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-import { CarManager } from '../../Shared/Models/CarManager';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { CarManagerModel } from '../../Shared/Models/CarManager';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -22,11 +22,11 @@ const style = {
     textAlign: 'center',
 };
 
-export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: any, carManagers: CarManager[] }) {
+export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: any, carManagers: CarManagerModel[] }) {
     const [isShow, setIsShow] = useState(false)
 
     const [typeService, setTypeService] = useState<ServiceType>();
-    const [carManagerSelect, setCarManagerSelect] = useState<CarManager>();
+    const [carManagerSelect, setCarManagerSelect] = useState<CarManagerModel>();
     const [carModel, setCarModel] = useState('');
     const [carColor, setCarColor] = useState('');
     const [carNumber, setCarNumber] = useState('');
@@ -48,7 +48,7 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
         setTypeService(ServiceType[event.target.value as string]);
     };
 
-    const handleChangeCarManager = (data: CarManager) => {
+    const handleChangeCarManager = (data: CarManagerModel) => {
         // console.log(" carmanger click => ", data);
 
         setCarManagerSelect(data);

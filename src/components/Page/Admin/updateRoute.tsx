@@ -3,7 +3,6 @@ import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuIte
 import styles from './styles/createCar.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-import { CarManager } from '../../Shared/Models/CarManager';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { RouteModel } from '../../Shared/Models/RouteModel';
@@ -22,7 +21,7 @@ const style = {
     textAlign: 'center',
 };
 
-export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPage: any, route: RouteModel}) {
+export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPage: any, route: RouteModel }) {
 
     const [isShow, setIsShow] = useState(false)
 
@@ -116,7 +115,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     return (
         <>
-                {console.log(props.route)}
+            {console.log(props.route)}
             {isShow ?
                 <Modal
                     open={isShow}
@@ -207,7 +206,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                         size="small"
                                         value={distances}
                                         defaultValue={props.route.distanceByKm}
-                                        onChange={(e) => setDistances(e.target.value)}
+                                        onChange={(e) => setDistances(Number(e.target.value))}
                                     />
                                 </div>
 
@@ -221,7 +220,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                         size="small"
                                         value={days}
                                         defaultValue={props.route.day}
-                                        onChange={(e) => setDays(e.target.value)}
+                                        onChange={(e) => setDays(Number(e.target.value))}
                                     />
                                 </div>
 
@@ -235,7 +234,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                         size="small"
                                         value={hours}
                                         defaultValue={props.route.hour}
-                                        onChange={(e) => setHours(e.target.value)}
+                                        onChange={(e) => setHours(Number(e.target.value))}
                                     />
                                 </div>
 
@@ -249,9 +248,9 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                         size="small"
                                         value={minutes}
                                         defaultValue={props.route.minute}
-                                        onChange={(e) => setMinutes(e.target.value)}
+                                        onChange={(e) => setMinutes(Number(e.target.value))}
                                     />
-                                </div>                             
+                                </div>
                             </form>
                         </div>
 
@@ -261,7 +260,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                 variant="outlined"
                                 startIcon={<BorderColorIcon />}
                                 className={styles.btnCreate}
-                                // onClick={handleUpdate}
+                            // onClick={handleUpdate}
 
                             >
                                 Cập nhật
