@@ -10,8 +10,7 @@ import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import { ServiceType } from '../../Shared/Models/Everything';
 import { ListCarManager } from './listCarManager';
-import { CreateCarManager } from './createCarManager';
-import { ListiItemCarAdmin } from './ListItemCarAdmin';
+import { ListiItemCarAdmin } from './listItemCarAdmin';
 
 export const Admin = () => {
 

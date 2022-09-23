@@ -201,16 +201,22 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                                         </Select>
                                     </FormControl>
                                 </Box> */}
-
+{
+                        (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"])
+                         ? 
                             <Button
-                                variant="outlined"
-                                size='small'
-                                startIcon={<AddIcon />}
-                                sx={{ marginRight: 3 }}
-                                onClick={() => { onClickShowModal() }}
+                            variant="outlined"
+                            size='small'
+                            startIcon={<AddIcon />}
+                            sx={{ marginRight: 3 }}
+                            onClick={() => { onClickShowModal() }}
                             >
                                 Thêm mới
-                            </Button>
+                            </Button> 
+                         : 
+                            <></>
+                         }
+                            
                         </div>
                         <Grid container className={styles.g_container}>
 
@@ -288,7 +294,13 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
 
 
                         </Grid>
-                        <button className={styles.btnAddCircle} onClick={() => onClickShowModal()}>+</button>
+                        {
+                        (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"])
+                         ? 
+                            <button className={styles.btnAddCircle} onClick={() => onClickShowModal()}>+</button> 
+                         : 
+                            <></>
+                         }
                         <Snackbar
                             anchorOrigin={{ vertical: "top", horizontal: "right" }}
                             key={"top right"}

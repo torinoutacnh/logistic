@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { Grid, Button, IconButton, Alert, Snackbar } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-import imageTest from "../../../styles/img/imgTest.jpg"
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
@@ -14,7 +13,6 @@ import { UpdatePrice } from './updatePrice';
 import { CreateSeat } from './createSeat';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
-import { ChangeSeat } from './ChangeSeat';
 import { SeatModel } from '../../Shared/Models/SeatModel';
 import { CreateRoute } from './createRoute';
 import { UpdateCar } from './updateCar';
@@ -22,6 +20,7 @@ import { UpdateStopPoint } from './updateStopPoint';
 import { CreateStoppoint } from './createStoppoint';
 import { RouteModel } from '../../Shared/Models/RouteModel';
 import { UpdateRoute } from './updateRoute';
+import { ChangeSeat } from './ChangeSeat';
 
 export const CarInfo = () => {
 

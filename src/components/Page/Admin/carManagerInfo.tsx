@@ -3,24 +3,15 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Grid, Button, IconButton, Alert, Snackbar } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
-import { env, ServiceType } from '../../Shared/Models/Everything';
+import { env } from '../../Shared/Models/Everything';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
 import { CarModel } from '../../Shared/Models/CarModel';
 import { StopPointModel } from '../../Shared/Models/StopPointModel';
-import { UpdatePrice } from './updatePrice';
-import { CreateSeat } from './createSeat';
-import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
-import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
-import { ChangeSeat } from './ChangeSeat';
 import { SeatModel } from '../../Shared/Models/SeatModel';
-import { CreateRoute } from './createRoute';
-import { UpdateCar } from './updateCar';
-import { UpdateStopPoint } from './updateStopPoint';
 import { RouteModel } from '../../Shared/Models/RouteModel';
-import { UpdateRoute } from './updateRoute';
 import { CarManager } from '../../Shared/Models/CarManager';
+import { ListiItemCarAdmin } from './listItemCarAdmin';
 
 export const CarManagerInfo = () => {
 
@@ -233,9 +224,9 @@ export const CarManagerInfo = () => {
                     <>
                         < Grid container className={styles.container} >
 
-                            <Grid className={styles.top} container xs={11} sm={10} md={10} lg={7.5}>
+                            <Grid className={styles.top} item xs={11} sm={11} md={11} lg={11}>
 
-                                <Grid item className={styles.item_logo} xs={12} sm={12} md={5.5} lg={5.5} style={{ textAlign: "center" }}>
+                                <Grid item className={styles.item_logo} xs={12} sm={12} md={5.5} lg={5.5} >
 
                                     <Image
                                         style={{ borderRadius: "5px" }}
@@ -247,44 +238,20 @@ export const CarManagerInfo = () => {
 
                                 </Grid>
 
-                                {/* <Grid item className={styles.item_left2} xs={12} sm={12} md={5.5} lg={5.5}>
-                                    <div className={styles.box_info_left2}>
-                                        <span className={styles.header_left}>Thông tin xe</span>
+                                <Grid item className={styles.item_info} xs={12} sm={12} md={5.5} lg={5.5} style={{flexGrow: 1}}>
+                                    <div className={styles.item_info_car}>
+                                        <span className={styles.header_top}>Thông tin nhà xe</span>
 
-                                        {car.serviceType === ServiceType["Chở hàng"] ?
-                                            <>
-                                                <span className={styles.text2}>
-                                                    <span className={styles.title}>Tên nhà xe:</span>
-
-                                                </span>
-                                            </>
-                                            :
-                                            <></>
-                                        }
-
-                                        <span className={styles.text2}>
-                                            <span className={styles.title}>Hãng xe:</span>
-                                            {car.carModel}
+                                        <span className={styles.text}>
+                                            <span className={styles.title}>Tên nhà xe: </span>
+                                            {carManager.name}
                                         </span>
                                         <span className={styles.text}>
-                                            <span className={styles.title}>Màu xe:</span>
-                                            {car.carColor}
-                                        </span>
-                                        <span className={styles.text}>
-                                            <span className={styles.title}>BKS:</span>
-                                            {car.carNumber}
-                                        </span>
-                                        <span className={styles.text}>
-                                            <span className={styles.title}>SĐT:</span>
-                                            {car.tel}
-                                        </span>
-                                        <span className={styles.text}>
-                                            <span className={styles.title}>Giá vé:</span>
-                                            <span style={{ color: "red", fontWeight: "500" }}>
-                                                {car.shipPrice > 0 ? car.shipPrice : car.travelPrice}
-                                            </span>
+                                            <span className={styles.title}>Mô tả: </span>
+                                            {carManager.description}
                                         </span>
                                     </div>
+
                                     <div className={styles.action}>
                                         <Button
                                             className={styles.btn}
@@ -295,158 +262,19 @@ export const CarManagerInfo = () => {
                                                 Cập nhật
                                             </span>
                                         </Button>
-
-                                        <Button
-                                            className={styles.btn}
-                                            onClick={() => { onClickShowModalPrice() }}
-                                        >
-                                            <BorderColorIcon
-                                                className={styles.icon}
-                                            />
-                                            <span className={styles.text}>
-                                                Sửa giá
-                                            </span>
-                                        </Button>
                                     </div>
                                 </Grid>
-
-                                <Grid item className={styles.item_left3} xs={12} sm={12} md={5.5} lg={5.5}>
-
-                                    <h3 className={styles.header_left}>TUYẾN</h3>
-                                    <div className={styles.box_info_left_3_4}>
-
-                                        {
-                                            car.routes.map((item, index) => {
-
-                                                const RouterFrom: StopPointModel = car.stopPoints.filter(i => i.id === item.fromId)[0]
-                                                const RouterTo: StopPointModel = car.stopPoints.filter(i => i.id === item.toId)[0]
-
-                                                return (
-                                                    <>
-                                                        {
-                                                            RouterFrom && RouterTo ?
-                                                                <>
-                                                                    <div className={styles.item} key={index}>
-
-                                                                        <div className={styles.item_left}>
-                                                                            <span className={styles.text}>
-                                                                                <span className={styles.title}>Từ:</span>
-                                                                                {RouterFrom.houseNumber} {RouterFrom.street} -
-                                                                                {RouterFrom.ward} - {RouterFrom.district} - {RouterFrom.city}
-                                                                            </span>
-
-                                                                            <span className={styles.text}>
-                                                                                <span className={styles.title}>Đến:</span>
-                                                                                {RouterTo.houseNumber} {RouterTo.street} -
-                                                                                {RouterTo.ward} - {RouterTo.district} - {RouterTo.city}
-                                                                            </span>
-                                                                            <div className={styles.dis_time}>
-                                                                                <p className={styles.distance}>
-                                                                                    <RouteOutlinedIcon />
-                                                                                    <span>{item.distanceByKm} km</span>
-                                                                                </p>
-                                                                                <p className={styles.time}>
-                                                                                    <TimerOutlinedIcon />
-                                                                                    {(item.day === 0) ? "" : (' ' + item.day + ' ngày')}
-                                                                                    {(item.hour === 0) ? "" : (' ' + item.hour + ' giờ')}
-                                                                                    {(item.minute === 0) ? "" : (' ' + item.minute + ' phút')}
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className={styles.item_right}>
-                                                                            <IconButton
-                                                                                onClick={() => onClickShowModalUpdateRoute(item) }
-                                                                                color="primary"
-                                                                                size='small'
-                                                                            >
-                                                                                <BorderColorIcon fontSize='inherit' />
-                                                                            </IconButton>
-
-                                                                            <IconButton
-                                                                                onClick={() => { onClickDeleteRoute(item.id) }}
-                                                                                color="error"
-                                                                                size='small'
-                                                                            >
-                                                                                <DeleteIcon fontSize='inherit' />
-                                                                            </IconButton>
-
-                                                                        </div>
-
-                                                                    </div>
-                                                                </>
-                                                                :
-                                                                <></>
-                                                        }
-                                                    </>
-                                                )
-                                            })
-                                        }
-
-                                    </div>
-
-                                    <Button
-                                        onClick={() => { onClickShowModalCreateRoute() }}
-                                        variant="outlined"
-                                        startIcon={<AddIcon />}
-                                        size="small"
-                                        style={{ marginTop: "10px", marginBottom: "10px" }}
-
-                                    >
-                                        Tạo mới
-                                    </Button>
-                                </Grid>
-
-                                <Grid item className={styles.item_left4} xs={12} sm={12} md={5.5} lg={5.5}>
-                                    <h3 className={styles.header_left}>ĐIỂM DỪNG</h3>
-                                    <div className={styles.box_info_left_3_4}>
-                                        {
-                                            car.stopPoints?.map((item, index) => {
-                                                return (
-                                                    <>
-                                                        <div className={styles.item} key={index}>
-
-                                                            <div className={styles.item_left}>
-                                                                <span className={styles.text}>
-                                                                    {item.houseNumber} {item.street} -
-                                                                    {item.ward} - {item.district} - {item.city}
-                                                                </span>
-                                                            </div>
-                                                            <div className={styles.item_right}>
-                                                                <IconButton
-                                                                    onClick={() => { onClickShowModalUpdateStopPoint(item) }}
-                                                                    color="primary"
-                                                                    size='small'
-                                                                >
-                                                                    <BorderColorIcon fontSize='inherit' />
-                                                                </IconButton>
-
-                                                                <IconButton
-                                                                    onClick={() => { onClickDeleteStopPoint(item.id) }}
-                                                                    color="error"
-                                                                    size='small'
-                                                                >
-                                                                    <DeleteIcon fontSize='inherit' />
-                                                                </IconButton>
-                                                            </div>
-
-                                                        </div>
-                                                    </>
-                                                )
-                                            })
-                                        }
-
-
-                                    </div>
-                                    <Button variant="outlined" startIcon={<AddIcon />} size="small" style={{ marginTop: "10px", marginBottom: "10px" }}>
-                                        Tạo mới
-                                    </Button>
-                                </Grid> */}
-
                             </Grid>
+
+                            <Grid item className={styles.item_bottom} xs={11} sm={11} md={9} lg={8}>
+                                    <span className={styles.header_top}>Thông tin xe</span>
+                                    <ListiItemCarAdmin typeProps={3} carManagerID={id as string} />
+
+                                </Grid>
 
                         </Grid >
 
-                        <UpdateCar
+                        {/* <UpdateCar
                             stateProps={isShowModalUpdate}
                             close={onClickCloseModalUpdate}
                             reloadPage={reloadPage}
@@ -454,36 +282,6 @@ export const CarManagerInfo = () => {
                             id={id as string}
                         />
 
-                        <UpdatePrice
-                            stateProps={isShowModalPrice}
-                            close={onClickCloseModalPrice}
-                            reloadPage={reloadPage}
-                            car={car}
-                            id={id as string} />
-
-                        <CreateSeat
-                            stateProps={isShowModalCreateSeat}
-                            close={onClickCloseModalCreateSeat}
-                            reloadPage={reloadPage}
-                            id={id as string} />
-
-                        {
-                            seatChange &&
-                            <ChangeSeat
-                                stateProps={isShowModalChangeSeat}
-                                close={onClickCloseModalChangeSeat}
-                                reloadPage={reloadPage}
-                                seat={seatChange}
-                                id={id as string} />
-                        }
-
-                        <CreateRoute
-                            stateProps={isShowModalCreateRoute}
-                            close={onClickCloseModalCreateRoute}
-                            reloadPage={reloadPage}
-                            id={id as string}
-                            car={car}
-                        />
 
                         <UpdateStopPoint
                             stateProps={isShowModalUpdateStopPoint}
@@ -501,7 +299,7 @@ export const CarManagerInfo = () => {
                             reloadPage={reloadPage}
                             route={infoRoute}
                         />
-
+ */}
 
                     </>
                     :
