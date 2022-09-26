@@ -22,13 +22,6 @@ interface ItemComponent {
 
 export const Admin = () => {
 
-    // const [area, setArea] = React.useState('');
-
-    // const handleChange = (e: SelectChangeEvent) => {
-    //     setArea(e.target.value as string);
-    // };
-
-
     const router = useRouter()
 
     const { index } = router.query
@@ -46,19 +39,19 @@ export const Admin = () => {
             icon: <WarehouseIcon />,
             name: "Quản lý thông tin nhà xe",
             index: 2,
-            component: <ListCarManager index={2} />
+            component: <ListCarManager index={2} name={"Quản lý thông tin nhà xe"}/>
         },
         {
             icon: <AirportShuttleIcon />,
             name: "Quản lý xe",
             index: 3,
-            component: <ListiItemCarAdmin typeProps={ServiceType["Chở người"]} index={3} />
+            component: <ListiItemCarAdmin typeProps={ServiceType["Chở người"]} index={3} name={"Quản lý xe"}/>
         },
         {
             icon: <LocalShippingIcon />,
             name: "Quản lý chành xe",
             index: 4,
-            component: <ListiItemCarAdmin typeProps={ServiceType["Chở hàng"]} index={4} />
+            component: <ListiItemCarAdmin typeProps={ServiceType["Chở hàng"]} index={4} name={"Quản lý chành xe"}/>
         },
         {
             icon: <BarChartIcon />,
@@ -74,24 +67,11 @@ export const Admin = () => {
         },
     ]
 
-
     useEffect(() => {
-
         const item: ItemComponent = listMenu.find(i => i.index === Number(index))
         setShowComponent(item?.component)
 
     }, [index])
-
-    const ITEM_HEIGHT = 48;
-    const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 220,
-            },
-        },
-    };
 
     /////////////////////////////////////////////////////////
 

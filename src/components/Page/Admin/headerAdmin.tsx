@@ -1,7 +1,6 @@
 import styles from './styles/admin.module.scss'
 import React from 'react';
 import { Grid, TextField, Box, ListItemIcon, MenuItem, Button, IconButton, Tooltip, Menu, Divider, Badge, Dialog, DialogContent, DialogActions, Popover, Alert } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
@@ -62,36 +61,8 @@ export const HeaderAdmin = () => {
             <Grid item xs={11} sm={11} md={11} xl={11}>
                 <div className={styles.header}>
 
-                    <div className={styles.logoDesktop} onClick={() => { onClickHome() }} >LogoPC</div>
-                    
-                    {/* <div className={styles.searchMobile}>
-                        <IconButton
-                            size="small"
-                            className={styles.search_icon}
-                            onClick={handleClickOpen}
-                        >
-                            <SearchIcon />
-                        </IconButton>
-                        <Dialog open={openSearch} onClose={handleClickClose}>
-                            <DialogContent style={{ overflow: "hidden" }}>
-                                <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    id="name"
-                                    label="Nhập để tìm kiếm"
-                                    type="text"
-                                    variant="standard"
-                                    style={{ width: "70vw" }}
-                                />
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleClickClose}>Tìm kiếm</Button>
-                            </DialogActions>
-                        </Dialog>
-
-                    </div> */}
-                    <div className={styles.logoMobile} onClick={() => { onClickHome() }}>LogoMb</div>
-                    <div className={styles.icon}>
+                    <div className={styles.logo} onClick={() => { onClickHome() }}>Logo</div>
+                    <div className={styles.notify_account}>
                         <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
                             <Tooltip title="Thông báo">
                                 <IconButton size="small" onClick={handleClick2}>

@@ -25,17 +25,13 @@ $gradient: linear-gradient(-45deg,
         width: 100%;
         display: flex;
         align-items: center;
-        justify-content: space-around;
+        justify-content: space-between;
 
-        .logoDesktop {
+        .logo {
             display: flex;
             justify-content: center;
-            width: 30%;
+            width: 25%;
             cursor: pointer;
-        }
-
-        .logoMobile {
-            display: none;
         }
     }
 }
@@ -54,44 +50,10 @@ $gradient: linear-gradient(-45deg,
     }
 }
 
-.subheader {
-    font-size: 20px;
-    font-weight: 600;
-    color: #000;
-
-}
-
 .nav_admin {
     border: "2px solid rgb(245, 245, 245";
     margin-top: "10px";
     display: "flex"
-}
-
-.option {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 5px;
-
-    .search {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-left: 10px;
-        width: 40px;
-        overflow: hidden;
-        transition: 1s;
-
-        .search_input {
-            outline: none;
-            border: none;
-            background-color: transparent;
-            width: 300px !important;
-        }
-    }
-
-    .search:focus-within {
-        width: 300px;
-    }
 }
 
 .wrapper {
@@ -108,12 +70,47 @@ $gradient: linear-gradient(-45deg,
 
 .g_container {
     max-height: 85vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     margin: 0;
     padding: 10px;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
+
+    .option {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 5px;
+        align-items: center;
+    
+        span {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+        }
+        
+        .search {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            width: 40px;
+            overflow: hidden;
+            transition: 1s;
+        
+            .search_input {
+                outline: none;
+                border: none;
+                background-color: transparent;
+                width: 300px !important;
+            }
+        }
+        
+        .search:focus-within {
+            width: 300px;
+        }
+    }
 
     .g_item {
         position: relative;
@@ -238,6 +235,8 @@ $gradient: linear-gradient(-45deg,
         cursor: pointer;
         box-shadow: 1px 2px 10px 2px $boxshadow-item-color;
     }
+
+    
 }
 
 .menuNavRes {
@@ -286,10 +285,6 @@ $gradient: linear-gradient(-45deg,
 }
 
 @media screen and (max-width:768px) {
-    .option {
-        display: none;
-    }
-
     .btnAddCircle {
         display: block;
     }
@@ -298,37 +293,19 @@ $gradient: linear-gradient(-45deg,
     .header {
         display: flex;
         justify-content: space-between;
-
-        .logoDesktop {
-            display: none !important;
-        }
-
-        .logoMobile {
-            display: flex !important;
-            justify-content: center;
-            width: 30%;
-        }
-
-        .search {
-            display: none !important;
-        }
-
-        .searchMobile {
-            display: block !important;
-
-            .search_icon {
-                margin-right: 50px;
-            }
-        }
-    }
-
-    .option {
-        display: none;
     }
 
     .g_container {
         max-height: 80vh;
         justify-content: center !important;
+
+        .option {
+
+            span, 
+            .btnAdd {
+                display: none;
+            }
+        }
 
         .g_item {
             height: 175px;
@@ -342,7 +319,7 @@ $gradient: linear-gradient(-45deg,
                             display: none;
                         }
 
-                        .icon {
+                        .notify_account {
                             font-size: 20px !important;
                         }
                     }

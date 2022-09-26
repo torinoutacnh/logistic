@@ -18,14 +18,12 @@ import imageTest from "../../../styles/img/imgTest.jpg"
 
 export const LookingCar = () => {
 
-
     const [filterChair, setFilterChair] = useState<string>()
     const [filterPrice, setFilterPrice] = useState<string>()
     const [filterTime, setFilterTime] = useState<string>()
     const [value, setValue] = React.useState<Dayjs | null>(
         dayjs('2018-01-01T00:00:00.000Z'),
     );
-
 
     const dataSortPrice = ["Tăng dần", "Giảm dần"]
     const dataChair = ["Ghế ngồi", "Ghế nằm"]
@@ -60,9 +58,6 @@ export const LookingCar = () => {
         }
     };
     //////////////////////////////////////////////////////////////////////
-
-
-
 
     const MyText = props => {
         return (

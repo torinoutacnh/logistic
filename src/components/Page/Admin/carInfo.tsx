@@ -204,8 +204,6 @@ export const CarInfo = () => {
             {
                 car ?
                     <>
-
-
                         < Grid container className={styles.container} >
 
                             <Grid className={styles.left} container xs={11} sm={10} md={10} lg={7.5}>
