@@ -25,7 +25,7 @@ import { ChangeSeat } from './ChangeSeat';
 export const CarInfo = () => {
 
     const router = useRouter()
-    const { id } = router.query
+    const { id, index } = router.query
 
     const [car, setCar] = useState<CarModel>()
     const [reRender, setReRender] = useState(0)
@@ -218,6 +218,7 @@ export const CarInfo = () => {
                                         alt="Không có hình ảnh"
                                         width={500}
                                         height={400}
+                                        onClick={() => { router.push({ pathname: "/admin", query: { index: index } }) }}
                                     />
 
                                 </Grid>

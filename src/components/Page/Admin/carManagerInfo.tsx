@@ -17,7 +17,7 @@ import { UpdateCarManager } from './updateCarManager';
 export const CarManagerInfo = () => {
 
     const router = useRouter()
-    const { id } = router.query
+    const { id, index } = router.query
 
     const [car, setCar] = useState<CarModel>()
     const [reRender, setReRender] = useState(0)
@@ -124,6 +124,7 @@ export const CarManagerInfo = () => {
                                         alt="Không có logo"
                                         width={400}
                                         height={300}
+                                        onClick={() => { router.push({ pathname: "/admin", query: { index: index } }) }}
                                     />
 
                                 </Grid>
@@ -158,7 +159,7 @@ export const CarManagerInfo = () => {
 
                             <Grid item className={styles.item_bottom} xs={11} sm={11} md={9} lg={8}>
                                 <span className={styles.header_top}>Danh sách xe</span>
-                                <ListiItemCarAdmin typeProps={3} carManagerID={id as string} />
+                                <ListiItemCarAdmin typeProps={3} carManagerID={id as string} index={Number(index)} />
 
                             </Grid>
 
