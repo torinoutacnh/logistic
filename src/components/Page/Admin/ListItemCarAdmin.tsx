@@ -12,6 +12,7 @@ import { CreateSeat } from "./createSeat";
 import AddIcon from '@mui/icons-material/Add';
 import { CreateCar } from "./createCar";
 import { CarManagerModel } from "../../Shared/Models/CarManager";
+import ProgressBar from "../../Shared/Components/Loading/ProgressBar";
 
 export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: string }) => {
 
@@ -315,7 +316,13 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                         />
                     </>
                     :
-                    <><h1>Loading</h1></>
+                    <div style={{
+                        width:"100%",
+                        height:"calc(100vh - 60px)",
+                        display:"flex",
+                        justifyContent:"center",
+                        alignItems:"center"
+                     }}><ProgressBar/></div>
             }
         </>
     )

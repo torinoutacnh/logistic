@@ -31,6 +31,7 @@ $gradient: linear-gradient(-45deg,
             display: flex;
             justify-content: center;
             width: 30%;
+            cursor: pointer;
         }
 
         .logoMobile {
@@ -288,18 +289,9 @@ $gradient: linear-gradient(-45deg,
 
 .menuNavRes {
     display: none;
-
-    .btnIconMenuRes {
-
-        .iconMenuRes {}
-    }
 }
 
-
-
-
 @media screen and (max-width:900px) {
-
     .menuNavRes {
         display: flex;
         background: $header-color;
@@ -307,20 +299,12 @@ $gradient: linear-gradient(-45deg,
         align-items: center;
         padding: 5px 0;
 
-        .btnIconMenuRes {
-
-            .iconMenuRes {}
-
-        }
-
         .headerNavRes {
             margin: 0;
             padding: 0;
             font-size: 20px;
             color: $text-back-color;
         }
-
-
     }
 
     // list nav
@@ -348,9 +332,6 @@ $gradient: linear-gradient(-45deg,
     background-color: rgba($primary-color, 0.5);
 }
 
-
-@media screen and (max-width:900px) {}
-
 @media screen and (max-width:768px) {
     .option {
         display: none;
@@ -366,21 +347,21 @@ $gradient: linear-gradient(-45deg,
         justify-content: space-between;
 
         .logoDesktop {
-            display: none;
+            display: none !important;
         }
 
         .logoMobile {
-            display: flex;
+            display: flex !important;
             justify-content: center;
             width: 30%;
         }
 
         .search {
-            display: none;
+            display: none !important;
         }
 
         .searchMobile {
-            display: block;
+            display: block !important;
 
             .search_icon {
                 margin-right: 50px;
@@ -400,8 +381,6 @@ $gradient: linear-gradient(-45deg,
             height: 175px;
 
             .left {
-
-                .image {}
 
                 .action {
 

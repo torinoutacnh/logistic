@@ -10,7 +10,7 @@ import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
 import WarehouseIcon from '@mui/icons-material/Warehouse';
 import { ServiceType } from '../../Shared/Models/Everything';
 import { ListCarManager } from './listCarManager';
-import { ListiItemCarAdmin } from './listItemCarAdmin';
+import { ListiItemCarAdmin } from './ListItemCarAdmin';
 
 export const Admin = () => {
 
@@ -90,7 +90,6 @@ export const Admin = () => {
     return (
         <>
 
-
             <Grid container style={{ background: "#fff", minHeight: "calc(100vh - 60px)" }}>
                 <Grid item xs={0} sm={0} md={0.5} xl={0.5}></Grid>
                 <Grid item xs={12} sm={12} md={11} xl={11}>
@@ -118,7 +117,6 @@ export const Admin = () => {
                                 }}
                             >
                                 <List
-
                                     className={styles.list_nav}
                                     sx={{ width: '100%', p: 0 }}
                                     component="nav"
@@ -153,11 +151,11 @@ export const Admin = () => {
                                 {
                                     listMenu.map((item, index) => {
                                         return (
-                                            <ListItemButton onClick={() => { onClickItemMenu(item) }} key={index} >
+                                            <ListItemButton onClick={() => { onClickItemMenu(item) }} key={index}>
                                                 <ListItemIcon>
                                                     {item.icon}
                                                 </ListItemIcon>
-                                                <ListItemText primary={item.name} />
+                                                <ListItemText primary={item.name}/>
                                             </ListItemButton>
                                         )
                                     })
