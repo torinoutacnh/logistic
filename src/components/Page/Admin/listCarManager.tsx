@@ -10,7 +10,7 @@ import { CreateCarManager } from "./createCarManager";
 import { CarManagerModel } from "../../Shared/Models/CarManager";
 import ProgressBar from "../../Shared/Components/Loading/ProgressBar";
 
-export const ListCarManager = (props: { typeProps?: number }) => {
+export const ListCarManager = (props: { typeProps?: number, index: number }) => {
 
     const [filterCarManager, setFilterCarManager] = useState<CarManagerModel[]>()
     const [reRender, setReRender] = useState(0)
@@ -97,7 +97,7 @@ export const ListCarManager = (props: { typeProps?: number }) => {
     }
 
     const handelOnClickItemManager = (carManagerId: string) => {
-        router.push({ pathname: "/admin/carManagerInfo", query: { id: carManagerId } })
+        router.push({ pathname: "/admin/carManagerInfo", query: { id: carManagerId, index: props.index } })
     }
 
     ////////////////////////////////////////////////////////
@@ -231,12 +231,12 @@ export const ListCarManager = (props: { typeProps?: number }) => {
                     </>
                     :
                     <div style={{
-                       width:"100%",
-                       height:"calc(100vh - 60px)",
-                       display:"flex",
-                       justifyContent:"center",
-                       alignItems:"center"
-                    }}><ProgressBar/></div>
+                        width: "100%",
+                        height: "calc(100vh - 60px)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}><ProgressBar /></div>
             }
         </>
     )

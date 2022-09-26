@@ -13,7 +13,7 @@ import ProgressBar from "../../Shared/Components/Loading/ProgressBar";
 import SearchIcon from '@mui/icons-material/Search';
 
 
-export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: string }) => {
+export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: string, index: number }) => {
 
     const [car, setCar] = useState<CarModel[]>([])
     const [filterCar, setFilterCar] = useState<CarModel[]>()
@@ -147,7 +147,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
     }
 
     const handelOnClickItem = (carId: string) => {
-        router.push({ pathname: "/admin/carInfo", query: { id: carId } })
+        router.push({ pathname: "/admin/carInfo", query: { id: carId, index: props.index } })
     }
 
     ////////////////////////////////////////////////////////
@@ -297,12 +297,12 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                     </>
                     :
                     <div style={{
-                        width:"100%",
-                        height:"calc(100vh - 60px)",
-                        display:"flex",
-                        justifyContent:"center",
-                        alignItems:"center"
-                     }}><ProgressBar/></div>
+                        width: "100%",
+                        height: "calc(100vh - 60px)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}><ProgressBar /></div>
             }
         </>
     )

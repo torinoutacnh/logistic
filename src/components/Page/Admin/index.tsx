@@ -1,5 +1,5 @@
 import styles from './styles/admin.module.scss'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Button, Popover } from '@mui/material'
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -11,43 +11,87 @@ import WarehouseIcon from '@mui/icons-material/Warehouse';
 import { ServiceType } from '../../Shared/Models/Everything';
 import { ListCarManager } from './listCarManager';
 import { ListiItemCarAdmin } from './ListItemCarAdmin';
+import { useRouter } from 'next/router';
+
+interface ItemComponent {
+    icon: any,
+    name: string,
+    index: number,
+    component: any
+}
 
 export const Admin = () => {
 
+    // const [area, setArea] = React.useState('');
+
+    // const handleChange = (e: SelectChangeEvent) => {
+    //     setArea(e.target.value as string);
+    // };
+
+
+    const router = useRouter()
+
+    const { index } = router.query
+
     const [showComponent, setShowComponent] = useState(<>HOME</>)
 
-    const listMenu = [
+    const listMenu: ItemComponent[] = [
         {
             icon: <GroupsIcon />,
             name: "Quản lý nhân viên",
-            component: <></>
+            index: 1,
+            component: <>Quản lý nhân viên</>
         },
         {
             icon: <WarehouseIcon />,
             name: "Quản lý thông tin nhà xe",
-            component: <ListCarManager />
+            index: 2,
+            component: <ListCarManager index={2} />
         },
         {
             icon: <AirportShuttleIcon />,
             name: "Quản lý xe",
-            component: <ListiItemCarAdmin typeProps={ServiceType["Chở người"]} />
+            index: 3,
+            component: <ListiItemCarAdmin typeProps={ServiceType["Chở người"]} index={3} />
         },
         {
             icon: <LocalShippingIcon />,
             name: "Quản lý chành xe",
-            component: <ListiItemCarAdmin typeProps={ServiceType["Chở hàng"]} />
+            index: 4,
+            component: <ListiItemCarAdmin typeProps={ServiceType["Chở hàng"]} index={4} />
         },
         {
             icon: <BarChartIcon />,
             name: "Báo cáo thống kê",
-            type: <></>
+            index: 5,
+            component: <>Báo cáo thống kê</>
         },
         {
             icon: <ConfirmationNumberIcon />,
             name: "Vé xe",
-            component: <></>
+            index: 6,
+            component: <>Vé xe</>
         },
     ]
+
+
+    useEffect(() => {
+
+        const item: ItemComponent = listMenu.find(i => i.index === Number(index))
+        setShowComponent(item?.component)
+
+    }, [index])
+
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 220,
+            },
+        },
+    };
 
     /////////////////////////////////////////////////////////
 
@@ -137,7 +181,7 @@ export const Admin = () => {
                                                 <ListItemIcon>
                                                     {item.icon}
                                                 </ListItemIcon>
-                                                <ListItemText primary={item.name}/>
+                                                <ListItemText primary={item.name} />
                                             </ListItemButton>
                                         )
                                     })
