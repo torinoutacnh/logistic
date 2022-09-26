@@ -14,12 +14,6 @@ import { ListiItemCarAdmin } from './ListItemCarAdmin';
 
 export const Admin = () => {
 
-    // const [area, setArea] = React.useState('');
-
-    // const handleChange = (e: SelectChangeEvent) => {
-    //     setArea(e.target.value as string);
-    // };
-
     const [showComponent, setShowComponent] = useState(<>HOME</>)
 
     const listMenu = [
@@ -55,21 +49,9 @@ export const Admin = () => {
         },
     ]
 
-    const ITEM_HEIGHT = 48;
-    const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 220,
-            },
-        },
-    };
-
     /////////////////////////////////////////////////////////
 
     const [dataTitleMenu, setDataTitleMenu] = React.useState("Quản lý xe")
-
 
     const onClickItemMenu = (data: any) => {
         setDataTitleMenu(data.name)
@@ -100,7 +82,7 @@ export const Admin = () => {
                                 <Button onClick={handleClick2} size="small" className={styles.btnIconMenuRes}>
                                     <DnsOutlinedIcon className={styles.iconMenuRes} />
                                 </Button>
-                                <h3 className={styles.headerNavRes}>{dataTitleMenu} </h3>
+                                <h3 className={styles.headerNavRes}>{dataTitleMenu}</h3>
 
                                 <Button size="small" className={styles.btnIconMenuResVisibility} disabled={true}>
                                 </Button>

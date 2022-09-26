@@ -37,24 +37,6 @@ $gradient: linear-gradient(-45deg,
         .logoMobile {
             display: none;
         }
-
-        .search {
-            display: flex;
-            align-items: flex-end;
-            width: 80%;
-
-            .search_icon {
-                margin: 0.5 1 0.5 3;
-            }
-
-            .search_input {
-                width: 50%;
-            }
-        }
-
-        .searchMobile {
-            display: none;
-        }
     }
 }
 
@@ -69,44 +51,6 @@ $gradient: linear-gradient(-45deg,
 
     100% {
         background-position: 0% 50%;
-    }
-}
-
-.header {
-    height: 60px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-
-    .logoDesktop {
-        display: flex;
-        justify-content: center;
-        width: 30%;
-    }
-
-    .logoMobile {
-        display: none;
-    }
-
-    .search {
-        display: flex;
-        align-items: flex-end;
-        width: 80%;
-
-        .search_icon {
-            margin: 0.5 1 0.5 3;
-        }
-
-        .search_input {
-            width: 50%;
-        }
-
-
-    }
-
-    .searchMobile {
-        display: none;
     }
 }
 
@@ -125,20 +69,29 @@ $gradient: linear-gradient(-45deg,
 
 .option {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin: 10px 5px;
 
-    // .area {
-    //     width: 300px;
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: center;
-    //     margin-left: 10px;
+    .search {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 10px;
+        width: 40px;
+        overflow: hidden;
+        transition: 1s;
 
-    //     span {
-    //         width: 100px;
-    //     }
-    // }
+        .search_input {
+            outline: none;
+            border: none;
+            background-color: transparent;
+            width: 300px !important;
+        }
+    }
+
+    .search:focus-within {
+        width: 300px;
+    }
 }
 
 .wrapper {

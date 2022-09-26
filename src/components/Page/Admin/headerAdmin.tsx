@@ -63,16 +63,8 @@ export const HeaderAdmin = () => {
                 <div className={styles.header}>
 
                     <div className={styles.logoDesktop} onClick={() => { onClickHome() }} >LogoPC</div>
-                    <Box className={styles.search}>
-                        <SearchIcon />
-                        <TextField
-                            className={styles.search_input}
-                            id="input-with-sx"
-                            variant="standard"
-                            size='small'
-                        />
-                    </Box>
-                    <div className={styles.searchMobile}>
+                    
+                    {/* <div className={styles.searchMobile}>
                         <IconButton
                             size="small"
                             className={styles.search_icon}
@@ -97,7 +89,7 @@ export const HeaderAdmin = () => {
                             </DialogActions>
                         </Dialog>
 
-                    </div>
+                    </div> */}
                     <div className={styles.logoMobile} onClick={() => { onClickHome() }}>LogoMb</div>
                     <div className={styles.icon}>
                         <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>

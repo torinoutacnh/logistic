@@ -1,18 +1,17 @@
-import { Alert, Button, Grid, Snackbar } from "@mui/material"
+import { Alert, Box, Button, Grid, IconButton, Snackbar, TextField } from "@mui/material"
 import styles from './styles/admin.module.scss'
-import imageTest from "../../../styles/img/imgTest.jpg"
 import Image from "next/image"
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from "react";
 import { CarModel } from "../../Shared/Models/CarModel";
 import { env, ServiceType } from "../../Shared/Models/Everything";
 import { useRouter } from "next/router";
-import { CreateSeat } from "./createSeat";
 import AddIcon from '@mui/icons-material/Add';
 import { CreateCar } from "./createCar";
 import { CarManagerModel } from "../../Shared/Models/CarManager";
 import ProgressBar from "../../Shared/Components/Loading/ProgressBar";
+import SearchIcon from '@mui/icons-material/Search';
+
 
 export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: string }) => {
 
@@ -23,8 +22,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
 
     const router = useRouter()
 
-    ////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////
     ////////////////////////////////////////////////////
 
     const [openNotify, setOpenNofity] = useState(false);
@@ -41,8 +38,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
         setMessageNotify(message)
         setOpenNofity(true)
     }
-    ////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////
     ////////////////////////////////////////////////////
 
     useEffect(() => {
@@ -118,7 +113,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
         setFilterCar(tmp)
     }, [car])
 
-
     const onClickDeleteCar = (idCar: string) => {
         fetch(env.REACT_APP_API.concat(`/car/delete-car/${idCar}`), {
             method: "GET",
@@ -171,32 +165,18 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                 (filterCar && carManagers) ?
                     <>
                         <div className={styles.option}>
-                            {/* <Box className={styles.area}>
-                                    <span>Khu vực</span>
-                                    <FormControl fullWidth size="small">
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            MenuProps={MenuProps}
-                                            value={area}
-                                            onChange={handleChange}
-                                        >
-
-                                            {
-                                                dataDistrict.map((item, index) => (
-                                                    <MenuItem
-                                                        key={index}
-                                                        value={item}
-                                                    >
-                                                        {item}
-                                                    </MenuItem>
-                                                )
-                                                )
-                                            }
-
-                                        </Select>
-                                    </FormControl>
-                                </Box> */}
+                            <Box className={styles.search}>
+                                <IconButton>
+                                    <SearchIcon />
+                                </IconButton>
+                                <TextField
+                                    className={styles.search_input}
+                                    id="input-with-sx"
+                                    variant="standard"
+                                    size='small'
+                                    fullWidth
+                                />
+                            </Box>
 
                             {
                                 (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"])
