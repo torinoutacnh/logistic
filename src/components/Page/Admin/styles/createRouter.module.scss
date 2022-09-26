@@ -1,0 +1,193 @@
+$boxshadow-item-color: rgba(0, 86, 115, 0.3);
+$border-item-color: rgba(1, 161, 102, 0.2);
+$header-color: #f9e5e6;
+$text-back-color: black;
+$primary-color: #e93636;
+$white-color: rgb(255, 255, 255);
+
+.container {
+    color: $text-back-color;
+    display: flex;
+    justify-content: space-between;
+    height: 400px;
+    overflow: auto;
+
+    #info {
+        // width: 320px;
+        color: $text-back-color;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+
+        .idCar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .itemFrom,
+        .itemTo,
+        .itemAbout {
+
+            .wrap {
+
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .title {
+                    text-align: left;
+                    width: 100px;
+                }
+
+                .selection {
+                    width: 200px;
+                }
+            }
+        }
+
+
+    }
+
+
+}
+
+@media screen and (max-width:768px) {
+    .container {
+
+        flex-direction: column;
+        align-items: center;
+        max-height: 500px;
+        overflow-y: scroll;
+
+        .img {
+            margin-right: 0;
+
+            .image {
+                height: 250px;
+                width: 250px;
+
+                img {
+                    height: 250px;
+                    width: 250px;
+                    border-radius: 5px;
+                }
+            }
+
+            .btnUpload {}
+        }
+
+        #info {
+
+            margin: 30px 0;
+
+            .idCar {}
+
+            .wrap {
+                .booking_input {
+                    width: 200px;
+                }
+
+                .selection {
+                    width: 200px;
+                }
+            }
+        }
+
+
+    }
+}
+
+.action {
+    margin-top: 10px;
+
+    .btnCreate {
+        margin: 0 20px;
+        background-image: linear-gradient(135deg, #008aff, #86d472);
+        border-radius: 6px;
+        box-sizing: border-box;
+        color: #ffffff;
+        z-index: 2;
+        transition: .2s;
+    }
+
+    .btnCreate:hover,
+    .btnCancel:hover {
+        transform: scale(1.1);
+    }
+
+    .btnCancel {
+        margin: 0 20px;
+        background-image: linear-gradient(135deg, #f50a0a, #f1e0d3);
+        border-radius: 6px;
+        box-sizing: border-box;
+        color: #ffffff;
+        z-index: 2;
+        transition: .2s;
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+/// CREATE SEAT////////////////////////////////////////////////////////////
+.container_create_list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 400px;
+    overflow-y: scroll;
+
+    .item_form {
+        display: flex;
+        margin-bottom: 20px;
+
+        .item {
+
+            display: flex;
+            flex-direction: column;
+
+            .box_input {
+                color: $text-back-color;
+                margin-bottom: 2px;
+                display: flex;
+
+                @media screen and (max-width:768px) {
+                    .input {
+                        width: 200px !important;
+                    }
+                }
+
+                .title {
+                    text-align: left;
+                    display: block;
+                    width: 70px;
+                    font-size: 16px;
+                    color: $text-back-color;
+                }
+
+                .input {
+                    color: $text-back-color;
+                    background: white;
+                    flex-grow: 1;
+                    padding: 5px;
+                    border-radius: 3px;
+                    border: 1px solid $border-item-color;
+                    outline: none;
+                    list-style: none;
+                }
+
+                .input+.input {
+                    margin-top: 5px;
+                }
+            }
+
+            .btnDelete {
+                margin-left: 10px;
+            }
+        }
+
+
+
+    }
+}

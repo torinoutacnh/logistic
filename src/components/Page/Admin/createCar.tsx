@@ -69,22 +69,22 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
             tel: tel,
             carNumber: carNumber,
             serviceType: typeService,
-            carsManagerId: carManagerSelect.id
+            carsManagerId: carManagerSelect?.id
         }
 
 
         // console.log("handle submit create car => ", Car);
 
         const formData = new FormData();
-        formData.append("shipPrice", `${typeService === ServiceType["Chở hàng"] ? priceTravel : 0}`)
-        formData.append("travelPrice", `${typeService === ServiceType["Chở người"] ? priceTravel : 0}`)
-        formData.append("carModel", carModel)
-        formData.append("carColor", carColor)
-        formData.append("imagePath", inputFile.files[0])
-        formData.append("tel", tel)
-        formData.append("carNumber", carNumber)
-        formData.append("serviceType", `${typeService}`)
-        formData.append("carsManagerId", carManagerSelect.id)
+        formData.append("ShipPrice", `${typeService === ServiceType["Chở hàng"] ? priceTravel : 0}`)
+        formData.append("TravelPrice", `${typeService === ServiceType["Chở người"] ? priceTravel : 0}`)
+        formData.append("CarModel", carModel)
+        formData.append("CarColor", carColor)
+        formData.append("ImagePath", inputFile.files[0])
+        formData.append("Tel", tel)
+        formData.append("CarNumber", carNumber)
+        formData.append("ServiceType", `${typeService}`)
+        formData.append("CarsManagerId", carManagerSelect?.id)
 
 
         fetch(env.REACT_APP_API.concat("/car/create-car"), {

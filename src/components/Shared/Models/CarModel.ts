@@ -18,7 +18,6 @@ interface CarModel {
     manager?: any,
     seats?: SeatModel[],
     routes?: RouteModel[],
-    stopPoints?: StopPointModel[],
 
 }
 

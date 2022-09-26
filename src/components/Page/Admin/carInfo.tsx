@@ -294,64 +294,60 @@ export const CarInfo = () => {
                                         {
                                             car.routes.map((item, index) => {
 
-                                                const RouterFrom: StopPointModel = car.stopPoints.filter(i => i.id === item.fromId)[0]
-                                                const RouterTo: StopPointModel = car.stopPoints.filter(i => i.id === item.toId)[0]
-
                                                 return (
                                                     <>
                                                         {
-                                                            RouterFrom && RouterTo ?
-                                                                <>
-                                                                    <div className={styles.item} key={index}>
 
-                                                                        <div className={styles.item_left}>
-                                                                            <span className={styles.text}>
-                                                                                <span className={styles.title}>Từ:</span>
-                                                                                {RouterFrom.houseNumber} {RouterFrom.street} -
-                                                                                {RouterFrom.ward} - {RouterFrom.district} - {RouterFrom.city}
-                                                                            </span>
+                                                            <>
+                                                                <div className={styles.item} key={index}>
 
-                                                                            <span className={styles.text}>
-                                                                                <span className={styles.title}>Đến:</span>
-                                                                                {RouterTo.houseNumber} {RouterTo.street} -
-                                                                                {RouterTo.ward} - {RouterTo.district} - {RouterTo.city}
-                                                                            </span>
-                                                                            <div className={styles.dis_time}>
-                                                                                <p className={styles.distance}>
-                                                                                    <RouteOutlinedIcon />
-                                                                                    <span>{item.distanceByKm} km</span>
-                                                                                </p>
-                                                                                <p className={styles.time}>
-                                                                                    <TimerOutlinedIcon />
-                                                                                    {(item.day === 0) ? "" : (' ' + item.day + ' ngày')}
-                                                                                    {(item.hour === 0) ? "" : (' ' + item.hour + ' giờ')}
-                                                                                    {(item.minute === 0) ? "" : (' ' + item.minute + ' phút')}
-                                                                                </p>
-                                                                            </div>
+                                                                    <div className={styles.item_left}>
+                                                                        <span className={styles.text}>
+                                                                            <span className={styles.title}>Từ:</span>
+
+                                                                            {item.from.ward} - {item.from.district} - {item.from.city}
+                                                                        </span>
+
+                                                                        <span className={styles.text}>
+                                                                            <span className={styles.title}>Đến:</span>
+
+                                                                            {item.to.ward} - {item.to.district} - {item.to.city}
+                                                                        </span>
+                                                                        <div className={styles.dis_time}>
+                                                                            <p className={styles.distance}>
+                                                                                <RouteOutlinedIcon />
+                                                                                <span>{item.distanceByKm} km</span>
+                                                                            </p>
+                                                                            <p className={styles.time}>
+                                                                                <TimerOutlinedIcon />
+                                                                                {(item.day === 0) ? "" : (' ' + item.day + ' ngày')}
+                                                                                {(item.hour === 0) ? "" : (' ' + item.hour + ' giờ')}
+                                                                                {(item.minute === 0) ? "" : (' ' + item.minute + ' phút')}
+                                                                            </p>
                                                                         </div>
-                                                                        <div className={styles.item_right}>
-                                                                            <IconButton
-                                                                                onClick={() => onClickShowModalUpdateRoute(item)}
-                                                                                color="primary"
-                                                                                size='small'
-                                                                            >
-                                                                                <BorderColorIcon fontSize='inherit' />
-                                                                            </IconButton>
+                                                                    </div>
+                                                                    <div className={styles.item_right}>
+                                                                        <IconButton
+                                                                            onClick={() => onClickShowModalUpdateRoute(item)}
+                                                                            color="primary"
+                                                                            size='small'
+                                                                        >
+                                                                            <BorderColorIcon fontSize='inherit' />
+                                                                        </IconButton>
 
-                                                                            <IconButton
-                                                                                onClick={() => { onClickDeleteRoute(item.id) }}
-                                                                                color="error"
-                                                                                size='small'
-                                                                            >
-                                                                                <DeleteIcon fontSize='inherit' />
-                                                                            </IconButton>
-
-                                                                        </div>
+                                                                        <IconButton
+                                                                            onClick={() => { onClickDeleteRoute(item.id) }}
+                                                                            color="error"
+                                                                            size='small'
+                                                                        >
+                                                                            <DeleteIcon fontSize='inherit' />
+                                                                        </IconButton>
 
                                                                     </div>
-                                                                </>
-                                                                :
-                                                                <></>
+
+                                                                </div>
+                                                            </>
+
                                                         }
                                                     </>
                                                 )
@@ -372,7 +368,7 @@ export const CarInfo = () => {
                                     </Button>
                                 </Grid>
 
-                                <Grid item className={styles.item_left4} xs={12} sm={12} md={5.5} lg={5.5}>
+                                {/* <Grid item className={styles.item_left4} xs={12} sm={12} md={5.5} lg={5.5}>
                                     <h3 className={styles.header_left}>ĐIỂM DỪNG</h3>
                                     <div className={styles.box_info_left_3_4}>
                                         {
@@ -420,7 +416,7 @@ export const CarInfo = () => {
                                         onClick={() => { onClickShowModalCreateStoppoint() }}>
                                         Tạo mới
                                     </Button>
-                                </Grid>
+                                </Grid> */}
 
                             </Grid>
 
@@ -509,7 +505,6 @@ export const CarInfo = () => {
                             close={onClickCloseModalCreateRoute}
                             reloadPage={reloadPage}
                             id={id as string}
-                            car={car}
                         />
 
                         <UpdateStopPoint

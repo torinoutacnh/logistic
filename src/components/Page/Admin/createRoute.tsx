@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar, IconButton } from '@mui/material';
-import styles from './styles/createCar.module.scss';
+import styles from './styles/createRouter.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-import { CarManager } from '../../Shared/Models/CarManager';
+
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useForm, useFieldArray } from "react-hook-form";
@@ -15,6 +15,9 @@ import { SeatModel } from "../../Shared/Models/SeatModel";
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { RouteModel } from '../../Shared/Models/RouteModel';
+import { CityModel } from '../../Shared/Models/CityModel';
+import { DistrictModel } from '../../Shared/Models/DistrictModel';
+import { WardModel } from '../../Shared/Models/WardModel';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -29,25 +32,209 @@ const style = {
     textAlign: 'center',
 };
 
-export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPage: any, id: string, car: CarModel }) {
+export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPage: any, id: string }) {
 
     const [isShow, setIsShow] = useState(false)
+    const [typeNotifi, setTypeNotifi] = useState("success")
+
+    ///////////////////////////////////////////
+    ///////////////////////////////////////////
+    const [distance, setDistance] = useState<number>()
+    const [day, setDay] = useState<number>()
+    const [hour, setHour] = useState<number>()
+    const [minute, setMinute] = useState<number>()
+    ///////////////////////////////////////////
+    const [cityFrom, setCityFrom] = useState<CityModel>();
+    const [districtFrom, setDistrictFrom] = useState<DistrictModel>();
+    const [wardFrom, setWardFrom] = useState<WardModel>();
+    const [streetFrom, setStreetFrom] = useState<string>()
+    const [houseNumberFrom, setHouseNumberFrom] = useState<string>()
+    //////////
+    const [listDistrictFrom, setListDistrictFrom] = useState<DistrictModel[]>()
+    const [listWardFrom, setListWardFrom] = useState<WardModel[]>()
+    //////////////////////////////////////////
+    const [cityTo, setCityTo] = useState<CityModel>();
+    const [districtTo, setDistrictTo] = useState<DistrictModel>();
+    const [wardTo, setWardTo] = useState<WardModel>();
+    const [streetTo, setStreetTo] = useState<string>()
+    const [houseNumberTo, setHouseNumberTo] = useState<string>()
+    //////////
+    const [listDistrictTo, setListDistrictTo] = useState<DistrictModel[]>()
+    const [listWardTo, setListWardTo] = useState<WardModel[]>()
+    /////////////////////////////////////////
+    const [listCity, setListCity] = useState<CityModel[]>()
+
+
+
+    const loadData = async () => {
+
+
+        const res_city = await fetch(env.REACT_APP_API.concat("/cities"), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },// body: JSON.stringify(form.getFieldsValue()),
+        })
+        if (res_city.status > 200) { return }
+        const data_res_city = await res_city.json()
+        setListCity(data_res_city.data)
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+
+    useEffect(() => {
+        if (cityFrom) {
+            fetch(env.REACT_APP_API.concat(`/districts/${cityFrom.id}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
+            })
+                .then(async (res) => {
+
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get district status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get district status >= 400 ", data);
+                        return
+                    }
+                    setListDistrictFrom(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [cityFrom])
+
+    useEffect(() => {
+        if (cityTo) {
+            fetch(env.REACT_APP_API.concat(`/districts/${cityTo.id}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
+            })
+                .then(async (res) => {
+
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get district status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get district status >= 400 ", data);
+                        return
+                    }
+                    setListDistrictTo(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [cityTo])
+
+
+
+    /////////////////////////////////////////////////////////////
+
+    useEffect(() => {
+        if (districtFrom) {
+            fetch(env.REACT_APP_API.concat(`/wards/${districtFrom.id}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
+            })
+                .then(async (res) => {
+
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get ward status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get ward status >= 400 ", data);
+                        return
+                    }
+                    setListWardFrom(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [districtFrom])
+
+    useEffect(() => {
+        if (districtTo) {
+            fetch(env.REACT_APP_API.concat(`/wards/${districtTo.id}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
+            })
+                .then(async (res) => {
+
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get ward status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get ward status >= 400 ", data);
+                        return
+                    }
+                    setListWardTo(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [districtTo])
+
+
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+
+
 
 
     useEffect(() => {
         setIsShow(props.stateProps)
+        loadData()
     }, [props.stateProps])
 
 
-    const onCloseModal = () => {
-        props.close()
-    }
 
 
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
@@ -60,42 +247,74 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
     };
 
     ///////////////////////////////////////////////////////////////////////////
-    function getCurrentDateTime() {
-        const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
-        const localISOTime = new Date(Date.now() - tzoffset).toISOString();
-        const mySqlDT = localISOTime;
-        return mySqlDT;
-    }
+    // function getCurrentDateTime() {
+    //     const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+    //     const localISOTime = new Date(Date.now() - tzoffset).toISOString();
+    //     const mySqlDT = localISOTime;
+    //     return mySqlDT;
+    // }
     ///////////////////////////////////////////////////////////////////////////
-    const defaultValues: RouteModel = { fromId: "", toId: "", distanceByKm: 0, day: 0, hour: 0, minute: 0, dailyStartTime: "" }
 
-    const { register, control, handleSubmit, reset, } = useForm({
-        defaultValues: {
-            listRoute: [defaultValues]
+    const resetForm = () => {
+        setListCity([])
+        setListDistrictFrom([])
+        setListWardFrom([])
+        setListDistrictTo([])
+        setListWardTo([])
+        setCityFrom(null)
+        setDistrictFrom(null)
+        setWardFrom(null)
+        setStreetFrom(null)
+        setHouseNumberFrom(null)
+        setCityTo(null)
+        setDistrictTo(null)
+        setWardTo(null)
+        setStreetTo(null)
+        setHouseNumberTo(null)
+        setDistance(null)
+        setDay(null)
+        setHour(null)
+        setMinute(null)
+    }
+
+    const onCloseModal = () => {
+        resetForm()
+        props.close()
+    }
+
+    const onClickSubmit = () => {
+
+        const routerCreate: RouteModel = {
+            from: {
+                cityId: cityFrom?.id,
+                districtId: districtFrom?.id,
+                wardId: wardFrom?.id,
+                street: streetFrom,
+                houseNumber: houseNumberFrom
+            },
+            to: {
+                cityId: cityTo?.id,
+                districtId: districtTo?.id,
+                wardId: wardTo?.id,
+                street: streetTo,
+                houseNumber: houseNumberTo
+            },
+            distanceByKm: distance,
+            day: day,
+            hour: hour,
+            minute: minute
         }
-    });
+        console.log("router create", routerCreate);
 
-    const {
-        fields,
-        append,
-        remove,
-    } = useFieldArray({
-        control,
-        name: "listRoute"
-    });
+        // list.map(i => i.dailyStartTime = getCurrentDateTime())
 
-    const onSubmit = (data) => {
-
-        const list: RouteModel[] = data.listRoute
-        list.map(i => i.dailyStartTime = getCurrentDateTime())
-
-        fetch(env.REACT_APP_API.concat(`/route/create-routes/${props.id}`), {
+        fetch(env.REACT_APP_API.concat(`/route/create-route/${props.id}`), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 // Authorization: "Bearer ".concat(user.token),
             },
-            body: JSON.stringify(list),
+            body: JSON.stringify(routerCreate),
         })
             .then(async (res) => {
 
@@ -107,13 +326,16 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                 }
                 else if (res.status >= 400) {
                     console.log(" create route status >= 400 ", data);
+                    handleOpenNotify("Vui lòng nhập đầy đủ thông tin", "error");
                     return
                 }
 
                 console.log(" create route => ", data.data);
 
-                reset({ listRoute: [defaultValues] })
-                handleOpenNotify("Tạo tuyến đường thành công")
+                handleOpenNotify("Tạo tuyến đường thành công", "success")
+
+                resetForm()
+
                 onCloseModal()
                 props.reloadPage()
 
@@ -127,12 +349,21 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
     ///////////////////////////////////////////////////////////////////////////
 
 
-
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 220,
+            },
+        },
+    };
 
 
     return (
         <>
-            {isShow ?
+            {isShow && listCity ?
                 <Modal
                     open={isShow}
                     onClose={() => props.close()}
@@ -140,156 +371,371 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                     aria-describedby="modal-modal-description"
                 >
                     <Box sx={style} style={{ color: "black" }}>
-                        <Typography id="modal-modal-title" variant="h5" component="h3" sx={{ mb: 3 }}>
-                            Tạo tuyến đường
+                        <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 3 }}>
+                            {"Tạo mới tuyến đường"}
                         </Typography>
+                        <div className={styles.container}>
 
 
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <ul className={styles.container_create_list}>
-                                {fields.map((item, index) => {
-                                    return (
-                                        <li key={item.id} className={styles.item_form}>
-
-                                            <div className={styles.item}>
-
-                                                <div className={styles.box_input}>
-                                                    <span className={styles.title} style={{ width: "100px" }} >Điểm đi</span>
-                                                    <select
-                                                        required={true}
-                                                        className={styles.input}
-                                                        {...register(`listRoute.${index}.fromId`)}
-                                                    // style={{ width: "230px", background: "white" }}
-                                                    >
-                                                        {
-                                                            props.car?.stopPoints.map((item, index) => {
-                                                                return (
-                                                                    <>
-                                                                        <option value={item.id} key={index} >
-                                                                            {item.houseNumber} {item.street}  {item.ward} - {item.district} - {item.city}
-                                                                        </option>
-                                                                    </>
-                                                                )
-                                                            })
-                                                        }
-                                                    </select>
-                                                </div>
-                                                <div className={styles.box_input}>
-                                                    <span className={styles.title} style={{ width: "100px" }} >Điểm đến</span>
-                                                    <select
-                                                        required={true}
-                                                        className={styles.input}
-                                                        {...register(`listRoute.${index}.toId`)}
-                                                    >
-                                                        {
-                                                            props.car?.stopPoints.map((item, index) => {
-                                                                return (
-                                                                    <>
-                                                                        <option value={item.id} key={index} >
-                                                                            {item.houseNumber} {item.street} - {item.ward} - {item.district} - {item.city}
-                                                                        </option>
-                                                                    </>
-                                                                )
-                                                            })
-                                                        }
-                                                    </select>
-                                                </div>
-
-                                                <div className={styles.box_input}>
-                                                    <span className={styles.title} style={{ width: "100px" }}>Khoảng cách</span>
-                                                    <input
-                                                        required={true}
-                                                        className={styles.input}
-                                                        {...register(`listRoute.${index}.distanceByKm`, { value: Number() })} type="number"
-                                                    />
-                                                </div>
-                                                <div className={styles.box_input}>
-                                                    <span className={styles.title} style={{ width: "100px" }}>Ngày</span>
-                                                    <input
-                                                        required={true}
-                                                        className={styles.input}
-                                                        {...register(`listRoute.${index}.day`, { value: Number() })} type="number"
-                                                    />
-                                                </div>
-                                                <div className={styles.box_input}>
-                                                    <span className={styles.title} style={{ width: "100px" }}>Giờ</span>
-                                                    <input
-                                                        required={true}
-                                                        className={styles.input}
-                                                        {...register(`listRoute.${index}.hour`, { value: Number() })} type="number"
-                                                    />
-                                                </div>
-                                                <div className={styles.box_input}>
-                                                    <span className={styles.title} style={{ width: "100px" }}>Phút</span>
-                                                    <input
-                                                        required={true}
-                                                        className={styles.input}
-                                                        {...register(`listRoute.${index}.minute`, { value: Number() })} type="number"
-                                                    />
-                                                </div>
+                            <form noValidate autoComplete="off" id={styles.info} encType="multipart/form-data">
 
 
 
-                                                {/* <div className={styles.box_input}>
-                                                    <span className={styles.title}>Số ghế</span>
-                                                    <input
-                                                        type="number"
-                                                        required={true}
-                                                        className={styles.input}
-                                                        {...register(`listRoute.${index}.row`)}
-                                                    />
-                                                </div> */}
+                                {/* FROM//////////////////////////////////////////////////////////////////////////////////////////
+                                //////////////////////////////////////////////////////////////////////////////////////////
+                                //////////////////////////////////////////////////////////////////////////////////////////
+                                ////////////////////////////////////////////////////////////////////////////////////////// */}
 
-                                            </div>
+                                <div className={styles.itemFrom}>
+                                    <h3 style={{ margin: "15px", padding: "0", color: "red" }}>Điểm đi</h3>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Tỉnh/TP</p>
+                                        <FormControl
+                                            size="small"
+                                            className={styles.selection}
+                                        >
+                                            <Select
+                                                required={true}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={cityFrom?.name}
+                                                MenuProps={MenuProps}
+                                            >
 
-                                            <IconButton className={styles.btnDelete} color="error" size='small' onClick={() => remove(index)}>
-                                                <DeleteIcon fontSize='small' />
-                                            </IconButton>
+                                                {
+                                                    listCity.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{ width: '220px' }}
+                                                            key={index}
+                                                            value={item.name}
+                                                            onClick={() => {
+                                                                setCityFrom(item); setListWardFrom([]);
+                                                            }}
+                                                        >
+                                                            <Typography noWrap>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </MenuItem>
+                                                    ))
+                                                }
 
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                            <section>
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Quận/Huyện</p>
+                                        <FormControl
+                                            size="small"
+                                            className={styles.selection}
+                                        >
+                                            <Select
+                                                required={true}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={districtFrom?.name}
+                                                MenuProps={MenuProps}
+                                            >
+
+                                                {
+                                                    listDistrictFrom?.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{ width: '220px' }}
+                                                            key={index}
+                                                            value={item.name}
+                                                            onClick={() => {
+                                                                setDistrictFrom(item);
+                                                            }}
+                                                        >
+                                                            <Typography noWrap>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </MenuItem>
+                                                    ))
+                                                }
+
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Xã/Phường</p>
+                                        <FormControl
+                                            size="small"
+                                            className={styles.selection}
+                                        >
+                                            <Select
+                                                required={true}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={wardFrom?.name}
+                                                MenuProps={MenuProps}
+                                            >
+
+                                                {
+                                                    listWardFrom?.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{ width: '220px' }}
+                                                            key={index}
+                                                            value={item.name}
+                                                            onClick={() => {
+                                                                setWardFrom(item);
+                                                            }}
+                                                        >
+                                                            <Typography noWrap>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </MenuItem>
+                                                    ))
+                                                }
+
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Đường</p>
+                                        <TextField
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={streetFrom}
+                                            onChange={(e) => setStreetFrom(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Số nhà</p>
+                                        <TextField
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={houseNumberFrom}
+                                            onChange={(e) => setHouseNumberFrom(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* TO//////////////////////////////////////////////////////////////////////////////////////////
+                                //////////////////////////////////////////////////////////////////////////////////////////
+                                //////////////////////////////////////////////////////////////////////////////////////////
+                                ////////////////////////////////////////////////////////////////////////////////////////// */}
+                                <div className={styles.itemTo}>
+                                    <h3 style={{ margin: "15px", padding: "0", color: "red" }}>Điểm đến</h3>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Tỉnh/TP</p>
+                                        <FormControl
+                                            size="small"
+                                            className={styles.selection}
+                                        >
+                                            <Select
+                                                required={true}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={cityTo?.name}
+                                                MenuProps={MenuProps}
+                                            >
+
+                                                {
+                                                    listCity.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{ width: '220px' }}
+                                                            key={index}
+                                                            value={item.name}
+                                                            onClick={() => {
+                                                                setCityTo(item); setListWardTo([]);
+                                                            }}
+                                                        >
+                                                            <Typography noWrap>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </MenuItem>
+                                                    ))
+                                                }
+
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Quận/Huyện</p>
+                                        <FormControl
+                                            size="small"
+                                            className={styles.selection}
+                                        >
+                                            <Select
+                                                required={true}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={districtTo?.name}
+                                                MenuProps={MenuProps}
+                                            >
+
+                                                {
+                                                    listDistrictTo?.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{ width: '220px' }}
+                                                            key={index}
+                                                            value={item.name}
+                                                            onClick={() => {
+                                                                setDistrictTo(item);
+                                                            }}
+                                                        >
+                                                            <Typography noWrap>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </MenuItem>
+                                                    ))
+                                                }
+
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Xã/Phường</p>
+                                        <FormControl
+                                            size="small"
+                                            className={styles.selection}
+                                        >
+                                            <Select
+                                                required={true}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={wardTo?.name}
+                                                MenuProps={MenuProps}
+                                            >
+
+                                                {
+                                                    listWardTo?.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{ width: '220px' }}
+                                                            key={index}
+                                                            value={item.name}
+                                                            onClick={() => {
+                                                                setWardTo(item);
+                                                            }}
+                                                        >
+                                                            <Typography noWrap>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </MenuItem>
+                                                    ))
+                                                }
+
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Đường</p>
+                                        <TextField
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={streetTo}
+                                            onChange={(e) => setStreetTo(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Số nhà</p>
+                                        <TextField
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={houseNumberTo}
+                                            onChange={(e) => setHouseNumberTo(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                {/*//////////////////////////////////////////////////////////////////////////////////////////
+                                //////////////////////////////////////////////////////////////////////////////////////////
+                                //////////////////////////////////////////////////////////////////////////////////////////
+                                ////////////////////////////////////////////////////////////////////////////////////////// */}
 
 
-                                <Button
-                                    // startIcon={<AddIcon fontSize='small' />}
-                                    // sx={{ fontSize: "10px", height: "30px" }}
-                                    color="primary" size='small'
-                                    onClick={() => {
-                                        append(defaultValues);
-                                    }}>
+                                <div className={styles.itemAbout}>
+                                    <h3 style={{ margin: "15px", padding: "0", color: "red" }}>Thông tin khác</h3>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Khoảng cách</p>
+                                        <TextField
+                                            type="number"
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={distance}
+                                            onChange={(e) => setDistance(Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Ngày</p>
+                                        <TextField
+                                            type="number"
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={day}
+                                            onChange={(e) => setDay(Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Giờ</p>
+                                        <TextField
+                                            type="number"
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={hour}
+                                            onChange={(e) => setHour(Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Phút</p>
+                                        <TextField
+                                            type="number"
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={minute}
+                                            onChange={(e) => setMinute(Number(e.target.value))}
+                                        />
+                                    </div>
+                                </div>
 
-                                    Thêm tuyến đường
-                                </Button>
+                            </form>
 
+                        </div>
+                        <div className={styles.action}>
 
-                            </section>
-
-                            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-
-                                <Button
-                                    // startIcon={<AddIcon fontSize='small' />}
-                                    // sx={{ fontSize: "10px", height: "30px" }}
-                                    color="primary" size='small'
-                                    type="submit">
-                                    <DownloadDoneIcon fontSize='inherit' /> &nbsp; Tạo mới
-                                </Button>
-
-                                <Button
-                                    onClick={() => { onCloseModal() }}
-                                    color="error" size='small'>
-                                    <CancelIcon fontSize='inherit' /> &nbsp; Hủy bỏ
-                                </Button>
-                            </div>
-
-
-                        </form>
-
-
+                            <Button
+                                size='small'
+                                variant="outlined"
+                                startIcon={<AddIcon />}
+                                className={styles.btnCreate}
+                                onClick={() => { onClickSubmit() }}
+                            >
+                                Thêm mới
+                            </Button>
+                            <Button
+                                size='small'
+                                variant="outlined"
+                                startIcon={<CloseIcon />}
+                                className={styles.btnCancel}
+                                onClick={() => { onCloseModal() }}
+                            >
+                                Hủy bỏ
+                            </Button>
+                        </div>
                     </Box>
-
                 </Modal>
                 :
                 <></>
@@ -302,14 +748,29 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
+
+
             </Snackbar>
         </>
     );
