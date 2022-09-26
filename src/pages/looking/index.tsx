@@ -1,5 +1,5 @@
 import { NextPage } from "next"
-import { LookingCar } from "../../components/LookingCar"
+import { LookingCar } from "../../components/Page/LookingCar"
 
 
 const Looking_Index: NextPage = () => {
