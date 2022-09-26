@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import AddIcon from '@mui/icons-material/Add';
 import { CreateCarManager } from "./createCarManager";
 import { CarManagerModel } from "../../Shared/Models/CarManager";
+import ProgressBar from "../../Shared/Components/Loading/ProgressBar";
 
 export const ListCarManager = (props: { typeProps?: number }) => {
 
@@ -228,7 +229,13 @@ export const ListCarManager = (props: { typeProps?: number }) => {
                         />
                     </>
                     :
-                    <><h1>Loading</h1></>
+                    <div style={{
+                       width:"100%",
+                       height:"calc(100vh - 60px)",
+                       display:"flex",
+                       justifyContent:"center",
+                       alignItems:"center"
+                    }}><ProgressBar/></div>
             }
         </>
     )

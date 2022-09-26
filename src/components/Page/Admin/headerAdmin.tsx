@@ -107,7 +107,6 @@ export const HeaderAdmin = () => {
                                         <NotificationsIcon />
                                     </Badge>
                                 </IconButton>
-
                             </Tooltip>
 
                             <Popover
