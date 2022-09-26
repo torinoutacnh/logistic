@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, IconButton, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType } from '../../Shared/Models/Everything';
+import { env, ServiceType, StatusSeat } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { SeatModel } from '../../Shared/Models/SeatModel';
@@ -25,10 +25,12 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
 
     const [isShow, setIsShow] = useState(false)
     const [seatUpdate, setSeatUpdate] = useState<SeatModel>()
+    const [status, setStatus] = useState<number>()
 
     useEffect(() => {
         setSeatUpdate(props.seat)
         setIsShow(props.stateProps)
+        setStatus(props.seat?.status)
     }, [props.stateProps])
 
 
@@ -126,7 +128,46 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
         setOpenNofity(false);
     };
 
+    const handleUpdateStatus = () => {
+        const SeatUpdateStatus: SeatModel = { id: seatUpdate.id, status: status }
 
+
+        // console.log("SeatUpdateStatus", SeatUpdateStatus);
+
+        fetch(env.REACT_APP_API.concat(`/seat/update-seat-status`), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },
+            body: JSON.stringify(SeatUpdateStatus),
+        })
+            .then(async (res) => {
+
+                const data = await res.json()
+
+                if (res.status >= 500) {
+                    console.log("update status seat  >= 500 ", data);
+                    return
+                }
+                else if (res.status >= 400) {
+                    console.log("update status seat  >= 400 ", data);
+                    return
+                }
+
+                console.log("update status seat => ", data.data);
+                handleOpenNotify("Cập nhật trạng thái ghế thành công")
+
+                props.reloadPage()
+
+            })
+            .catch((error) => {
+                console.log(" error >>>>>>", error);
+            })
+
+
+        props.close();
+    }
 
     return (
         <>
@@ -198,6 +239,36 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
                                         value={seatUpdate.row}
                                         onChange={(e) => setSeatUpdate({ ...seatUpdate, row: String(Number(e.target.value)) })}
                                     />
+                                </div>
+                                <div className={styles.wrap}>
+                                    <p style={{ width: "120px", textAlign: "left" }}>Trạng thái ghế</p>
+                                    <Select
+                                        required={true}
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        onChange={(event) => { setStatus(Number(event.target.value)) }}
+                                        value={status}
+                                        defaultValue={status}
+                                        size="small"
+                                    >
+                                        <MenuItem
+                                            key={0}
+                                            value={StatusSeat["Trống"]}
+                                        >
+                                            {StatusSeat[0]}
+                                        </MenuItem>
+                                        <MenuItem
+                                            key={1}
+                                            value={StatusSeat["Đã đặt"]}
+                                        >
+                                            {StatusSeat[1]}
+                                        </MenuItem>
+
+                                    </Select>
+
+                                    <Button onClick={() => { handleUpdateStatus() }}>
+                                        Lưu
+                                    </Button>
                                 </div>
 
                             </form>

@@ -206,6 +206,7 @@ export const ListCarManager = (props: { typeProps?: number }) => {
                             }
 
                         </Grid>
+                        <button className={styles.btnAddCircle} onClick={() => onClickShowModal()}>+</button>
                         <Snackbar
                             anchorOrigin={{ vertical: "top", horizontal: "right" }}
                             key={"top right"}

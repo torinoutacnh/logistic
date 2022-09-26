@@ -230,9 +230,11 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
 
         console.log("handle update stop point => ", StopPointUpdate);
         console.log("id update stop point => ", props.stopPoint.id);
-        // console.log("cityName => ", cityName);
-        // console.log("districtName => ", districtName);
-        // console.log("wardName => ", wardName);
+        console.log("cityName => ", cityName);
+        console.log("districtName => ", districtName);
+        console.log("wardName => ", wardName);
+
+        return
 
         fetch(env.REACT_APP_API.concat(`/stop-point/update-point-location/${props.stopPoint.id}`), {
             method: "POST",

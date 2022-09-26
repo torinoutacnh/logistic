@@ -7,5 +7,10 @@ enum ServiceType {
     "Chở người" = 1,
 }
 
+enum StatusSeat {
+    "Trống" = 0,
+    "Đã đặt" = 1
+}
 
-export { env, ServiceType }
+
+export { env, ServiceType, StatusSeat }
