@@ -4,7 +4,6 @@ import styles from './styles/createRouter.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { env } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useForm, useFieldArray } from "react-hook-form";
@@ -64,7 +63,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     const loadData1 = async () => {
 
-        const res_city = await fetch(env.REACT_APP_API.concat("/cities"), {
+        const res_city = await fetch(process.env.NEXT_PUBLIC_API.concat("/cities"), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -78,7 +77,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
         setCityFrom(city_tmp)
         setListCity(list_city_tmp)
 
-        const res_district = await fetch(env.REACT_APP_API.concat(`/districts/${city_tmp?.id}`), {
+        const res_district = await fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${city_tmp?.id}`), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -92,7 +91,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
         setDistrictFrom(district_tmp)
         setListDistrictFrom(list_district_tmp)
 
-        const res_ward = await fetch(env.REACT_APP_API.concat(`/wards/${district_tmp?.id}`), {
+        const res_ward = await fetch(process.env.NEXT_PUBLIC_API.concat(`/wards/${district_tmp?.id}`), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -109,7 +108,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
     }
     const loadData2 = async () => {
 
-        const res_city = await fetch(env.REACT_APP_API.concat("/cities"), {
+        const res_city = await fetch(process.env.NEXT_PUBLIC_API.concat("/cities"), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -123,7 +122,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
         setCityTo(city_tmp)
         setListCity(list_city_tmp)
 
-        const res_district = await fetch(env.REACT_APP_API.concat(`/districts/${city_tmp?.id}`), {
+        const res_district = await fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${city_tmp?.id}`), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -137,7 +136,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
         setDistrictTo(district_tmp)
         setListDistrictTo(list_district_tmp)
 
-        const res_ward = await fetch(env.REACT_APP_API.concat(`/wards/${district_tmp?.id}`), {
+        const res_ward = await fetch(process.env.NEXT_PUBLIC_API.concat(`/wards/${district_tmp?.id}`), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -180,7 +179,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     useEffect(() => {
         if (cityFrom) {
-            fetch(env.REACT_APP_API.concat(`/districts/${cityFrom.id}`), {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${cityFrom.id}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -211,7 +210,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     useEffect(() => {
         if (cityTo) {
-            fetch(env.REACT_APP_API.concat(`/districts/${cityTo.id}`), {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${cityTo.id}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -244,7 +243,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     useEffect(() => {
         if (districtFrom) {
-            fetch(env.REACT_APP_API.concat(`/wards/${districtFrom.id}`), {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/wards/${districtFrom.id}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -275,7 +274,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     useEffect(() => {
         if (districtTo) {
-            fetch(env.REACT_APP_API.concat(`/wards/${districtTo.id}`), {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/wards/${districtTo.id}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -387,7 +386,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
         // console.log("router Update", routerUpdate);
 
-        fetch(env.REACT_APP_API.concat(`/route/update-route`) + "?" + new URLSearchParams({ id: props.route.id }), {
+        fetch(process.env.NEXT_PUBLIC_API.concat(`/route/update-route`) + "?" + new URLSearchParams({ id: props.route.id }), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

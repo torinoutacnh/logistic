@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
-import { env } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
@@ -37,7 +36,7 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
             travelPrice: travelPrice
         }
 
-        fetch(env.REACT_APP_API.concat("/car/update-car-price"), {
+        fetch(process.env.NEXT_PUBLIC_API.concat("/car/update-car-price"), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

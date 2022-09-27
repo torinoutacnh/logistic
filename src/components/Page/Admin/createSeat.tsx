@@ -4,7 +4,7 @@ import styles from './styles/createCar.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType } from '../../Shared/Models/Everything';
+import { ServiceType } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useForm, useFieldArray } from "react-hook-form";
@@ -78,7 +78,7 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
         const list: SeatModel[] = data.listSeat
         list.map(item => item.floor = Number(item.floor))
 
-        fetch(env.REACT_APP_API.concat(`/seat/create-seat-list/${props.id}`), {
+        fetch(process.env.NEXT_PUBLIC_API.concat(`/seat/create-seat-list/${props.id}`), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

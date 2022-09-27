@@ -4,7 +4,7 @@ import styles from './styles/createRouter.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType } from '../../Shared/Models/Everything';
+import { ServiceType } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useForm, useFieldArray } from "react-hook-form";
@@ -65,7 +65,7 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     const loadData = async () => {
 
-        const res_city = await fetch(env.REACT_APP_API.concat("/cities"), {
+        const res_city = await fetch(process.env.NEXT_PUBLIC_API.concat("/cities"), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -83,7 +83,7 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     useEffect(() => {
         if (cityFrom) {
-            fetch(env.REACT_APP_API.concat(`/districts/${cityFrom.id}`), {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${cityFrom.id}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -114,7 +114,7 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     useEffect(() => {
         if (cityTo) {
-            fetch(env.REACT_APP_API.concat(`/districts/${cityTo.id}`), {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${cityTo.id}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -147,7 +147,7 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     useEffect(() => {
         if (districtFrom) {
-            fetch(env.REACT_APP_API.concat(`/wards/${districtFrom.id}`), {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/wards/${districtFrom.id}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -178,7 +178,7 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     useEffect(() => {
         if (districtTo) {
-            fetch(env.REACT_APP_API.concat(`/wards/${districtTo.id}`), {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/wards/${districtTo.id}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -294,7 +294,7 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
         // list.map(i => i.dailyStartTime = getCurrentDateTime())
 
-        fetch(env.REACT_APP_API.concat(`/route/create-route`), {
+        fetch(process.env.NEXT_PUBLIC_API.concat(`/route/create-route`), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

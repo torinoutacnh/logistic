@@ -2,7 +2,6 @@ import styles from './styles/carManagerInfo.module.scss'
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Grid, Button } from '@mui/material'
-import { env } from '../../Shared/Models/Everything';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useRouter } from 'next/router';
 import { CarModel } from '../../Shared/Models/CarModel';
@@ -45,7 +44,7 @@ export const CarManagerInfo = () => {
     /////////////////////////////////////////////////////
 
     useEffect(() => {
-        fetch(env.REACT_APP_API.concat("/cars-manager/").concat(id as string), {
+        fetch(process.env.NEXT_PUBLIC_API.concat("/cars-manager/").concat(id as string), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -97,7 +96,7 @@ export const CarManagerInfo = () => {
 
                                     <Image
                                         style={{ borderRadius: "5px" }}
-                                        src={env.REACT_APP_API.concat(carManager.logoPath)}
+                                        src={process.env.NEXT_PUBLIC_API.concat(carManager.logoPath)}
                                         alt="Không có logo"
                                         width={400}
                                         height={300}

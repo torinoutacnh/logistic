@@ -4,7 +4,7 @@ import styles from './styles/createCar.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType } from '../../Shared/Models/Everything';
+import { ServiceType } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { CarManagerModel } from '../../Shared/Models/CarManager';
@@ -47,7 +47,7 @@ export function UpdateCarManager(props: { stateProps: boolean, close: any, reloa
         formData.append("Name", name)
         formData.append("Description", description)
 
-        fetch(env.REACT_APP_API.concat("/cars-manager/update-manager"), {
+        fetch(process.env.NEXT_PUBLIC_API.concat("/cars-manager/update-manager"), {
             method: "POST",
             body: formData,
         })
@@ -124,7 +124,7 @@ export function UpdateCarManager(props: { stateProps: boolean, close: any, reloa
 
                             <div className={styles.img}>
                                 <div className={styles.image}>
-                                    <img src={env.REACT_APP_API.concat(props.manage.logoPath)} id={"output"}></img>
+                                    <img src={process.env.NEXT_PUBLIC_API.concat(props.manage.logoPath)} id={"output"}></img>
                                 </div>
                                 <Button
                                     variant="contained"

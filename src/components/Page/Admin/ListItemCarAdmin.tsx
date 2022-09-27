@@ -4,7 +4,7 @@ import Image from "next/image"
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from "react";
 import { CarModel } from "../../Shared/Models/CarModel";
-import { env, ServiceType } from "../../Shared/Models/Everything";
+import { ServiceType } from "../../Shared/Models/Everything";
 import { useRouter } from "next/router";
 import AddIcon from '@mui/icons-material/Add';
 import { CreateCar } from "./createCar";
@@ -45,7 +45,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
     useEffect(() => {
         setFilterCar(null)
         const url = (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"]) ? "/car" : `/car/manager/${props.carManagerID}`
-        fetch(env.REACT_APP_API.concat(url), {
+        fetch(process.env.NEXT_PUBLIC_API.concat(url), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
     }, [props.typeProps, reRender])
 
     useEffect(() => {
-        fetch(env.REACT_APP_API.concat("/cars-manager"), {
+        fetch(process.env.NEXT_PUBLIC_API.concat("/cars-manager"), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -115,7 +115,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
     }, [car])
 
     const onClickDeleteCar = (idCar: string) => {
-        fetch(env.REACT_APP_API.concat(`/car/delete-car/${idCar}`), {
+        fetch(process.env.NEXT_PUBLIC_API.concat(`/car/delete-car/${idCar}`), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -218,7 +218,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                                                     <div className={styles.image} onClick={() => { handelOnClickItem(item.id) }}>
                                                         <Image
                                                             style={{ borderRadius: "5px" }}
-                                                            src={env.REACT_APP_API.concat(item.imagePath)}
+                                                            src={process.env.NEXT_PUBLIC_API.concat(item.imagePath)}
                                                             alt="Không có hình ảnh"
                                                             width={1000}
                                                             height={1000}

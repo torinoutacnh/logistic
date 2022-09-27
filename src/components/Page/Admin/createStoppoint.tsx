@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar, IconButton } from '@mui/material';
 import styles from './styles/createCar.module.scss';
-import { env } from '../../Shared/Models/Everything';
 import { useForm, useFieldArray } from "react-hook-form";
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -39,7 +38,7 @@ export function CreateStoppoint(props?: { stateProps: boolean, close: any, reloa
     const loadData = async () => {
 
 
-        const res_city = await fetch(env.REACT_APP_API.concat("/cities"), {
+        const res_city = await fetch(process.env.NEXT_PUBLIC_API.concat("/cities"), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -69,7 +68,7 @@ export function CreateStoppoint(props?: { stateProps: boolean, close: any, reloa
 
     useEffect(() => {
         if (idCity) {
-            fetch(env.REACT_APP_API.concat(`/districts/${idCity}`), {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${idCity}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -108,7 +107,7 @@ export function CreateStoppoint(props?: { stateProps: boolean, close: any, reloa
 
     useEffect(() => {
         if (idDistrict) {
-            fetch(env.REACT_APP_API.concat(`/wards/${idDistrict}`), {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/wards/${idDistrict}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -193,7 +192,7 @@ export function CreateStoppoint(props?: { stateProps: boolean, close: any, reloa
         const list: StopPointModel[] = data.listStoppoint
         console.log("list stopppoint", list)
 
-        fetch(env.REACT_APP_API.concat(`/stop-point/create-point-list/${props.id}`), {
+        fetch(process.env.NEXT_PUBLIC_API.concat(`/stop-point/create-point-list/${props.id}`), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

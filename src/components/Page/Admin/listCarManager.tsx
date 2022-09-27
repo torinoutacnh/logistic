@@ -3,7 +3,6 @@ import styles from './styles/admin.module.scss'
 import Image from "next/image"
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from "react";
-import { env } from "../../Shared/Models/Everything";
 import { useRouter } from "next/router";
 import AddIcon from '@mui/icons-material/Add';
 import { CreateCarManager } from "./createCarManager";
@@ -40,7 +39,7 @@ export const ListCarManager = (props: { typeProps?: number, index: number, name:
     ////////////////////////////////////////////////////
 
     useEffect(() => {
-        fetch(env.REACT_APP_API.concat("/cars-manager"), {
+        fetch(process.env.NEXT_PUBLIC_API.concat("/cars-manager"), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -69,7 +68,7 @@ export const ListCarManager = (props: { typeProps?: number, index: number, name:
     }, [reRender])
 
     const onClickDeleteCarManager = (idCarManager: string) => {
-        fetch(env.REACT_APP_API.concat(`/cars-manager/delete-manager/${idCarManager}`), {
+        fetch(process.env.NEXT_PUBLIC_API.concat(`/cars-manager/delete-manager/${idCarManager}`), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -143,7 +142,7 @@ export const ListCarManager = (props: { typeProps?: number, index: number, name:
                                     className={styles.btnAdd}
                                     variant="outlined"
                                     size='small'
-                                    startIcon={<AddIcon sx={{color: "blue"}}/>}
+                                    startIcon={<AddIcon sx={{ color: "blue" }} />}
                                     sx={{ mr: 3 }}
                                     onClick={() => { onClickShowModal() }}
                                 >
@@ -160,7 +159,7 @@ export const ListCarManager = (props: { typeProps?: number, index: number, name:
                                                     <div className={styles.image} onClick={() => { handelOnClickItemManager(item.id) }}>
                                                         <Image
                                                             style={{ borderRadius: "5px" }}
-                                                            src={env.REACT_APP_API.concat(item.logoPath)}
+                                                            src={process.env.NEXT_PUBLIC_API.concat(item.logoPath)}
                                                             alt="Không có logo"
                                                             width={1000}
                                                             height={1000}

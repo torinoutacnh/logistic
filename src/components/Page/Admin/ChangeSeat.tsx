@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, IconButton, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, StatusSeat } from '../../Shared/Models/Everything';
+import { StatusSeat } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { SeatModel } from '../../Shared/Models/SeatModel';
@@ -35,7 +35,7 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
 
     const handleSubmit = () => {
 
-        fetch(env.REACT_APP_API.concat(`/seat/update-seat-info/${props.id}`), {
+        fetch(process.env.NEXT_PUBLIC_API.concat(`/seat/update-seat-info/${props.id}`), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -69,7 +69,7 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
     }
     const handleDelete = () => {
 
-        fetch(env.REACT_APP_API.concat(`/seat/delete-seat/${seatUpdate.id}`), {
+        fetch(process.env.NEXT_PUBLIC_API.concat(`/seat/delete-seat/${seatUpdate.id}`), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -124,7 +124,7 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
         const SeatUpdateStatus: SeatModel = { id: seatUpdate.id, status: status }
         // console.log("SeatUpdateStatus", SeatUpdateStatus);
 
-        fetch(env.REACT_APP_API.concat(`/seat/update-seat-status`), {
+        fetch(process.env.NEXT_PUBLIC_API.concat(`/seat/update-seat-status`), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
