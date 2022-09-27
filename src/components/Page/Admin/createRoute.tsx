@@ -1,12 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar, IconButton } from '@mui/material';
-import styles from './styles/createRouter.module.scss';
-import UploadIcon from '@mui/icons-material/Upload';
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
-import { ServiceType } from '../../Shared/Models/Everything';
-import { CarModel } from '../../Shared/Models/CarModel';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Typography,
+  Modal,
+  TextField,
+  FormControl,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  Alert,
+  Snackbar,
+  IconButton,
+} from "@mui/material";
+import styles from "./styles/createRouter.module.scss";
+import UploadIcon from "@mui/icons-material/Upload";
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
+import { ServiceType } from "../../Shared/Models/Everything";
+import { CarModel } from "../../Shared/Models/CarModel";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { useForm, useFieldArray } from "react-hook-form";
 import ReactDOM from "react-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -67,18 +80,19 @@ export function CreateRoute(props?: {
   /////////////////////////////////////////
   const [listCity, setListCity] = useState<CityModel[]>();
 
-    const loadData = async () => {
-
-        const res_city = await fetch(process.env.NEXT_PUBLIC_API.concat("/cities"), {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },// body: JSON.stringify(form.getFieldsValue()),
-        })
-        if (res_city.status > 200) { return }
-        const data_res_city = await res_city.json()
-        setListCity(data_res_city.data)
+  const loadData = async () => {
+    const res_city = await fetch(
+      process.env.NEXT_PUBLIC_API.concat("/cities"),
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: "Bearer ".concat(user.token),
+        }, // body: JSON.stringify(form.getFieldsValue()),
+      }
+    );
+    if (res_city.status > 200) {
+      return;
     }
     const data_res_city = await res_city.json();
     setListCity(data_res_city.data);
@@ -88,19 +102,18 @@ export function CreateRoute(props?: {
   /////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////
 
-    useEffect(() => {
-        if (cityFrom) {
-            fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${cityFrom.id}`), {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    // Authorization: "Bearer ".concat(user.token),
-                },
-                // body: JSON.stringify(form.getFieldsValue()),
-            })
-                .then(async (res) => {
-
-                    const data = await res.json()
+  useEffect(() => {
+    if (cityFrom) {
+      fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${cityFrom.id}`), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: "Bearer ".concat(user.token),
+        },
+        // body: JSON.stringify(form.getFieldsValue()),
+      })
+        .then(async (res) => {
+          const data = await res.json();
 
           if (res.status >= 500) {
             console.log("get district status >= 500 ", data);
