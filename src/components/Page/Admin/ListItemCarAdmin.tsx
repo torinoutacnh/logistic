@@ -137,7 +137,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                 }
 
                 console.log("delete car => ", data);
-                handleOpenNotify("Xóa xe thành công")
+                handleOpenNotify("Xóa xe thành công", "success")
                 setReRender(pre => pre + 1)
 
 
@@ -168,7 +168,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
             {
                 (filterCar && carManagers) ?
                     <>
-                       
+
                         <Grid container className={styles.g_container}>
                             <div className={styles.option}>
                                 {
@@ -195,7 +195,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                                                 className={styles.btnAdd}
                                                 variant="outlined"
                                                 size='small'
-                                                startIcon={<AddIcon sx={{color: "blue"}}/>}
+                                                startIcon={<AddIcon sx={{ color: "blue" }} />}
                                                 sx={{ mr: 3 }}
                                                 onClick={() => { onClickShowModal() }}
                                             >
@@ -208,7 +208,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                             </div>
 
                             {
-                                
+
                                 filterCar.map((item, index) => {
                                     return (
                                         <Grid xs={11.5} sm={9} md={9} lg={8} xl={5.9} key={index}>
