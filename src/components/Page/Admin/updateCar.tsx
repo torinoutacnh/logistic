@@ -44,13 +44,13 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
         const inputFile = document.getElementById("inputFile") as HTMLInputElement;
 
         const formData = new FormData();
-        formData.append("id", `${props.id}`)
-        formData.append("carModel", carModel)
-        formData.append("carColor", carColor)
-        formData.append("imagePath", inputFile.files[0])
-        formData.append("tel", tel)
-        formData.append("carNumber", carNumber)
-        formData.append("serviceType", `${typeService}`)
+        formData.append("Id", `${props.id}`)
+        formData.append("CarModel", carModel)
+        formData.append("CarColor", carColor)
+        formData.append("ImagePath", inputFile.files[0])
+        formData.append("Tel", tel)
+        formData.append("CarNumber", carNumber)
+        formData.append("ServiceType", `${typeService}`)
 
         fetch(env.REACT_APP_API.concat("/car/update-car-detail"), {
             method: "POST",

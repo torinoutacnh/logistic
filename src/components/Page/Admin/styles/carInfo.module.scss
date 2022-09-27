@@ -203,7 +203,7 @@ $background_item_left_color : rgb(243, 243, 243);
         border: 1px solid $border-item-color;
         display: flex;
         flex-direction: column;
-        max-height: 430px;
+        max-height: 450px;
 
         .header_right {
             margin: 5px;
@@ -230,9 +230,8 @@ $background_item_left_color : rgb(243, 243, 243);
         }
 
         .body_seat {
-            min-height: 200px;
             max-height: 400px;
-            overflow-y: scroll;
+            overflow-y: auto;
             width: 100%;
             display: flex;
             flex-flow: row wrap;
@@ -283,6 +282,6 @@ $background_item_left_color : rgb(243, 243, 243);
         .distance,
         .time {
             width: 35vw !important;
-        } 
+        }
     }
 }

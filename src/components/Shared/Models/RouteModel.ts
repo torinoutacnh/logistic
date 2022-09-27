@@ -1,12 +1,14 @@
+import { StopPointModel } from "./StopPointModel";
+
 interface RouteModel {
     id?: string;
-    fromId?: string,
-    toId?: string,
+    carId?: string,
+    from?: StopPointModel,
+    to?: StopPointModel,
     distanceByKm?: number,
     day?: number,
     hour?: number,
     minute?: number
-    dailyStartTime?: string
 }
 
 export type { RouteModel }
