@@ -257,7 +257,7 @@ export const CarInfo = () => {
                                         <span className={styles.text}>
                                             <span className={styles.title}>Giá vé:</span>
                                             <span style={{ color: "red", fontWeight: "500" }}>
-                                                {car.shipPrice > 0 ? car.shipPrice : car.travelPrice}
+                                                {car.serviceType === ServiceType["Chở hàng"] ? car.shipPrice : car.travelPrice}
                                             </span>
                                         </span>
                                     </div>
