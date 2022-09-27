@@ -1,25 +1,20 @@
 import styles from './styles/carManagerInfo.module.scss'
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Grid, Button, IconButton, Alert, Snackbar } from '@mui/material'
-import AddIcon from '@mui/icons-material/Add';
+import { Grid, Button } from '@mui/material'
 import { env } from '../../Shared/Models/Everything';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useRouter } from 'next/router';
 import { CarModel } from '../../Shared/Models/CarModel';
-import { StopPointModel } from '../../Shared/Models/StopPointModel';
-import { SeatModel } from '../../Shared/Models/SeatModel';
-import { RouteModel } from '../../Shared/Models/RouteModel';
 import { CarManagerModel } from '../../Shared/Models/CarManager';
 import { ListiItemCarAdmin } from './ListItemCarAdmin';
 import { UpdateCarManager } from './updateCarManager';
+import ProgressBar from '../../Shared/Components/Loading/ProgressBar';
 
 export const CarManagerInfo = () => {
 
     const router = useRouter()
-    const { id } = router.query
-
-    const [car, setCar] = useState<CarModel>()
+    const { id, index } = router.query
     const [reRender, setReRender] = useState(0)
     const [carManager, setCarManager] = useState<CarManagerModel>()
 
@@ -81,31 +76,13 @@ export const CarManagerInfo = () => {
     /////////////////////////////////////////////////////
     const reloadPage = () => {
         setReRender(reRender + 1)
-        // handleOpenNotify("Cập nhật xe thành công")
     }
     ////////////////////////////////////////////////////////
     const [isShowModalUpdate, setIsShowModalUpdate] = useState(false);
     const onClickShowModalUpdate = () => setIsShowModalUpdate(true);
     const onClickCloseModalUpdate = () => setIsShowModalUpdate(false);
 
-
     ////////////////////////////////////////////////////
-
-    const [openNotify, setOpenNofity] = useState(false);
-    const [messageNotify, setMessageNotify] = useState("")
-
-    const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpenNofity(false);
-    };
-
-    const handleOpenNotify = (message: string) => {
-        setMessageNotify(message)
-        setOpenNofity(true)
-    }
-
 
     return (
         <>
@@ -124,6 +101,7 @@ export const CarManagerInfo = () => {
                                         alt="Không có logo"
                                         width={400}
                                         height={300}
+                                        onClick={() => { router.push({ pathname: "/admin", query: { index: index } }) }}
                                     />
 
                                 </Grid>
@@ -158,12 +136,11 @@ export const CarManagerInfo = () => {
 
                             <Grid item className={styles.item_bottom} xs={11} sm={11} md={9} lg={8}>
                                 <span className={styles.header_top}>Danh sách xe</span>
-                                <ListiItemCarAdmin typeProps={3} carManagerID={id as string} />
+                                <ListiItemCarAdmin typeProps={3} carManagerID={id as string} index={Number(index)} name={''} />
 
                             </Grid>
 
                         </Grid >
-
 
                         <UpdateCarManager
                             stateProps={isShowModalUpdate}
@@ -174,25 +151,15 @@ export const CarManagerInfo = () => {
 
                     </>
                     :
-                    <><h1>Loading</h1></>
+                    <div style={{
+                        width: "100%",
+                        height: "calc(100vh - 60px)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}><ProgressBar /></div>
 
             }
-            <Snackbar
-                anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                key={"top right"}
-                open={openNotify}
-                autoHideDuration={3000}
-                onClose={handleCloseNotify}
-            >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
-            </Snackbar>
         </>
     )
 }

@@ -82,7 +82,8 @@ $border-item-color: rgba(1, 161, 102, 0.2);
 .container {
 
     background: $white-color;
-
+    color: $text-color;
+    height: calc(100vh - 60px);
 
 
     .filter_list {

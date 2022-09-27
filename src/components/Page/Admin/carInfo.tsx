@@ -21,11 +21,12 @@ import { CreateStoppoint } from './createStoppoint';
 import { RouteModel } from '../../Shared/Models/RouteModel';
 import { UpdateRoute } from './updateRoute';
 import { ChangeSeat } from './ChangeSeat';
+import ProgressBar from '../../Shared/Components/Loading/ProgressBar';
 
 export const CarInfo = () => {
 
     const router = useRouter()
-    const { id } = router.query
+    const { id, index } = router.query
 
     const [car, setCar] = useState<CarModel>()
     const [reRender, setReRender] = useState(0)
@@ -121,7 +122,7 @@ export const CarInfo = () => {
     const onClickCloseUpdateStopPoint = () => setIsShowModalUpdateStopPoint(false);
 
     ////////////////////////////////////////////////////
-
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
@@ -132,11 +133,11 @@ export const CarInfo = () => {
         setOpenNofity(false);
     };
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
-    }
-    ////////////////////////////////////////////////////
+    }    ////////////////////////////////////////////////////
 
     const onClickDeleteRoute = (idRoute: string) => {
         fetch(env.REACT_APP_API.concat(`/route/delete-route/${idRoute}`), {
@@ -157,10 +158,11 @@ export const CarInfo = () => {
                 }
                 else if (res.status >= 400) {
                     console.log("delete route status >= 400 ", data);
+                    handleOpenNotify("Xoá tuyến thất bại!", "error")
                     return
                 }
                 console.log("delete route point => ", data);
-                handleOpenNotify("Xóa tuyến thành công")
+                handleOpenNotify("Xóa tuyến thành công!", "success")
                 reloadPage();
             })
             .catch((error) => {
@@ -169,43 +171,41 @@ export const CarInfo = () => {
     }
     //////////////////////////////////////////////////////////////////
 
-    const onClickDeleteStopPoint = (idStopPoint: string) => {
-        fetch(env.REACT_APP_API.concat(`/stop-point/delete-point/${idStopPoint}`), {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            // body: JSON.stringify(form.getFieldsValue()),
-        })
-            .then(async (res) => {
+    // const onClickDeleteStopPoint = (idStopPoint: string) => {
+    //     fetch(env.REACT_APP_API.concat(`/stop-point/delete-point/${idStopPoint}`), {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             // Authorization: "Bearer ".concat(user.token),
+    //         },
+    //         // body: JSON.stringify(form.getFieldsValue()),
+    //     })
+    //         .then(async (res) => {
 
-                const data = await res.json()
+    //             const data = await res.json()
 
-                if (res.status >= 500) {
-                    console.log("delete stop point status >= 500 ", data);
-                    return
-                }
-                else if (res.status >= 400) {
-                    console.log("delete stop point status >= 400 ", data);
-                    return
-                }
-                console.log("delete stop point => ", data);
-                handleOpenNotify("Xóa điểm dừng thành công")
-                setReRender(pre => pre + 1)
-            })
-            .catch((error) => {
-                console.log(" error >>>>>>", error);
-            })
-    }
+    //             if (res.status >= 500) {
+    //                 console.log("delete stop point status >= 500 ", data);
+    //                 return
+    //             }
+    //             else if (res.status >= 400) {
+    //                 console.log("delete stop point status >= 400 ", data);
+    //                 return
+    //             }
+    //             console.log("delete stop point => ", data);
+    //             handleOpenNotify("Xóa điểm dừng thành công", "success")
+    //             setReRender(pre => pre + 1)
+    //         })
+    //         .catch((error) => {
+    //             console.log(" error >>>>>>", error);
+    //         })
+    // }
 
     return (
         <>
             {
                 car ?
                     <>
-
-
                         < Grid container className={styles.container} >
 
                             <Grid className={styles.left} container xs={11} sm={10} md={10} lg={7.5}>
@@ -218,6 +218,7 @@ export const CarInfo = () => {
                                         alt="Không có hình ảnh"
                                         width={500}
                                         height={400}
+                                        onClick={() => { router.push({ pathname: "/admin", query: { index: index } }) }}
                                     />
 
                                 </Grid>
@@ -256,7 +257,7 @@ export const CarInfo = () => {
                                         <span className={styles.text}>
                                             <span className={styles.title}>Giá vé:</span>
                                             <span style={{ color: "red", fontWeight: "500" }}>
-                                                {car.shipPrice > 0 ? car.shipPrice : car.travelPrice}
+                                                {car.serviceType === ServiceType["Chở hàng"] ? car.shipPrice : car.travelPrice}
                                             </span>
                                         </span>
                                     </div>
@@ -293,64 +294,60 @@ export const CarInfo = () => {
                                         {
                                             car.routes.map((item, index) => {
 
-                                                const RouterFrom: StopPointModel = car.stopPoints.filter(i => i.id === item.fromId)[0]
-                                                const RouterTo: StopPointModel = car.stopPoints.filter(i => i.id === item.toId)[0]
-
                                                 return (
                                                     <>
                                                         {
-                                                            RouterFrom && RouterTo ?
-                                                                <>
-                                                                    <div className={styles.item} key={index}>
 
-                                                                        <div className={styles.item_left}>
-                                                                            <span className={styles.text}>
-                                                                                <span className={styles.title}>Từ:</span>
-                                                                                {RouterFrom.houseNumber} {RouterFrom.street} -
-                                                                                {RouterFrom.ward} - {RouterFrom.district} - {RouterFrom.city}
-                                                                            </span>
+                                                            <>
+                                                                <div className={styles.item} key={index}>
 
-                                                                            <span className={styles.text}>
-                                                                                <span className={styles.title}>Đến:</span>
-                                                                                {RouterTo.houseNumber} {RouterTo.street} -
-                                                                                {RouterTo.ward} - {RouterTo.district} - {RouterTo.city}
-                                                                            </span>
-                                                                            <div className={styles.dis_time}>
-                                                                                <p className={styles.distance}>
-                                                                                    <RouteOutlinedIcon />
-                                                                                    <span>{item.distanceByKm} km</span>
-                                                                                </p>
-                                                                                <p className={styles.time}>
-                                                                                    <TimerOutlinedIcon />
-                                                                                    {(item.day === 0) ? "" : (' ' + item.day + ' ngày')}
-                                                                                    {(item.hour === 0) ? "" : (' ' + item.hour + ' giờ')}
-                                                                                    {(item.minute === 0) ? "" : (' ' + item.minute + ' phút')}
-                                                                                </p>
-                                                                            </div>
+                                                                    <div className={styles.item_left}>
+                                                                        <span className={styles.text}>
+                                                                            <span className={styles.title}>Từ:</span>
+
+                                                                            {item.from.ward} - {item.from.district} - {item.from.city}
+                                                                        </span>
+
+                                                                        <span className={styles.text}>
+                                                                            <span className={styles.title}>Đến:</span>
+
+                                                                            {item.to.ward} - {item.to.district} - {item.to.city}
+                                                                        </span>
+                                                                        <div className={styles.dis_time}>
+                                                                            <p className={styles.distance}>
+                                                                                <RouteOutlinedIcon />
+                                                                                <span>{item.distanceByKm} km</span>
+                                                                            </p>
+                                                                            <p className={styles.time}>
+                                                                                <TimerOutlinedIcon />
+                                                                                {(item.day === 0) ? "" : (' ' + item.day + ' ngày')}
+                                                                                {(item.hour === 0) ? "" : (' ' + item.hour + ' giờ')}
+                                                                                {(item.minute === 0) ? "" : (' ' + item.minute + ' phút')}
+                                                                            </p>
                                                                         </div>
-                                                                        <div className={styles.item_right}>
-                                                                            <IconButton
-                                                                                onClick={() => onClickShowModalUpdateRoute(item)}
-                                                                                color="primary"
-                                                                                size='small'
-                                                                            >
-                                                                                <BorderColorIcon fontSize='inherit' />
-                                                                            </IconButton>
+                                                                    </div>
+                                                                    <div className={styles.item_right}>
+                                                                        <IconButton
+                                                                            onClick={() => onClickShowModalUpdateRoute(item)}
+                                                                            color="primary"
+                                                                            size='small'
+                                                                        >
+                                                                            <BorderColorIcon fontSize='inherit' />
+                                                                        </IconButton>
 
-                                                                            <IconButton
-                                                                                onClick={() => { onClickDeleteRoute(item.id) }}
-                                                                                color="error"
-                                                                                size='small'
-                                                                            >
-                                                                                <DeleteIcon fontSize='inherit' />
-                                                                            </IconButton>
-
-                                                                        </div>
+                                                                        <IconButton
+                                                                            onClick={() => { onClickDeleteRoute(item.id) }}
+                                                                            color="error"
+                                                                            size='small'
+                                                                        >
+                                                                            <DeleteIcon fontSize='inherit' />
+                                                                        </IconButton>
 
                                                                     </div>
-                                                                </>
-                                                                :
-                                                                <></>
+
+                                                                </div>
+                                                            </>
+
                                                         }
                                                     </>
                                                 )
@@ -371,7 +368,7 @@ export const CarInfo = () => {
                                     </Button>
                                 </Grid>
 
-                                <Grid item className={styles.item_left4} xs={12} sm={12} md={5.5} lg={5.5}>
+                                {/* <Grid item className={styles.item_left4} xs={12} sm={12} md={5.5} lg={5.5}>
                                     <h3 className={styles.header_left}>ĐIỂM DỪNG</h3>
                                     <div className={styles.box_info_left_3_4}>
                                         {
@@ -419,7 +416,7 @@ export const CarInfo = () => {
                                         onClick={() => { onClickShowModalCreateStoppoint() }}>
                                         Tạo mới
                                     </Button>
-                                </Grid>
+                                </Grid> */}
 
                             </Grid>
 
@@ -508,7 +505,6 @@ export const CarInfo = () => {
                             close={onClickCloseModalCreateRoute}
                             reloadPage={reloadPage}
                             id={id as string}
-                            car={car}
                         />
 
                         <UpdateStopPoint
@@ -535,7 +531,13 @@ export const CarInfo = () => {
 
                     </>
                     :
-                    <><h1>Loading</h1></>
+                    <div style={{
+                        width: "100%",
+                        height: "calc(100vh - 60px)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}><ProgressBar /></div>
 
             }
             <Snackbar
@@ -545,14 +547,27 @@ export const CarInfo = () => {
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
             </Snackbar>
         </>
     )

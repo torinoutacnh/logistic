@@ -5,8 +5,6 @@ import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-import { CarModel } from '../../Shared/Models/CarModel';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { CarManagerModel } from '../../Shared/Models/CarManager';
 
 const style = {
@@ -37,10 +35,7 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
     useEffect(() => {
         setIsShow(props.stateProps)
     }, [props.stateProps])
-
-
     // console.log("car", props.car);
-
 
     const handleChangeType = (event: SelectChangeEvent) => {
         // console.log(event.target.value);
@@ -54,9 +49,7 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
         setCarManagerSelect(data);
     };
 
-
     const handleSubmit = () => {
-
 
         const inputFile = document.getElementById("inputFile") as HTMLInputElement;
 
@@ -69,23 +62,20 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
             tel: tel,
             carNumber: carNumber,
             serviceType: typeService,
-            carsManagerId: carManagerSelect.id
+            carsManagerId: carManagerSelect?.id
         }
-
-
         // console.log("handle submit create car => ", Car);
 
         const formData = new FormData();
-        formData.append("shipPrice", `${typeService === ServiceType["Chở hàng"] ? priceTravel : 0}`)
-        formData.append("travelPrice", `${typeService === ServiceType["Chở người"] ? priceTravel : 0}`)
-        formData.append("carModel", carModel)
-        formData.append("carColor", carColor)
-        formData.append("imagePath", inputFile.files[0])
-        formData.append("tel", tel)
-        formData.append("carNumber", carNumber)
-        formData.append("serviceType", `${typeService}`)
-        formData.append("carsManagerId", carManagerSelect.id)
-
+        formData.append("ShipPrice", `${typeService === ServiceType["Chở hàng"] ? priceTravel : 0}`)
+        formData.append("TravelPrice", `${typeService === ServiceType["Chở người"] ? priceTravel : 0}`)
+        formData.append("CarModel", carModel)
+        formData.append("CarColor", carColor)
+        formData.append("ImagePath", inputFile.files[0])
+        formData.append("Tel", tel)
+        formData.append("CarNumber", carNumber)
+        formData.append("ServiceType", `${typeService}`)
+        formData.append("CarsManagerId", carManagerSelect?.id)
 
         fetch(env.REACT_APP_API.concat("/car/create-car"), {
             method: "POST",
@@ -101,10 +91,12 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
                 }
                 else if (res.status >= 400) {
                     console.log("create car status >= 400 ", data);
+                    handleOpenNotify("Vui lòng nhập đầy đủ thông tin!", "error")
                     return
                 }
 
                 console.log("create car => ", data.data);
+                handleOpenNotify("Tạo xe thành công!", "success")
 
                 setTypeService(ServiceType["Chở người"]);
                 setCarModel('');
@@ -120,28 +112,22 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
-
-
         props.close();
     }
 
-
-
     const onCloseModal = () => {
-
-
-
         props.close()
     }
 
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
-
 
     const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -168,7 +154,6 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
             URL.revokeObjectURL(output.src) // free memory
         }
     };
-
 
     return (
         <>
@@ -230,7 +215,6 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
                                         </Select>
                                     </FormControl>
                                 </div>
-
 
                                 <div className={styles.wrap}>
                                     <p>Tên nhà xe</p>
@@ -317,7 +301,6 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
                                     />
                                 </div>
 
-
                                 <div className={styles.wrap}>
                                     <p>Giá vé</p>
                                     <TextField
@@ -331,10 +314,9 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
                                         onChange={(e) => setPriceTravel(e.target.value)}
                                     />
                                 </div>
-
                             </form>
-
                         </div>
+
                         <div className={styles.action}>
 
                             <Button
@@ -371,14 +353,27 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
             </Snackbar>
         </>
     );

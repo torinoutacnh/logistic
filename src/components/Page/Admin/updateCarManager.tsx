@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
+import { Box, Button, Typography, Modal, TextField, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
@@ -33,18 +33,11 @@ export function UpdateCarManager(props: { stateProps: boolean, close: any, reloa
         setDescription(props.manage.description)
         setIsShow(props.stateProps)
     }, [props.stateProps])
-
-
     // console.log("car", props.car);
-
-
 
     const handleSubmit = () => {
 
-
         const inputFile = document.getElementById("inputFile") as HTMLInputElement;
-
-
         // console.log("handle submit create car => ", Car);
 
         const formData = new FormData();
@@ -53,8 +46,6 @@ export function UpdateCarManager(props: { stateProps: boolean, close: any, reloa
         formData.append("LogoPath", inputFile.files[0])
         formData.append("Name", name)
         formData.append("Description", description)
-
-
 
         fetch(env.REACT_APP_API.concat("/cars-manager/update-manager"), {
             method: "POST",
@@ -70,12 +61,13 @@ export function UpdateCarManager(props: { stateProps: boolean, close: any, reloa
                 }
                 else if (res.status >= 400) {
                     console.log("update carManager status >= 400 ", data);
+                    handleOpenNotify("Cập nhật nhà xe thất bại!", "error")
                     return
                 }
 
                 console.log("update manager => ", data.data);
 
-                handleOpenNotify("Cập nhật nhà xe thành công")
+                handleOpenNotify("Cập nhật nhà xe thành công!", "success")
 
                 props.reloadPage()
 
@@ -83,42 +75,28 @@ export function UpdateCarManager(props: { stateProps: boolean, close: any, reloa
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
-
-
         props.close();
     }
-
-
 
     const onCloseModal = () => {
         props.close()
     }
 
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
-
 
     const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
         }
         setOpenNofity(false);
-    };
-
-    const ITEM_HEIGHT = 48;
-    const ITEM_PADDING_TOP = 8;
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                width: 220,
-            },
-        },
     };
 
     const loadFile = (event) => {
@@ -128,7 +106,6 @@ export function UpdateCarManager(props: { stateProps: boolean, close: any, reloa
             URL.revokeObjectURL(output.src) // free memory
         }
     };
-
 
     return (
         <>
@@ -162,10 +139,6 @@ export function UpdateCarManager(props: { stateProps: boolean, close: any, reloa
                             </div>
 
                             <form noValidate autoComplete="off" id={styles.info} encType="multipart/form-data">
-
-
-
-
 
                                 <div className={styles.wrap}>
                                     <p >Tên nhà xe</p>
@@ -239,14 +212,27 @@ export function UpdateCarManager(props: { stateProps: boolean, close: any, reloa
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
             </Snackbar>
         </>
     );

@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Typography, Modal, TextField, Alert, Snackbar } from '@mui/material';
-import styles from './styles/createCar.module.scss';
+import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar, IconButton } from '@mui/material';
+import styles from './styles/createRouter.module.scss';
+import UploadIcon from '@mui/icons-material/Upload';
+import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType } from '../../Shared/Models/Everything';
+import { env } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { useForm, useFieldArray } from "react-hook-form";
+import ReactDOM from "react-dom";
+import DeleteIcon from '@mui/icons-material/Delete';
+import { SeatModel } from "../../Shared/Models/SeatModel";
+import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { RouteModel } from '../../Shared/Models/RouteModel';
+import { CityModel } from '../../Shared/Models/CityModel';
+import { DistrictModel } from '../../Shared/Models/DistrictModel';
+import { WardModel } from '../../Shared/Models/WardModel';
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -24,16 +35,395 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
     const [isShow, setIsShow] = useState(false)
 
-    const [fromId, setFromId] = useState('');
-    const [toId, setToId] = useState('');
-    const [distances, setDistances] = useState<number>();
-    const [days, setDays] = useState<number>();
-    const [hours, setHours] = useState<number>();
-    const [minutes, setMinutes] = useState<number>();
+    ///////////////////////////////////////////
+    ///////////////////////////////////////////
+    const [distance, setDistance] = useState<number>()
+    const [day, setDay] = useState<number>()
+    const [hour, setHour] = useState<number>()
+    const [minute, setMinute] = useState<number>()
+    ///////////////////////////////////////////
+    const [cityFrom, setCityFrom] = useState<CityModel>();
+    const [districtFrom, setDistrictFrom] = useState<DistrictModel>();
+    const [wardFrom, setWardFrom] = useState<WardModel>();
+    const [streetFrom, setStreetFrom] = useState<string>()
+    const [houseNumberFrom, setHouseNumberFrom] = useState<string>()
+    //////////
+    const [listDistrictFrom, setListDistrictFrom] = useState<DistrictModel[]>()
+    const [listWardFrom, setListWardFrom] = useState<WardModel[]>()
+    //////////////////////////////////////////
+    const [cityTo, setCityTo] = useState<CityModel>();
+    const [districtTo, setDistrictTo] = useState<DistrictModel>();
+    const [wardTo, setWardTo] = useState<WardModel>();
+    const [streetTo, setStreetTo] = useState<string>()
+    const [houseNumberTo, setHouseNumberTo] = useState<string>()
+    //////////
+    const [listDistrictTo, setListDistrictTo] = useState<DistrictModel[]>()
+    const [listWardTo, setListWardTo] = useState<WardModel[]>()
+    /////////////////////////////////////////
+    const [listCity, setListCity] = useState<CityModel[]>()
+
+    const loadData1 = async () => {
+
+        const res_city = await fetch(env.REACT_APP_API.concat("/cities"), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },// body: JSON.stringify(form.getFieldsValue()),
+        })
+        if (res_city.status > 200) { return }
+        const data_res_city = await res_city.json()
+        const list_city_tmp: CityModel[] = data_res_city.data
+        const city_tmp = list_city_tmp?.find(item => item.name === props.route?.from?.city)
+        setCityFrom(city_tmp)
+        setListCity(list_city_tmp)
+
+        const res_district = await fetch(env.REACT_APP_API.concat(`/districts/${city_tmp?.id}`), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },// body: JSON.stringify(form.getFieldsValue()),
+        })
+        if (res_district.status > 200) { return }
+        const data_res_district = await res_district.json()
+        const list_district_tmp: DistrictModel[] = data_res_district.data
+        const district_tmp = list_district_tmp?.find(item => item.name === props.route?.from?.district)
+        setDistrictFrom(district_tmp)
+        setListDistrictFrom(list_district_tmp)
+
+        const res_ward = await fetch(env.REACT_APP_API.concat(`/wards/${district_tmp?.id}`), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },// body: JSON.stringify(form.getFieldsValue()),
+        })
+        if (res_ward.status > 200) { return }
+        const data_res_ward = await res_ward.json()
+        const list_ward_tmp: WardModel[] = data_res_ward.data
+        const ward_tmp = list_ward_tmp?.find(item => item.name === props.route?.from?.ward)
+        setWardFrom(ward_tmp)
+        setListWardFrom(list_ward_tmp)
+
+    }
+    const loadData2 = async () => {
+
+        const res_city = await fetch(env.REACT_APP_API.concat("/cities"), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },// body: JSON.stringify(form.getFieldsValue()),
+        })
+        if (res_city.status > 200) { return }
+        const data_res_city = await res_city.json()
+        const list_city_tmp: CityModel[] = data_res_city.data
+        const city_tmp = list_city_tmp?.find(item => item.name === props.route?.to?.city)
+        setCityTo(city_tmp)
+        setListCity(list_city_tmp)
+
+        const res_district = await fetch(env.REACT_APP_API.concat(`/districts/${city_tmp?.id}`), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },// body: JSON.stringify(form.getFieldsValue()),
+        })
+        if (res_district.status > 200) { return }
+        const data_res_district = await res_district.json()
+        const list_district_tmp: DistrictModel[] = data_res_district.data
+        const district_tmp = list_district_tmp?.find(item => item.name === props.route?.to?.district)
+        setDistrictTo(district_tmp)
+        setListDistrictTo(list_district_tmp)
+
+        const res_ward = await fetch(env.REACT_APP_API.concat(`/wards/${district_tmp?.id}`), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },// body: JSON.stringify(form.getFieldsValue()),
+        })
+        if (res_ward.status > 200) { return }
+        const data_res_ward = await res_ward.json()
+        const list_ward_tmp: WardModel[] = data_res_ward.data
+        const ward_tmp = list_ward_tmp?.find(item => item.name === props.route?.to?.ward)
+        setWardTo(ward_tmp)
+        setListWardTo(list_ward_tmp)
+
+    }
 
     useEffect(() => {
         setIsShow(props.stateProps)
-    }, [props.stateProps])
+
+        setStreetFrom(props.route?.from?.street)
+        setHouseNumberFrom(props.route?.from?.houseNumber)
+        setStreetTo(props.route?.to?.street)
+        setHouseNumberTo(props.route?.to?.houseNumber)
+
+        setDistance(props.route?.distanceByKm)
+        setDay(props.route?.day)
+        setHour(props.route?.hour)
+        setMinute(props.route?.minute)
+
+        loadData1()
+        loadData2()
+
+        console.log("abc", props.route);
+
+
+    }, [props.stateProps, props.route])
+
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+
+    useEffect(() => {
+        if (cityFrom) {
+            fetch(env.REACT_APP_API.concat(`/districts/${cityFrom.id}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
+            })
+                .then(async (res) => {
+
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get district status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get district status >= 400 ", data);
+                        return
+                    }
+                    setListDistrictFrom(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [cityFrom])
+
+    useEffect(() => {
+        if (cityTo) {
+            fetch(env.REACT_APP_API.concat(`/districts/${cityTo.id}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
+            })
+                .then(async (res) => {
+
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get district status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get district status >= 400 ", data);
+                        return
+                    }
+                    setListDistrictTo(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [cityTo])
+
+    /////////////////////////////////////////////////////////////
+
+    useEffect(() => {
+        if (districtFrom) {
+            fetch(env.REACT_APP_API.concat(`/wards/${districtFrom.id}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
+            })
+                .then(async (res) => {
+
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get ward status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get ward status >= 400 ", data);
+                        return
+                    }
+                    setListWardFrom(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [districtFrom])
+
+    useEffect(() => {
+        if (districtTo) {
+            fetch(env.REACT_APP_API.concat(`/wards/${districtTo.id}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
+            })
+                .then(async (res) => {
+
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get ward status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get ward status >= 400 ", data);
+                        return
+                    }
+                    setListWardTo(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [districtTo])
+
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+
+    const [typeNotifi, setTypeNotifi] = useState("success")
+    const [openNotify, setOpenNofity] = useState(false);
+    const [messageNotify, setMessageNotify] = useState("")
+
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
+        setMessageNotify(message)
+        setOpenNofity(true)
+    }
+
+    const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenNofity(false);
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
+    // function getCurrentDateTime() {
+    //     const tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+    //     const localISOTime = new Date(Date.now() - tzoffset).toISOString();
+    //     const mySqlDT = localISOTime;
+    //     return mySqlDT;
+    // }
+    ///////////////////////////////////////////////////////////////////////////
+
+    const resetForm = () => {
+        setListCity([])
+        setListDistrictFrom([])
+        setListWardFrom([])
+        setListDistrictTo([])
+        setListWardTo([])
+        setCityFrom(null)
+        setDistrictFrom(null)
+        setWardFrom(null)
+        setStreetFrom(null)
+        setHouseNumberFrom(null)
+        setCityTo(null)
+        setDistrictTo(null)
+        setWardTo(null)
+        setStreetTo(null)
+        setHouseNumberTo(null)
+        setDistance(null)
+        setDay(null)
+        setHour(null)
+        setMinute(null)
+    }
+
+    const onCloseModal = () => {
+        resetForm()
+        props.close()
+    }
+
+
+    const onClickSubmit = () => {
+
+        const routerUpdate: RouteModel = {
+            from: {
+                cityId: cityFrom?.id,
+                districtId: districtFrom?.id,
+                wardId: wardFrom?.id,
+                street: streetFrom,
+                houseNumber: houseNumberFrom
+            },
+            to: {
+                cityId: cityTo?.id,
+                districtId: districtTo?.id,
+                wardId: wardTo?.id,
+                street: streetTo,
+                houseNumber: houseNumberTo
+            },
+            distanceByKm: distance,
+            day: day,
+            hour: hour,
+            minute: minute
+        }
+
+        // console.log("router Update", routerUpdate);
+
+        fetch(env.REACT_APP_API.concat(`/route/update-route`) + "?" + new URLSearchParams({ id: props.route.id }), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },
+            body: JSON.stringify(routerUpdate),
+        })
+            .then(async (res) => {
+
+                const data = await res.json()
+
+                if (res.status >= 500) {
+                    console.log(" update route status >= 500 ", data);
+                    return
+                }
+                else if (res.status >= 400) {
+                    console.log(" update route status >= 400 ", data);
+                    handleOpenNotify("Cập nhật tuyến đường thất bại!", "error");
+                    return
+                }
+
+                console.log(" update route => ", data.data);
+
+                handleOpenNotify("Cập nhật tuyến đường thành công!", "success")
+
+                resetForm()
+                onCloseModal()
+                props.reloadPage()
+            })
+            .catch((error) => {
+                console.log(" error >>>>>>", error);
+            })
+
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -46,75 +436,8 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
         },
     };
 
-    const handleSubmit = () => {
-
-        var Route = {
-            fromId: fromId,
-            toId: toId,
-            distanceByKm: distances,
-            day: days,
-            hour: hours,
-            minute: minutes,
-            dailyStartTime: props.route.dailyStartTime
-        }
-
-        fetch(env.REACT_APP_API.concat("/route/update-route"), {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            body: JSON.stringify(Route),
-        })
-            .then(async (res) => {
-
-                const data = await res.json()
-
-                if (res.status >= 500) {
-                    console.log("update price status >= 500 ", data);
-                    return
-                }
-                else if (res.status >= 400) {
-                    console.log("update price status >= 400 ", data);
-                    return
-                }
-
-                console.log("update price => ", data.data);
-
-                // setShipPrice(priceCar.shipPrice)
-                // setTravelPrice(priceCar.travelPrice)
-                handleOpenNotify("Cập nhật tuyến thành công")
-                props.reloadPage()
-
-            })
-            .catch((error) => {
-                console.log(" error >>>>>>", error);
-            })
-        props.close();
-    }
-
-    const onCloseModal = () => {
-        props.close()
-    }
-
-    const [openNotify, setOpenNofity] = useState(false);
-    const [messageNotify, setMessageNotify] = useState("")
-
-    const handleOpenNotify = (message: string) => {
-        setMessageNotify(message)
-        setOpenNofity(true)
-    }
-
-    const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpenNofity(false);
-    };
-
     return (
         <>
-            {console.log(props.route)}
             {isShow ?
                 <Modal
                     open={isShow}
@@ -124,143 +447,362 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                 >
                     <Box sx={style} style={{ color: "black" }}>
                         <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ mb: 3 }}>
-                            Cập nhật tuyến
+                            {"Cập nhật tuyến đường"}
                         </Typography>
                         <div className={styles.container}>
 
-                            <form noValidate autoComplete="off" id={styles.info}>
-                                {/* <div className={styles.wrap}>
-                                    <p>Điểm đi</p>
-                                    <FormControl
-                                        size="small"
-                                        className={styles.selection}
-                                    >
-                                        <Select
-                                            required={true}
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            MenuProps={MenuProps}
-                                            value={fromId}
-                                            defaultValue={props.route.fromId}
+                            <form noValidate autoComplete="off" id={styles.info} encType="multipart/form-data">
+
+                                {/* FROM//////////////////////////////////////////////////////////////////////////////////////////
+                                //////////////////////////////////////////////////////////////////////////////////////////
+                                //////////////////////////////////////////////////////////////////////////////////////////
+                                ////////////////////////////////////////////////////////////////////////////////////////// */}
+
+                                <div className={styles.itemFrom}>
+                                    <h3 style={{ margin: "15px", padding: "0", color: "red" }}>Điểm đi</h3>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Tỉnh/TP</p>
+                                        <FormControl
+                                            size="small"
+                                            className={styles.selection}
                                         >
-                                            {
-                                                cityId?.map((item, index) => (
-                                                    <MenuItem
-                                                        sx={{ width: '220px' }}
-                                                        key={index}
-                                                        value={item.name}
-                                                        onClick={() => { handleChangeCityName(item) }}
-                                              >
-                                                        <Typography noWrap>
-                                                            {item.name}
-                                                        </Typography>
-                                                    </MenuItem>
-                                                ))
-                                            }
-                                        </Select>
-                                    </FormControl>
-                                </div> */}
+                                            <Select
+                                                required={true}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={cityFrom?.name}
+                                                MenuProps={MenuProps}
+                                                defaultValue={props.route?.from.city}
+                                            >
 
-                                {/* <div className={styles.wrap}>
-                                    <p>Điểm đến</p>
-                                    <FormControl
-                                        size="small"
-                                        className={styles.selection}
-                                    >
-                                        <Select
-                                            required={true}
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={to}
-                                            MenuProps={MenuProps}
-                                            defaultValue={props.route.toId}
+                                                {
+                                                    listCity?.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{ width: '220px' }}
+                                                            key={index}
+                                                            value={item.name}
+                                                            onClick={() => {
+                                                                setCityFrom(item); setListWardFrom([]);
+                                                            }}
+                                                        >
+                                                            <Typography noWrap>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </MenuItem>
+                                                    ))
+                                                }
+
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Quận/Huyện</p>
+                                        <FormControl
+                                            size="small"
+                                            className={styles.selection}
                                         >
+                                            <Select
+                                                required={true}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={districtFrom?.name}
+                                                MenuProps={MenuProps}
+                                                defaultValue={props.route?.from.district}
+                                            >
 
-                                            {
-                                                districtId?.map((item, index) => (
-                                                    <MenuItem
-                                                        sx={{ width: '220px' }}
-                                                        key={index}
-                                                        value={item.name}
-                                                        onClick={() => { handleChangeDistrictName(item) }}
-                                                    >
-                                                        <Typography noWrap>
-                                                            {item.name}
-                                                        </Typography>
-                                                    </MenuItem>
-                                                ))
-                                            }
+                                                {
+                                                    listDistrictFrom?.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{ width: '220px' }}
+                                                            key={index}
+                                                            value={item.name}
+                                                            onClick={() => {
+                                                                setDistrictFrom(item);
+                                                            }}
+                                                        >
+                                                            <Typography noWrap>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </MenuItem>
+                                                    ))
+                                                }
 
-                                        </Select>
-                                    </FormControl>
-                                </div> */}
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Xã/Phường</p>
+                                        <FormControl
+                                            size="small"
+                                            className={styles.selection}
+                                        >
+                                            <Select
+                                                required={true}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={wardFrom?.name}
+                                                MenuProps={MenuProps}
+                                                defaultValue={props.route?.from.ward}
+                                            >
 
-                                <div className={styles.wrap}>
-                                    <p>Khoảng cách</p>
-                                    <TextField
-                                        required={true}
-                                        className={styles.booking_input}
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        size="small"
-                                        value={distances}
-                                        defaultValue={props.route.distanceByKm}
-                                        onChange={(e) => setDistances(Number(Number(e.target.value)))}
-                                    />
+                                                {
+                                                    listWardFrom?.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{ width: '220px' }}
+                                                            key={index}
+                                                            value={item.name}
+                                                            onClick={() => {
+                                                                setWardFrom(item);
+                                                            }}
+                                                        >
+                                                            <Typography noWrap>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </MenuItem>
+                                                    ))
+                                                }
+
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Đường</p>
+                                        <TextField
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={streetFrom}
+                                            defaultValue={props.route?.from.street}
+                                            onChange={(e) => setStreetFrom(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Số nhà</p>
+                                        <TextField
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            defaultValue={props.route?.from.houseNumber}
+                                            value={houseNumberFrom}
+                                            onChange={(e) => setHouseNumberFrom(e.target.value)}
+                                        />
+                                    </div>
                                 </div>
 
-                                <div className={styles.wrap}>
-                                    <p>Ngày</p>
-                                    <TextField
-                                        required={true}
-                                        className={styles.booking_input}
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        size="small"
-                                        value={days}
-                                        defaultValue={props.route.day}
-                                        onChange={(e) => setDays(Number(Number(e.target.value)))}
-                                    />
+                                {/* TO//////////////////////////////////////////////////////////////////////////////////////////
+                                //////////////////////////////////////////////////////////////////////////////////////////
+                                //////////////////////////////////////////////////////////////////////////////////////////
+                                ////////////////////////////////////////////////////////////////////////////////////////// */}
+                                <div className={styles.itemTo}>
+                                    <h3 style={{ margin: "15px", padding: "0", color: "red" }}>Điểm đến</h3>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Tỉnh/TP</p>
+                                        <FormControl
+                                            size="small"
+                                            className={styles.selection}
+                                        >
+                                            <Select
+                                                required={true}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={cityTo?.name}
+                                                MenuProps={MenuProps}
+                                                defaultValue={props.route?.to.city}
+                                            >
+
+                                                {
+                                                    listCity.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{ width: '220px' }}
+                                                            key={index}
+                                                            value={item.name}
+                                                            onClick={() => {
+                                                                setCityTo(item); setListWardTo([]);
+                                                            }}
+                                                        >
+                                                            <Typography noWrap>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </MenuItem>
+                                                    ))
+                                                }
+
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Quận/Huyện</p>
+                                        <FormControl
+                                            size="small"
+                                            className={styles.selection}
+                                        >
+                                            <Select
+                                                required={true}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={districtTo?.name}
+                                                MenuProps={MenuProps}
+                                                defaultValue={props.route?.to.district}
+                                            >
+
+                                                {
+                                                    listDistrictTo?.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{ width: '220px' }}
+                                                            key={index}
+                                                            value={item.name}
+                                                            onClick={() => {
+                                                                setDistrictTo(item);
+                                                            }}
+                                                        >
+                                                            <Typography noWrap>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </MenuItem>
+                                                    ))
+                                                }
+
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Xã/Phường</p>
+                                        <FormControl
+                                            size="small"
+                                            className={styles.selection}
+                                        >
+                                            <Select
+                                                required={true}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={wardTo?.name}
+                                                MenuProps={MenuProps}
+                                                defaultValue={props.route?.to.ward}
+                                            >
+
+                                                {
+                                                    listWardTo?.map((item, index) => (
+                                                        <MenuItem
+                                                            sx={{ width: '220px' }}
+                                                            key={index}
+                                                            value={item.name}
+                                                            onClick={() => {
+                                                                setWardTo(item);
+                                                            }}
+                                                        >
+                                                            <Typography noWrap>
+                                                                {item.name}
+                                                            </Typography>
+                                                        </MenuItem>
+                                                    ))
+                                                }
+
+                                            </Select>
+                                        </FormControl>
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Đường</p>
+                                        <TextField
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={streetTo}
+                                            defaultValue={props.route?.to.street}
+                                            onChange={(e) => setStreetTo(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Số nhà</p>
+                                        <TextField
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={houseNumberTo}
+                                            defaultValue={props.route?.to.houseNumber}
+                                            onChange={(e) => setHouseNumberTo(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                {/*//////////////////////////////////////////////////////////////////////////////////////////
+                                //////////////////////////////////////////////////////////////////////////////////////////
+                                //////////////////////////////////////////////////////////////////////////////////////////
+                                ////////////////////////////////////////////////////////////////////////////////////////// */}
+
+                                <div className={styles.itemAbout}>
+                                    <h3 style={{ margin: "15px", padding: "0", color: "red" }}>Thông tin khác</h3>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Khoảng cách</p>
+                                        <TextField
+                                            type="number"
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={distance}
+                                            onChange={(e) => setDistance(Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Ngày</p>
+                                        <TextField
+                                            type="number"
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={day}
+                                            onChange={(e) => setDay(Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Giờ</p>
+                                        <TextField
+                                            type="number"
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={hour}
+                                            onChange={(e) => setHour(Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className={styles.wrap}>
+                                        <p className={styles.title}>Phút</p>
+                                        <TextField
+                                            type="number"
+                                            required={true}
+                                            className={styles.selection}
+                                            id="outlined-basic"
+                                            variant="outlined"
+                                            size="small"
+                                            value={minute}
+                                            onChange={(e) => setMinute(Number(e.target.value))}
+                                        />
+                                    </div>
                                 </div>
 
-                                <div className={styles.wrap}>
-                                    <p>Giờ</p>
-                                    <TextField
-                                        required={true}
-                                        className={styles.booking_input}
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        size="small"
-                                        value={hours}
-                                        defaultValue={props.route.hour}
-                                        onChange={(e) => setHours(Number(Number(e.target.value)))}
-                                    />
-                                </div>
-
-                                <div className={styles.wrap}>
-                                    <p>Phút</p>
-                                    <TextField
-                                        required={true}
-                                        className={styles.booking_input}
-                                        id="outlined-basic"
-                                        variant="outlined"
-                                        size="small"
-                                        value={minutes}
-                                        defaultValue={props.route.minute}
-                                        onChange={(e) => setMinutes(Number(Number(e.target.value)))}
-                                    />
-                                </div>
                             </form>
-                        </div>
 
+                        </div>
                         <div className={styles.action}>
+
                             <Button
                                 size='small'
                                 variant="outlined"
                                 startIcon={<BorderColorIcon />}
                                 className={styles.btnCreate}
-                            // onClick={handleUpdate}
-
+                                onClick={() => { onClickSubmit() }}
                             >
                                 Cập nhật
                             </Button>
@@ -275,7 +817,6 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                             </Button>
                         </div>
                     </Box>
-
                 </Modal>
                 :
                 <></>
@@ -288,15 +829,41 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
             </Snackbar>
         </>
     );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

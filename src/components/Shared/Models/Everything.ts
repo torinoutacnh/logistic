@@ -1,5 +1,5 @@
 enum env {
-    REACT_APP_API = "http://45.119.84.227:5005"
+    REACT_APP_API = "http://45.119.84.227:5006"
 }
 
 enum ServiceType {
@@ -7,5 +7,10 @@ enum ServiceType {
     "Chở người" = 1,
 }
 
+enum StatusSeat {
+    "Trống" = 0,
+    "Đã đặt" = 1
+}
 
-export { env, ServiceType }
+
+export { env, ServiceType, StatusSeat }

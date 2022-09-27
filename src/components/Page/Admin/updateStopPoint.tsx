@@ -39,18 +39,15 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
     const [listDistrict, setListDistrict] = useState<DistrictModel[]>()
     const [listWard, setListWard] = useState<WardModel[]>()
 
-
-
-
-
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
-
     const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -230,9 +227,11 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
 
         console.log("handle update stop point => ", StopPointUpdate);
         console.log("id update stop point => ", props.stopPoint.id);
-        // console.log("cityName => ", cityName);
-        // console.log("districtName => ", districtName);
-        // console.log("wardName => ", wardName);
+        console.log("cityName => ", cityName);
+        console.log("districtName => ", districtName);
+        console.log("wardName => ", wardName);
+
+        return
 
         fetch(env.REACT_APP_API.concat(`/stop-point/update-point-location/${props.stopPoint.id}`), {
             method: "POST",
@@ -252,6 +251,7 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
                 }
                 else if (res.status >= 400) {
                     console.log("update point location status >= 400 ", data);
+                    handleOpenNotify("Cập nhật điểm dừng thất bại!", "error")
                     return
                 }
 
@@ -263,7 +263,7 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
                 // setStreet(props.stopPoint.street);
                 // setHouseNumber(props.stopPoint.houseNumber);
 
-                handleOpenNotify("Cập nhật điểm dừng thành công")
+                handleOpenNotify("Cập nhật điểm dừng thành công!", "success")
                 props.reloadPage()
 
             })
@@ -454,14 +454,27 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
             </Snackbar>
         </>
     );

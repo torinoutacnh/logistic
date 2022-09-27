@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType } from '../../Shared/Models/Everything';
+import { env } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
@@ -55,6 +55,7 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
                 }
                 else if (res.status >= 400) {
                     console.log("update price status >= 400 ", data);
+                    handleOpenNotify("Cập nhật giá thất bại!", "error")
                     return
                 }
 
@@ -62,7 +63,7 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
 
                 setShipPrice(priceCar.shipPrice)
                 setTravelPrice(priceCar.travelPrice)
-                handleOpenNotify("Cập nhật giá thành công")
+                handleOpenNotify("Cập nhật giá thành công!", "success")
                 props.reloadPage()
 
             })
@@ -79,10 +80,12 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
         props.close()
     }
 
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
@@ -177,14 +180,27 @@ export function UpdatePrice(props?: { stateProps: boolean, close: any, reloadPag
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
             </Snackbar>
         </>
     );

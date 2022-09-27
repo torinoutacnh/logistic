@@ -14,6 +14,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { ClockPicker, MobileTimePicker } from "@mui/x-date-pickers";
 import { fontWeight } from "@mui/system";
 import Image from "next/image";
+import imageTest from "../../../styles/img/imgTest.jpg";
 
 export const LookingCar = () => {
   const [filterChair, setFilterChair] = useState<string>();
