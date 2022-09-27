@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, IconButton, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType, StatusSeat } from '../../Shared/Models/Everything';
+import { env, StatusSeat } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { SeatModel } from '../../Shared/Models/SeatModel';
@@ -33,9 +33,7 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
         setStatus(props.seat?.status)
     }, [props.stateProps])
 
-
     const handleSubmit = () => {
-
 
         fetch(env.REACT_APP_API.concat(`/seat/update-seat-info/${props.id}`), {
             method: "POST",
@@ -55,23 +53,21 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
                 }
                 else if (res.status >= 400) {
                     console.log("update seat status >= 400 ", data);
+                    handleOpenNotify("Cập nhật ghế thất bại!", "error")
                     return
                 }
 
                 console.log("update seat => ", data.data);
-                handleOpenNotify("Cập nhật ghế thành công")
+                handleOpenNotify("Cập nhật ghế thành công!", "success")
                 props.reloadPage()
 
             })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
-
-
         props.close();
     }
     const handleDelete = () => {
-
 
         fetch(env.REACT_APP_API.concat(`/seat/delete-seat/${seatUpdate.id}`), {
             method: "GET",
@@ -91,32 +87,28 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
                 }
                 else if (res.status >= 400) {
                     console.log("delete seat status >= 400 ", data);
+                    handleOpenNotify("Xoá ghế thất bại!", "error")
                     return
                 }
-
                 console.log("delete seat => ", data.data);
-                handleOpenNotify("Xóa ghế thành công")
-
+                handleOpenNotify("Xóa ghế thành công!", "success")
                 props.reloadPage()
-
             })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
-
-
         props.close();
     }
 
     const onCloseModal = () => {
-
         props.close()
     }
-
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
@@ -130,8 +122,6 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
 
     const handleUpdateStatus = () => {
         const SeatUpdateStatus: SeatModel = { id: seatUpdate.id, status: status }
-
-
         // console.log("SeatUpdateStatus", SeatUpdateStatus);
 
         fetch(env.REACT_APP_API.concat(`/seat/update-seat-status`), {
@@ -152,20 +142,17 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
                 }
                 else if (res.status >= 400) {
                     console.log("update status seat  >= 400 ", data);
+                    handleOpenNotify("Cập nhật trạng thái ghế thất bại!", "error")
                     return
                 }
 
                 console.log("update status seat => ", data.data);
-                handleOpenNotify("Cập nhật trạng thái ghế thành công")
-
+                handleOpenNotify("Cập nhật trạng thái ghế thành công!", "success")
                 props.reloadPage()
-
             })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
-
-
         props.close();
     }
 
@@ -196,7 +183,6 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
 
                         <div className={styles.container}>
 
-
                             <form noValidate autoComplete="off" id={styles.info}>
                                 <div className={styles.wrap}>
                                     <p style={{ width: "120px", textAlign: "left" }}>Tầng</p>
@@ -211,7 +197,6 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
                                         onChange={(e) => setSeatUpdate({ ...seatUpdate, floor: Number(e.target.value) })}
                                     />
                                 </div>
-
 
                                 <div className={styles.wrap}>
                                     <p style={{ width: "120px", textAlign: "left" }}>Hàng</p>
@@ -270,13 +255,10 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
                                         Lưu
                                     </Button>
                                 </div>
-
                             </form>
-
                         </div>
+
                         <div className={styles.action}>
-
-
                             <Button
                                 size='small'
 
@@ -299,9 +281,6 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
                                 Xóa ghế
                             </Button>
                         </div>
-
-
-
                     </Box>
 
                 </Modal>
@@ -316,14 +295,27 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
             </Snackbar>
         </>
     );

@@ -1,32 +1,30 @@
-import { Alert, Button, Grid, Snackbar } from "@mui/material"
+import { Alert, Box, Button, Grid, IconButton, Snackbar, TextField } from "@mui/material"
 import styles from './styles/admin.module.scss'
-import imageTest from "../../../styles/img/imgTest.jpg"
 import Image from "next/image"
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from "react";
 import { CarModel } from "../../Shared/Models/CarModel";
 import { env, ServiceType } from "../../Shared/Models/Everything";
 import { useRouter } from "next/router";
-import { CreateSeat } from "./createSeat";
 import AddIcon from '@mui/icons-material/Add';
 import { CreateCar } from "./createCar";
 import { CarManagerModel } from "../../Shared/Models/CarManager";
 import ProgressBar from "../../Shared/Components/Loading/ProgressBar";
+import SearchIcon from '@mui/icons-material/Search';
 
-export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: string, index: number }) => {
+
+export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: string, index: number, name: string }) => {
 
     const [car, setCar] = useState<CarModel[]>([])
     const [filterCar, setFilterCar] = useState<CarModel[]>()
     const [reRender, setReRender] = useState(0)
     const [carManagers, setCarManagers] = useState<CarManagerModel[]>()
+    const [search, setSearch] = useState('');
 
     const router = useRouter()
 
     ////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////
-
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
@@ -37,12 +35,11 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
         setOpenNofity(false);
     };
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
-    ////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////
     ////////////////////////////////////////////////////
 
     useEffect(() => {
@@ -104,7 +101,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                 }
 
                 // console.log("get car => ", data.data);
-
                 setCarManagers(data.data)
             })
             .catch((error) => {
@@ -117,7 +113,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
         const tmp = (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"]) ? car.filter(item => item.serviceType == props.typeProps) : car
         setFilterCar(tmp)
     }, [car])
-
 
     const onClickDeleteCar = (idCar: string) => {
         fetch(env.REACT_APP_API.concat(`/car/delete-car/${idCar}`), {
@@ -156,13 +151,16 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
         router.push({ pathname: "/admin/carInfo", query: { id: carId, index: props.index } })
     }
 
+    const handleChangeSearch = (e) => {
+        setSearch(e.target.value);
+    }
+
     ////////////////////////////////////////////////////////
     const [isShowModal, setIsShowModal] = useState(false);
     const onClickShowModal = () => setIsShowModal(true);
     const onClickCloseModal = () => setIsShowModal(false);
     const reloadPage = () => {
         setReRender(reRender + 1)
-        handleOpenNotify("Tạo xe thành công")
     }
 
     return (
@@ -170,53 +168,47 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
             {
                 (filterCar && carManagers) ?
                     <>
-                        <div className={styles.option}>
-                            {/* <Box className={styles.area}>
-                                    <span>Khu vực</span>
-                                    <FormControl fullWidth size="small">
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            MenuProps={MenuProps}
-                                            value={area}
-                                            onChange={handleChange}
-                                        >
-
-                                            {
-                                                dataDistrict.map((item, index) => (
-                                                    <MenuItem
-                                                        key={index}
-                                                        value={item}
-                                                    >
-                                                        {item}
-                                                    </MenuItem>
-                                                )
-                                                )
-                                            }
-
-                                        </Select>
-                                    </FormControl>
-                                </Box> */}
-
-                            {
-                                (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"])
-                                    ?
-                                    <Button
-                                        variant="outlined"
-                                        size='small'
-                                        startIcon={<AddIcon />}
-                                        sx={{ marginRight: 3 }}
-                                        onClick={() => { onClickShowModal() }}
-                                    >
-                                        Thêm mới
-                                    </Button>
-                                    :
-                                    <></>
-                            }
-                        </div>
+                       
                         <Grid container className={styles.g_container}>
+                            <div className={styles.option}>
+                                {
+                                    (props.typeProps === ServiceType["Chở hàng"] || props.typeProps === ServiceType["Chở người"])
+                                        ?
+                                        <>
+                                            <Box className={styles.search}>
+                                                <IconButton>
+                                                    <SearchIcon />
+                                                </IconButton>
+                                                <TextField
+                                                    className={styles.search_input}
+                                                    id="input-with-sx"
+                                                    variant="standard"
+                                                    size='small'
+                                                    fullWidth
+                                                    defaultValue={''}
+                                                    value={search}
+                                                    onChange={(e) => handleChangeSearch(e)}
+                                                />
+                                            </Box>
+                                            <span>{props.name}</span>
+                                            <Button
+                                                className={styles.btnAdd}
+                                                variant="outlined"
+                                                size='small'
+                                                startIcon={<AddIcon sx={{color: "blue"}}/>}
+                                                sx={{ mr: 3 }}
+                                                onClick={() => { onClickShowModal() }}
+                                            >
+                                                Thêm mới
+                                            </Button>
+                                        </>
+                                        :
+                                        <></>
+                                }
+                            </div>
 
                             {
+                                
                                 filterCar.map((item, index) => {
                                     return (
                                         <Grid xs={11.5} sm={9} md={9} lg={8} xl={5.9} key={index}>
@@ -299,14 +291,27 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                             autoHideDuration={3000}
                             onClose={handleCloseNotify}
                         >
-                            <Alert
-                                color="info"
-                                onClose={handleCloseNotify}
-                                severity="success"
-                                sx={{ width: '100%' }}
-                            >
-                                {messageNotify}
-                            </Alert>
+                            {
+                                typeNotifi === "success"
+                                    ?
+                                    <Alert
+                                        color={"info"}
+                                        onClose={handleCloseNotify}
+                                        severity={"success"}
+                                        sx={{ width: '100%' }}
+                                    >
+                                        {messageNotify}
+                                    </Alert>
+                                    :
+                                    <Alert
+                                        color={"error"}
+                                        onClose={handleCloseNotify}
+                                        severity={"error"}
+                                        sx={{ width: '100%' }}
+                                    >
+                                        {messageNotify}
+                                    </Alert>
+                            }
                         </Snackbar>
                         <CreateCar
                             stateProps={isShowModal}

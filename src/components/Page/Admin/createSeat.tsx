@@ -31,22 +31,20 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
 
     const [isShow, setIsShow] = useState(false)
 
-
     useEffect(() => {
         setIsShow(props.stateProps)
     }, [props.stateProps])
-
 
     const onCloseModal = () => {
         props.close()
     }
 
-
-
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
@@ -80,7 +78,6 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
         const list: SeatModel[] = data.listSeat
         list.map(item => item.floor = Number(item.floor))
 
-
         fetch(env.REACT_APP_API.concat(`/seat/create-seat-list/${props.id}`), {
             method: "POST",
             headers: {
@@ -99,16 +96,16 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
                 }
                 else if (res.status >= 400) {
                     console.log(" create seat status >= 400 ", data);
+                    handleOpenNotify("Vui lòng nhập đầy đủ thông tin!", "error")
                     return
                 }
 
                 console.log(" create seat => ", data.data);
 
                 reset({ listSeat: [defaultValues] })
-                handleOpenNotify("Tạo ghế thành công")
+                handleOpenNotify("Tạo ghế thành công!", "success")
                 onCloseModal()
                 props.reloadPage()
-
             })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
@@ -121,7 +118,6 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
     // Hàng -> col               số ghế -> row
     ///////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-
 
     return (
         <>
@@ -136,7 +132,6 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
                         <Typography id="modal-modal-title" variant="h5" component="h3" sx={{ mb: 3 }}>
                             Tạo ghế ngồi
                         </Typography>
-
 
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <ul className={styles.container_create_list}>
@@ -187,7 +182,6 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
                             </ul>
                             <section>
 
-
                                 <Button
                                     // startIcon={<AddIcon fontSize='small' />}
                                     // sx={{ fontSize: "10px", height: "30px" }}
@@ -198,7 +192,6 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
 
                                     Thêm ghế
                                 </Button>
-
 
                             </section>
 
@@ -218,18 +211,13 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
                                     <CancelIcon fontSize='inherit' /> &nbsp; Hủy bỏ
                                 </Button>
                             </div>
-
-
                         </form>
-
-
                     </Box>
-
                 </Modal>
                 :
                 <></>
-
             }
+
             <Snackbar
                 anchorOrigin={{ vertical: "top", horizontal: "right" }}
                 key={"top right"}
@@ -237,14 +225,27 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
             </Snackbar>
         </>
     );

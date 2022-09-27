@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar, IconButton } from '@mui/material';
 import styles from './styles/createCar.module.scss';
-import UploadIcon from '@mui/icons-material/Upload';
-import AddIcon from '@mui/icons-material/Add';
-import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType } from '../../Shared/Models/Everything';
-import { CarManager } from '../../Shared/Models/CarManager';
-import { CarModel } from '../../Shared/Models/CarModel';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
+import { env } from '../../Shared/Models/Everything';
 import { useForm, useFieldArray } from "react-hook-form";
-import ReactDOM from "react-dom";
-import DeleteIcon from '@mui/icons-material/Delete';
-import { SeatModel } from "../../Shared/Models/SeatModel";
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { RouteModel } from '../../Shared/Models/RouteModel';
 import { StopPointModel } from '../../Shared/Models/StopPointModel';
 import { CityModel } from '../../Shared/Models/CityModel';
 import { DistrictModel } from '../../Shared/Models/DistrictModel';
@@ -156,11 +146,12 @@ export function CreateStoppoint(props?: { stateProps: boolean, close: any, reloa
         props.close()
     }
 
-
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
@@ -220,13 +211,14 @@ export function CreateStoppoint(props?: { stateProps: boolean, close: any, reloa
                 }
                 else if (res.status >= 400) {
                     console.log(" create point status >= 400 ", data);
+                    handleOpenNotify("Vui lòng nhập đầy đủ thông tin!", "error")
                     return
                 }
 
                 console.log(" create point => ", data.data);
 
                 reset({ listStoppoint: [defaultValues] })
-                handleOpenNotify("Tạo điểm dừng thành công")
+                handleOpenNotify("Tạo điểm dừng thành công!", "success")
                 onCloseModal()
                 props.reloadPage()
 
@@ -238,10 +230,6 @@ export function CreateStoppoint(props?: { stateProps: boolean, close: any, reloa
     }
     ///////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-
-
-
-
 
     return (
         <>
@@ -256,7 +244,6 @@ export function CreateStoppoint(props?: { stateProps: boolean, close: any, reloa
                         <Typography id="modal-modal-title" variant="h5" component="h3" sx={{ mb: 3 }}>
                             Tạo điểm dừng
                         </Typography>
-
 
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <ul className={styles.container_create_list} style={{ overflowY: "hidden" }}>
@@ -427,14 +414,27 @@ export function CreateStoppoint(props?: { stateProps: boolean, close: any, reloa
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
             </Snackbar>
         </>
     );

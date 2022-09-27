@@ -39,18 +39,15 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
     const [listDistrict, setListDistrict] = useState<DistrictModel[]>()
     const [listWard, setListWard] = useState<WardModel[]>()
 
-
-
-
-
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
-
     const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -236,45 +233,46 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
 
         return
 
-        fetch(env.REACT_APP_API.concat(`/stop-point/update-point-location/${props.stopPoint.id}`), {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            body: JSON.stringify(StopPointUpdate),
-        })
-            .then(async (res) => {
+    //     fetch(env.REACT_APP_API.concat(`/stop-point/update-point-location/${props.stopPoint.id}`), {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             // Authorization: "Bearer ".concat(user.token),
+    //         },
+    //         body: JSON.stringify(StopPointUpdate),
+    //     })
+    //         .then(async (res) => {
 
-                const data = await res.json()
+    //             const data = await res.json()
 
-                if (res.status >= 500) {
-                    console.log("update point location status >= 500 ", data);
-                    return
-                }
-                else if (res.status >= 400) {
-                    console.log("update point location status >= 400 ", data);
-                    return
-                }
+    //             if (res.status >= 500) {
+    //                 console.log("update point location status >= 500 ", data);
+    //                 return
+    //             }
+    //             else if (res.status >= 400) {
+    //                 console.log("update point location status >= 400 ", data);
+    //                 handleOpenNotify("Cập nhật điểm dừng thất bại!", "error")
+    //                 return
+    //             }
 
-                console.log("update point location => ", data.data);
+    //             console.log("update point location => ", data.data);
 
-                // setCityName(props.stopPoint.city);
-                // setDistrictName(props.stopPoint.district);
-                // setWardName(props.stopPoint.ward);
-                // setStreet(props.stopPoint.street);
-                // setHouseNumber(props.stopPoint.houseNumber);
+    //             // setCityName(props.stopPoint.city);
+    //             // setDistrictName(props.stopPoint.district);
+    //             // setWardName(props.stopPoint.ward);
+    //             // setStreet(props.stopPoint.street);
+    //             // setHouseNumber(props.stopPoint.houseNumber);
 
-                handleOpenNotify("Cập nhật điểm dừng thành công")
-                props.reloadPage()
+    //             handleOpenNotify("Cập nhật điểm dừng thành công!", "success")
+    //             props.reloadPage()
 
-            })
-            .catch((error) => {
-                console.log(" error >>>>>>", error);
-            })
+    //         })
+    //         .catch((error) => {
+    //             console.log(" error >>>>>>", error);
+    //         })
 
-        props.close();
-    }
+    //     props.close();
+    // }
 
     return (
         <>
@@ -456,14 +454,27 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
             </Snackbar>
         </>
     );

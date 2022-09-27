@@ -4,8 +4,7 @@ import styles from './styles/createRouter.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType } from '../../Shared/Models/Everything';
-
+import { env } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useForm, useFieldArray } from "react-hook-form";
@@ -35,7 +34,6 @@ const style = {
 export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPage: any, route: RouteModel }) {
 
     const [isShow, setIsShow] = useState(false)
-    const [typeNotifi, setTypeNotifi] = useState("success")
 
     ///////////////////////////////////////////
     ///////////////////////////////////////////
@@ -63,10 +61,6 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
     const [listWardTo, setListWardTo] = useState<WardModel[]>()
     /////////////////////////////////////////
     const [listCity, setListCity] = useState<CityModel[]>()
-
-
-
-
 
     const loadData1 = async () => {
 
@@ -97,7 +91,6 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
         const district_tmp = list_district_tmp?.find(item => item.name === props.route?.from?.district)
         setDistrictFrom(district_tmp)
         setListDistrictFrom(list_district_tmp)
-
 
         const res_ward = await fetch(env.REACT_APP_API.concat(`/wards/${district_tmp?.id}`), {
             method: "GET",
@@ -130,7 +123,6 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
         setCityTo(city_tmp)
         setListCity(list_city_tmp)
 
-
         const res_district = await fetch(env.REACT_APP_API.concat(`/districts/${city_tmp?.id}`), {
             method: "GET",
             headers: {
@@ -144,7 +136,6 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
         const district_tmp = list_district_tmp?.find(item => item.name === props.route?.to?.district)
         setDistrictTo(district_tmp)
         setListDistrictTo(list_district_tmp)
-
 
         const res_ward = await fetch(env.REACT_APP_API.concat(`/wards/${district_tmp?.id}`), {
             method: "GET",
@@ -249,8 +240,6 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
         }
     }, [cityTo])
 
-
-
     /////////////////////////////////////////////////////////////
 
     useEffect(() => {
@@ -315,19 +304,11 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
         }
     }, [districtTo])
 
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
@@ -406,7 +387,6 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
 
         // console.log("router Update", routerUpdate);
 
-
         fetch(env.REACT_APP_API.concat(`/route/update-route`) + "?" + new URLSearchParams({ id: props.route.id }), {
             method: "POST",
             headers: {
@@ -425,19 +405,17 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                 }
                 else if (res.status >= 400) {
                     console.log(" update route status >= 400 ", data);
-                    // handleOpenNotify("Vui lòng nhập đầy đủ thông tin", "error");
+                    handleOpenNotify("Cập nhật tuyến đường thất bại!", "error");
                     return
                 }
 
                 console.log(" update route => ", data.data);
 
-                handleOpenNotify("Cập nhật tuyến đường thành công", "success")
+                handleOpenNotify("Cập nhật tuyến đường thành công!", "success")
 
                 resetForm()
-
                 onCloseModal()
                 props.reloadPage()
-
             })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
@@ -446,7 +424,6 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
     }
     ///////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -458,7 +435,6 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
             },
         },
     };
-
 
     return (
         <>
@@ -475,10 +451,7 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                         </Typography>
                         <div className={styles.container}>
 
-
                             <form noValidate autoComplete="off" id={styles.info} encType="multipart/form-data">
-
-
 
                                 {/* FROM//////////////////////////////////////////////////////////////////////////////////////////
                                 //////////////////////////////////////////////////////////////////////////////////////////
@@ -763,7 +736,6 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                 //////////////////////////////////////////////////////////////////////////////////////////
                                 ////////////////////////////////////////////////////////////////////////////////////////// */}
 
-
                                 <div className={styles.itemAbout}>
                                     <h3 style={{ margin: "15px", padding: "0", color: "red" }}>Thông tin khác</h3>
                                     <div className={styles.wrap}>
@@ -878,8 +850,6 @@ export function UpdateRoute(props?: { stateProps: boolean, close: any, reloadPag
                             {messageNotify}
                         </Alert>
                 }
-
-
             </Snackbar>
         </>
     );

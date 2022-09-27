@@ -1,4 +1,4 @@
-import { Alert, Button, Grid, Snackbar } from "@mui/material"
+import { Alert, Box, Button, Grid, IconButton, Snackbar, TextField } from "@mui/material"
 import styles from './styles/admin.module.scss'
 import Image from "next/image"
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,17 +9,18 @@ import AddIcon from '@mui/icons-material/Add';
 import { CreateCarManager } from "./createCarManager";
 import { CarManagerModel } from "../../Shared/Models/CarManager";
 import ProgressBar from "../../Shared/Components/Loading/ProgressBar";
+import SearchIcon from '@mui/icons-material/Search';
 
-export const ListCarManager = (props: { typeProps?: number, index: number }) => {
 
-    const [filterCarManager, setFilterCarManager] = useState<CarManagerModel[]>()
+export const ListCarManager = (props: { typeProps?: number, index: number, name: string }) => {
+
     const [reRender, setReRender] = useState(0)
     const [carManager, setCarManager] = useState<CarManagerModel[]>()
 
     const router = useRouter()
 
     ////////////////////////////////////////////////////
-
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
@@ -30,10 +31,12 @@ export const ListCarManager = (props: { typeProps?: number, index: number }) => 
         setOpenNofity(false);
     };
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
+
     ////////////////////////////////////////////////////
 
     useEffect(() => {
@@ -84,11 +87,12 @@ export const ListCarManager = (props: { typeProps?: number, index: number }) => 
                 }
                 else if (res.status >= 400) {
                     console.log("delete car manager status >= 400 ", data);
+                    handleOpenNotify("Xoá nhà xe thất bại!", "error")
                     return
                 }
 
                 console.log("delete car manager => ", data);
-                handleOpenNotify("Xóa nhà xe thành công")
+                handleOpenNotify("Xóa nhà xe thành công", "success")
                 setReRender(pre => pre + 1)
             })
             .catch((error) => {
@@ -106,8 +110,11 @@ export const ListCarManager = (props: { typeProps?: number, index: number }) => 
     const onClickCloseModal = () => setIsShowModal(false);
     const reloadPage = () => {
         setReRender(reRender + 1)
+    }
 
-        handleOpenNotify("Tạo xe thành công")
+    const [search, setSearch] = useState('');
+    const handleChangeSearch = (e) => {
+        setSearch(e.target.value);
     }
 
     return (
@@ -115,46 +122,34 @@ export const ListCarManager = (props: { typeProps?: number, index: number }) => 
             {
                 (carManager) ?
                     <>
-                        <div className={styles.option}>
-                            {/* <Box className={styles.area}>
-                                    <span>Khu vực</span>
-                                    <FormControl fullWidth size="small">
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            MenuProps={MenuProps}
-                                            value={area}
-                                            onChange={handleChange}
-                                        >
-
-                                            {
-                                                dataDistrict.map((item, index) => (
-                                                    <MenuItem
-                                                        key={index}
-                                                        value={item}
-                                                    >
-                                                        {item}
-                                                    </MenuItem>
-                                                )
-                                                )
-                                            }
-
-                                        </Select>
-                                    </FormControl>
-                                </Box> */}
-
-                            <Button
-                                variant="outlined"
-                                size='small'
-                                startIcon={<AddIcon />}
-                                sx={{ marginRight: 3 }}
-                                onClick={() => { onClickShowModal() }}
-                            >
-                                Thêm mới
-                            </Button>
-                        </div>
                         <Grid container className={styles.g_container}>
-
+                            <div className={styles.option}>
+                                <Box className={styles.search}>
+                                    <IconButton className={styles.icon}>
+                                        <SearchIcon />
+                                    </IconButton>
+                                    <TextField
+                                        className={styles.search_input}
+                                        id="input-with-sx"
+                                        variant="standard"
+                                        size='small'
+                                        fullWidth
+                                        value={search}
+                                        onChange={(e) => handleChangeSearch(e)}
+                                    />
+                                </Box>
+                                <span>{props.name}</span>
+                                <Button
+                                    className={styles.btnAdd}
+                                    variant="outlined"
+                                    size='small'
+                                    startIcon={<AddIcon sx={{color: "blue"}}/>}
+                                    sx={{ mr: 3 }}
+                                    onClick={() => { onClickShowModal() }}
+                                >
+                                    Thêm mới
+                                </Button>
+                            </div>
                             {
                                 carManager?.map((item, index) => {
                                     return (
@@ -214,14 +209,27 @@ export const ListCarManager = (props: { typeProps?: number, index: number }) => 
                             autoHideDuration={3000}
                             onClose={handleCloseNotify}
                         >
-                            <Alert
-                                color="info"
-                                onClose={handleCloseNotify}
-                                severity="success"
-                                sx={{ width: '100%' }}
-                            >
-                                {messageNotify}
-                            </Alert>
+                            {
+                                typeNotifi === "success"
+                                    ?
+                                    <Alert
+                                        color={"info"}
+                                        onClose={handleCloseNotify}
+                                        severity={"success"}
+                                        sx={{ width: '100%' }}
+                                    >
+                                        {messageNotify}
+                                    </Alert>
+                                    :
+                                    <Alert
+                                        color={"error"}
+                                        onClose={handleCloseNotify}
+                                        severity={"error"}
+                                        sx={{ width: '100%' }}
+                                    >
+                                        {messageNotify}
+                                    </Alert>
+                            }
                         </Snackbar>
                         <CreateCarManager
                             stateProps={isShowModal}
