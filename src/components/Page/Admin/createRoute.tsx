@@ -5,7 +5,6 @@ import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { env, ServiceType } from '../../Shared/Models/Everything';
-
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useForm, useFieldArray } from "react-hook-form";
@@ -64,10 +63,7 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
     /////////////////////////////////////////
     const [listCity, setListCity] = useState<CityModel[]>()
 
-
-
     const loadData = async () => {
-
 
         const res_city = await fetch(env.REACT_APP_API.concat("/cities"), {
             method: "GET",
@@ -80,7 +76,6 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
         const data_res_city = await res_city.json()
         setListCity(data_res_city.data)
     }
-
 
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
@@ -148,8 +143,6 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
         }
     }, [cityTo])
 
-
-
     /////////////////////////////////////////////////////////////
 
     useEffect(() => {
@@ -214,21 +207,14 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
         }
     }, [districtTo])
 
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-
-
-
 
     useEffect(() => {
         setIsShow(props.stateProps)
         loadData()
     }, [props.stateProps])
-
-
-
 
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
@@ -326,16 +312,14 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                 }
                 else if (res.status >= 400) {
                     console.log(" create route status >= 400 ", data);
-                    handleOpenNotify("Vui lòng nhập đầy đủ thông tin", "error");
+                    handleOpenNotify("Vui lòng nhập đầy đủ thông tin!", "error");
                     return
                 }
 
-                console.log(" create route => ", data.data);
+                console.log("create route => ", data.data);
 
-                handleOpenNotify("Tạo tuyến đường thành công", "success")
-
+                handleOpenNotify("Tạo tuyến đường thành công!", "success")
                 resetForm()
-
                 onCloseModal()
                 props.reloadPage()
 
@@ -343,11 +327,9 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
-
     }
     ///////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -359,7 +341,6 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
             },
         },
     };
-
 
     return (
         <>
@@ -376,10 +357,7 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                         </Typography>
                         <div className={styles.container}>
 
-
                             <form noValidate autoComplete="off" id={styles.info} encType="multipart/form-data">
-
-
 
                                 {/* FROM//////////////////////////////////////////////////////////////////////////////////////////
                                 //////////////////////////////////////////////////////////////////////////////////////////
@@ -654,7 +632,6 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                                 //////////////////////////////////////////////////////////////////////////////////////////
                                 ////////////////////////////////////////////////////////////////////////////////////////// */}
 
-
                                 <div className={styles.itemAbout}>
                                     <h3 style={{ margin: "15px", padding: "0", color: "red" }}>Thông tin khác</h3>
                                     <div className={styles.wrap}>
@@ -769,22 +746,7 @@ export function CreateRoute(props?: { stateProps: boolean, close: any, reloadPag
                             {messageNotify}
                         </Alert>
                 }
-
-
             </Snackbar>
         </>
     );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

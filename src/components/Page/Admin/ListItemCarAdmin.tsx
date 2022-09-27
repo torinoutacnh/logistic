@@ -24,7 +24,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
     const router = useRouter()
 
     ////////////////////////////////////////////////////
-
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
@@ -35,7 +35,8 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
         setOpenNofity(false);
     };
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
@@ -100,7 +101,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                 }
 
                 // console.log("get car => ", data.data);
-
                 setCarManagers(data.data)
             })
             .catch((error) => {
@@ -161,7 +161,6 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
     const onClickCloseModal = () => setIsShowModal(false);
     const reloadPage = () => {
         setReRender(reRender + 1)
-        handleOpenNotify("Tạo xe thành công")
     }
 
     return (
@@ -186,6 +185,7 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                                                     variant="standard"
                                                     size='small'
                                                     fullWidth
+                                                    defaultValue={''}
                                                     value={search}
                                                     onChange={(e) => handleChangeSearch(e)}
                                                 />
@@ -291,14 +291,27 @@ export const ListiItemCarAdmin = (props: { typeProps?: number, carManagerID?: st
                             autoHideDuration={3000}
                             onClose={handleCloseNotify}
                         >
-                            <Alert
-                                color="info"
-                                onClose={handleCloseNotify}
-                                severity="success"
-                                sx={{ width: '100%' }}
-                            >
-                                {messageNotify}
-                            </Alert>
+                            {
+                                typeNotifi === "success"
+                                    ?
+                                    <Alert
+                                        color={"info"}
+                                        onClose={handleCloseNotify}
+                                        severity={"success"}
+                                        sx={{ width: '100%' }}
+                                    >
+                                        {messageNotify}
+                                    </Alert>
+                                    :
+                                    <Alert
+                                        color={"error"}
+                                        onClose={handleCloseNotify}
+                                        severity={"error"}
+                                        sx={{ width: '100%' }}
+                                    >
+                                        {messageNotify}
+                                    </Alert>
+                            }
                         </Snackbar>
                         <CreateCar
                             stateProps={isShowModal}

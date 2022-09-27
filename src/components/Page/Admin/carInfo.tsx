@@ -21,6 +21,7 @@ import { CreateStoppoint } from './createStoppoint';
 import { RouteModel } from '../../Shared/Models/RouteModel';
 import { UpdateRoute } from './updateRoute';
 import { ChangeSeat } from './ChangeSeat';
+import ProgressBar from '../../Shared/Components/Loading/ProgressBar';
 
 export const CarInfo = () => {
 
@@ -121,7 +122,7 @@ export const CarInfo = () => {
     const onClickCloseUpdateStopPoint = () => setIsShowModalUpdateStopPoint(false);
 
     ////////////////////////////////////////////////////
-
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
@@ -132,11 +133,11 @@ export const CarInfo = () => {
         setOpenNofity(false);
     };
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
-    }
-    ////////////////////////////////////////////////////
+    }    ////////////////////////////////////////////////////
 
     const onClickDeleteRoute = (idRoute: string) => {
         fetch(env.REACT_APP_API.concat(`/route/delete-route/${idRoute}`), {
@@ -157,10 +158,11 @@ export const CarInfo = () => {
                 }
                 else if (res.status >= 400) {
                     console.log("delete route status >= 400 ", data);
+                    handleOpenNotify("Xoá tuyến thất bại!", "error")
                     return
                 }
                 console.log("delete route point => ", data);
-                handleOpenNotify("Xóa tuyến thành công")
+                handleOpenNotify("Xóa tuyến thành công!", "success")
                 reloadPage();
             })
             .catch((error) => {
@@ -169,35 +171,35 @@ export const CarInfo = () => {
     }
     //////////////////////////////////////////////////////////////////
 
-    const onClickDeleteStopPoint = (idStopPoint: string) => {
-        fetch(env.REACT_APP_API.concat(`/stop-point/delete-point/${idStopPoint}`), {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                // Authorization: "Bearer ".concat(user.token),
-            },
-            // body: JSON.stringify(form.getFieldsValue()),
-        })
-            .then(async (res) => {
+    // const onClickDeleteStopPoint = (idStopPoint: string) => {
+    //     fetch(env.REACT_APP_API.concat(`/stop-point/delete-point/${idStopPoint}`), {
+    //         method: "GET",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             // Authorization: "Bearer ".concat(user.token),
+    //         },
+    //         // body: JSON.stringify(form.getFieldsValue()),
+    //     })
+    //         .then(async (res) => {
 
-                const data = await res.json()
+    //             const data = await res.json()
 
-                if (res.status >= 500) {
-                    console.log("delete stop point status >= 500 ", data);
-                    return
-                }
-                else if (res.status >= 400) {
-                    console.log("delete stop point status >= 400 ", data);
-                    return
-                }
-                console.log("delete stop point => ", data);
-                handleOpenNotify("Xóa điểm dừng thành công")
-                setReRender(pre => pre + 1)
-            })
-            .catch((error) => {
-                console.log(" error >>>>>>", error);
-            })
-    }
+    //             if (res.status >= 500) {
+    //                 console.log("delete stop point status >= 500 ", data);
+    //                 return
+    //             }
+    //             else if (res.status >= 400) {
+    //                 console.log("delete stop point status >= 400 ", data);
+    //                 return
+    //             }
+    //             console.log("delete stop point => ", data);
+    //             handleOpenNotify("Xóa điểm dừng thành công", "success")
+    //             setReRender(pre => pre + 1)
+    //         })
+    //         .catch((error) => {
+    //             console.log(" error >>>>>>", error);
+    //         })
+    // }
 
     return (
         <>
@@ -529,7 +531,13 @@ export const CarInfo = () => {
 
                     </>
                     :
-                    <><h1>Loading</h1></>
+                    <div style={{
+                        width: "100%",
+                        height: "calc(100vh - 60px)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}><ProgressBar /></div>
 
             }
             <Snackbar
@@ -539,14 +547,27 @@ export const CarInfo = () => {
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
             </Snackbar>
         </>
     )

@@ -27,7 +27,6 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
     const [carModel, setCarModel] = useState(props.car?.carModel);
     const [carColor, setCarColor] = useState(props.car?.carColor);
     const [carNumber, setCarNumber] = useState(props.car?.carNumber);
-    const [imagePath, setImagePath] = useState(props.car?.imagePath);
     const [tel, setTel] = useState(props.car?.tel);
 
     useEffect(() => {
@@ -66,6 +65,7 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
             }
             else if (res.status >= 400) {
                 console.log("update car status >= 400 ", data);
+                handleOpenNotify("Cập nhật xe thất bại!", "error")
                 return
             }
 
@@ -77,15 +77,12 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
             setCarNumber(carNumber);
             setTel(tel);
 
-            handleOpenNotify("Cập nhật xe thành công")
+            handleOpenNotify("Cập nhật xe thành công!", "success")
             props.reloadPage()
-
         })
             .catch((error) => {
                 console.log(" error >>>>>>", error);
             })
-
-
         props.close();
     }
 
@@ -98,14 +95,15 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
             setCarNumber(props.car.carNumber);
             setTel(props.car.tel);
         }
-
         props.close()
     }
 
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
@@ -283,14 +281,27 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
                 autoHideDuration={3000}
                 onClose={handleCloseNotify}
             >
-                <Alert
-                    color="info"
-                    onClose={handleCloseNotify}
-                    severity="success"
-                    sx={{ width: '100%' }}
-                >
-                    {messageNotify}
-                </Alert>
+                {
+                    typeNotifi === "success"
+                        ?
+                        <Alert
+                            color={"info"}
+                            onClose={handleCloseNotify}
+                            severity={"success"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                        :
+                        <Alert
+                            color={"error"}
+                            onClose={handleCloseNotify}
+                            severity={"error"}
+                            sx={{ width: '100%' }}
+                        >
+                            {messageNotify}
+                        </Alert>
+                }
             </Snackbar>
         </>
     );

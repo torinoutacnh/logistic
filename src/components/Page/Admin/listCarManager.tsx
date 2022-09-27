@@ -10,19 +10,17 @@ import { CreateCarManager } from "./createCarManager";
 import { CarManagerModel } from "../../Shared/Models/CarManager";
 import ProgressBar from "../../Shared/Components/Loading/ProgressBar";
 import SearchIcon from '@mui/icons-material/Search';
-import { useAmp } from "next/amp";
 
 
 export const ListCarManager = (props: { typeProps?: number, index: number, name: string }) => {
 
-    const [filterCarManager, setFilterCarManager] = useState<CarManagerModel[]>()
     const [reRender, setReRender] = useState(0)
     const [carManager, setCarManager] = useState<CarManagerModel[]>()
 
     const router = useRouter()
 
     ////////////////////////////////////////////////////
-
+    const [typeNotifi, setTypeNotifi] = useState("success")
     const [openNotify, setOpenNofity] = useState(false);
     const [messageNotify, setMessageNotify] = useState("")
 
@@ -33,10 +31,12 @@ export const ListCarManager = (props: { typeProps?: number, index: number, name:
         setOpenNofity(false);
     };
 
-    const handleOpenNotify = (message: string) => {
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
         setMessageNotify(message)
         setOpenNofity(true)
     }
+
     ////////////////////////////////////////////////////
 
     useEffect(() => {
@@ -87,11 +87,12 @@ export const ListCarManager = (props: { typeProps?: number, index: number, name:
                 }
                 else if (res.status >= 400) {
                     console.log("delete car manager status >= 400 ", data);
+                    handleOpenNotify("Xoá nhà xe thất bại!", "error")
                     return
                 }
 
                 console.log("delete car manager => ", data);
-                handleOpenNotify("Xóa nhà xe thành công")
+                handleOpenNotify("Xóa nhà xe thành công", "success")
                 setReRender(pre => pre + 1)
             })
             .catch((error) => {
@@ -109,8 +110,6 @@ export const ListCarManager = (props: { typeProps?: number, index: number, name:
     const onClickCloseModal = () => setIsShowModal(false);
     const reloadPage = () => {
         setReRender(reRender + 1)
-
-        handleOpenNotify("Tạo xe thành công")
     }
 
     const [search, setSearch] = useState('');
@@ -210,14 +209,27 @@ export const ListCarManager = (props: { typeProps?: number, index: number, name:
                             autoHideDuration={3000}
                             onClose={handleCloseNotify}
                         >
-                            <Alert
-                                color="info"
-                                onClose={handleCloseNotify}
-                                severity="success"
-                                sx={{ width: '100%' }}
-                            >
-                                {messageNotify}
-                            </Alert>
+                            {
+                                typeNotifi === "success"
+                                    ?
+                                    <Alert
+                                        color={"info"}
+                                        onClose={handleCloseNotify}
+                                        severity={"success"}
+                                        sx={{ width: '100%' }}
+                                    >
+                                        {messageNotify}
+                                    </Alert>
+                                    :
+                                    <Alert
+                                        color={"error"}
+                                        onClose={handleCloseNotify}
+                                        severity={"error"}
+                                        sx={{ width: '100%' }}
+                                    >
+                                        {messageNotify}
+                                    </Alert>
+                            }
                         </Snackbar>
                         <CreateCarManager
                             stateProps={isShowModal}
