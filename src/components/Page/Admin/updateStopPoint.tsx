@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
-import { env } from '../../Shared/Models/Everything';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { StopPointModel } from '../../Shared/Models/StopPointModel';
 import { CityModel } from '../../Shared/Models/CityModel';
@@ -71,7 +70,7 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
         setHouseNumber(props.stopPoint?.houseNumber)
         setStreet(props.stopPoint?.street)
 
-        const res_city = await fetch(env.REACT_APP_API.concat("/cities"), {
+        const res_city = await fetch(process.env.NEXT_PUBLIC_API.concat("/cities"), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -87,7 +86,7 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
         setListCity(list_city_tmp)
 
 
-        const res_district = await fetch(env.REACT_APP_API.concat(`/districts/${city_tmp?.id}`), {
+        const res_district = await fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${city_tmp?.id}`), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -103,7 +102,7 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
         setListDistrict(list_district_tmp)
 
 
-        const res_ward = await fetch(env.REACT_APP_API.concat(`/wards/${district_tmp?.id}`), {
+        const res_ward = await fetch(process.env.NEXT_PUBLIC_API.concat(`/wards/${district_tmp?.id}`), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -139,7 +138,7 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
 
     useEffect(() => {
         if (idCity) {
-            fetch(env.REACT_APP_API.concat(`/districts/${idCity}`), {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${idCity}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -178,7 +177,7 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
 
     useEffect(() => {
         if (idDistrict) {
-            fetch(env.REACT_APP_API.concat(`/wards/${idDistrict}`), {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/wards/${idDistrict}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -233,7 +232,7 @@ export function UpdateStopPoint(props: { stateProps: boolean, close: any, reload
 
         return
 
-        fetch(env.REACT_APP_API.concat(`/stop-point/update-point-location/${props.stopPoint.id}`), {
+        fetch(process.env.NEXT_PUBLIC_API.concat(`/stop-point/update-point-location/${props.stopPoint.id}`), {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

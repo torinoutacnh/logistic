@@ -4,7 +4,6 @@ import styles from './styles/createCar.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { env } from '../../Shared/Models/Everything';
 
 
 const style = {
@@ -42,7 +41,7 @@ export function CreateCarManager(props: { stateProps: boolean, close: any, reloa
         formData.append("Name", name)
         formData.append("Description", description)
 
-        fetch(env.REACT_APP_API.concat("/cars-manager/create-manager"), {
+        fetch(process.env.NEXT_PUBLIC_API.concat("/cars-manager/create-manager"), {
             method: "POST",
             body: formData,
         })

@@ -3,7 +3,7 @@ import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuIte
 import styles from './styles/createCar.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType } from '../../Shared/Models/Everything';
+import { ServiceType } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
@@ -51,7 +51,7 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
         formData.append("CarNumber", carNumber)
         formData.append("ServiceType", `${typeService}`)
 
-        fetch(env.REACT_APP_API.concat("/car/update-car-detail"), {
+        fetch(process.env.NEXT_PUBLIC_API.concat("/car/update-car-detail"), {
             method: "POST",
 
             body: formData,
@@ -140,7 +140,7 @@ export function UpdateCar(props: { stateProps: boolean, close: any, reloadPage: 
                         <div className={styles.container}>
                             <div className={styles.img}>
                                 <div className={styles.image}>
-                                    <img src={env.REACT_APP_API.concat(props.car.imagePath)} id={"output"}></img>
+                                    <img src={process.env.NEXT_PUBLIC_API.concat(props.car.imagePath)} id={"output"}></img>
                                 </div>
                                 <Button
                                     variant="contained"

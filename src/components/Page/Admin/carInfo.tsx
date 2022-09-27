@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Grid, Button, IconButton, Alert, Snackbar } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add';
-import { env, ServiceType } from '../../Shared/Models/Everything';
+import { ServiceType } from '../../Shared/Models/Everything';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/router';
@@ -32,7 +32,7 @@ export const CarInfo = () => {
     const [reRender, setReRender] = useState(0)
 
     useEffect(() => {
-        fetch(env.REACT_APP_API.concat("/car/").concat(id as string), {
+        fetch(process.env.NEXT_PUBLIC_API.concat("/car/").concat(id as string), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -140,7 +140,7 @@ export const CarInfo = () => {
     }    ////////////////////////////////////////////////////
 
     const onClickDeleteRoute = (idRoute: string) => {
-        fetch(env.REACT_APP_API.concat(`/route/delete-route/${idRoute}`), {
+        fetch(process.env.NEXT_PUBLIC_API.concat(`/route/delete-route/${idRoute}`), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -172,7 +172,7 @@ export const CarInfo = () => {
     //////////////////////////////////////////////////////////////////
 
     // const onClickDeleteStopPoint = (idStopPoint: string) => {
-    //     fetch(env.REACT_APP_API.concat(`/stop-point/delete-point/${idStopPoint}`), {
+    //     fetch(process.env.NEXT_PUBLIC_API.concat(`/stop-point/delete-point/${idStopPoint}`), {
     //         method: "GET",
     //         headers: {
     //             "Content-Type": "application/json",
@@ -214,7 +214,7 @@ export const CarInfo = () => {
 
                                     <Image
                                         style={{ borderRadius: "5px" }}
-                                        src={env.REACT_APP_API.concat(car.imagePath)}
+                                        src={process.env.NEXT_PUBLIC_API.concat(car.imagePath)}
                                         alt="Không có hình ảnh"
                                         width={500}
                                         height={400}

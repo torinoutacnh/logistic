@@ -4,7 +4,7 @@ import styles from './styles/createCar.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { env, ServiceType } from '../../Shared/Models/Everything';
+import { ServiceType } from '../../Shared/Models/Everything';
 import { CarManagerModel } from '../../Shared/Models/CarManager';
 
 const style = {
@@ -77,7 +77,7 @@ export function CreateCar(props: { stateProps: boolean, close: any, reloadPage: 
         formData.append("ServiceType", `${typeService}`)
         formData.append("CarsManagerId", carManagerSelect?.id)
 
-        fetch(env.REACT_APP_API.concat("/car/create-car"), {
+        fetch(process.env.NEXT_PUBLIC_API.concat("/car/create-car"), {
             method: "POST",
             body: formData,
         })

@@ -1,20 +1,6 @@
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Typography,
-  Modal,
-  TextField,
-  FormControl,
-  Select,
-  MenuItem,
-  SelectChangeEvent,
-  Alert,
-  Snackbar,
-  IconButton,
-} from "@mui/material";
-import styles from "./styles/createCar.module.scss";
-import { env } from "../../Shared/Models/Everything";
+import React, { useEffect, useState } from 'react';
+import { Box, Button, Typography, Modal, TextField, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar, IconButton } from '@mui/material';
+import styles from './styles/createCar.module.scss';
 import { useForm, useFieldArray } from "react-hook-form";
 import DownloadDoneIcon from "@mui/icons-material/DownloadDone";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -52,16 +38,19 @@ export function CreateStoppoint(props?: {
   const [listDistrict, setListDistrict] = useState<DistrictModel[]>();
   const [listWard, setListWard] = useState<WardModel[]>();
 
-  const loadData = async () => {
-    const res_city = await fetch(env.REACT_APP_API.concat("/cities"), {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        // Authorization: "Bearer ".concat(user.token),
-      }, // body: JSON.stringify(form.getFieldsValue()),
-    });
-    if (res_city.status > 200) {
-      return;
+    const loadData = async () => {
+
+
+        const res_city = await fetch(process.env.NEXT_PUBLIC_API.concat("/cities"), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                // Authorization: "Bearer ".concat(user.token),
+            },// body: JSON.stringify(form.getFieldsValue()),
+        })
+        if (res_city.status > 200) { return }
+        const data_res_city = await res_city.json()
+        setListCity(data_res_city.data)
     }
     const data_res_city = await res_city.json();
     setListCity(data_res_city.data);
@@ -83,33 +72,36 @@ export function CreateStoppoint(props?: {
 
   //////////////////////////////////////////////////////
 
-  useEffect(() => {
-    if (idCity) {
-      fetch(env.REACT_APP_API.concat(`/districts/${idCity}`), {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: "Bearer ".concat(user.token),
-        },
-        // body: JSON.stringify(form.getFieldsValue()),
-      })
-        .then(async (res) => {
-          const data = await res.json();
+    useEffect(() => {
+        if (idCity) {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${idCity}`), {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    // Authorization: "Bearer ".concat(user.token),
+                },
+                // body: JSON.stringify(form.getFieldsValue()),
+            })
+                .then(async (res) => {
 
-          if (res.status >= 500) {
-            console.log("get district status >= 500 ", data);
-            return;
-          } else if (res.status >= 400) {
-            console.log("get district status >= 400 ", data);
-            return;
-          }
-          setListDistrict(data.data);
-        })
-        .catch((error) => {
-          console.log(" error >>>>>>", error);
-        });
-    }
-  }, [idCity]);
+                    const data = await res.json()
+
+                    if (res.status >= 500) {
+                        console.log("get district status >= 500 ", data);
+                        return
+                    }
+                    else if (res.status >= 400) {
+                        console.log("get district status >= 400 ", data);
+                        return
+                    }
+                    setListDistrict(data.data)
+
+                })
+                .catch((error) => {
+                    console.log(" error >>>>>>", error);
+                })
+        }
+    }, [idCity])
 
   const handleChangeDistrictName = (data: string) => {
     // console.log(" District click => ", data);
@@ -121,7 +113,7 @@ export function CreateStoppoint(props?: {
 
   useEffect(() => {
     if (idDistrict) {
-      fetch(env.REACT_APP_API.concat(`/wards/${idDistrict}`), {
+      fetch(process.env.NEXT_PUBLIC_API.concat(`/wards/${idDistrict}`), {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -209,7 +201,7 @@ export function CreateStoppoint(props?: {
     console.log("list stopppoint", list);
 
     fetch(
-      env.REACT_APP_API.concat(`/stop-point/create-point-list/${props.id}`),
+      process.env.NEXT_PUBLIC_API.concat(`/stop-point/create-point-list/${props.id}`),
       {
         method: "POST",
         headers: {
