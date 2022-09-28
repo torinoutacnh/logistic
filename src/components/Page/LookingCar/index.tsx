@@ -2,19 +2,15 @@ import MyLocationIcon from '@mui/icons-material/MyLocation';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import styles from './lookingCar.module.scss'
-import { Backdrop, Button, Grid, makeStyles, TextField } from '@mui/material'
+import { Grid, Menu, MenuItem, Fade } from '@mui/material'
 import React, { useState } from 'react';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Fade from '@mui/material/Fade';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import { ClockPicker, MobileTimePicker } from '@mui/x-date-pickers';
+import { MobileTimePicker } from '@mui/x-date-pickers';
 import { fontWeight } from '@mui/system';
 import Image from 'next/image';
-import imageTest from "../../../styles/img/imgTest.jpg"
+import imageTest from "../../../styles/img/test.jpg";
 
 export const LookingCar = () => {
 

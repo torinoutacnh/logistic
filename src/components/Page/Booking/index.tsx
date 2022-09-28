@@ -11,6 +11,7 @@ import { SeatModel } from '../../Shared/Models/SeatModel';
 import { Booking_Seat } from './seat';
 import { CarModel } from '../../Shared/Models/CarModel';
 import { Booking_Pay } from './pay';
+import { Booking_Info_Customer } from './infoCustomer';
 
 export default function Booking() {
     const [activeStep, setActiveStep] = useState(0);
@@ -245,11 +246,11 @@ export default function Booking() {
                                                     seatDefault={seatSelect} />
                                                 : <></>
                                             }
-                                            {activeStep === 1 ? <>Step 2</> : <></>}
+                                            {activeStep === 1 ? <Booking_Info_Customer /> : <></>}
                                             {activeStep === 2 ? <Booking_Pay /> : <></>}
 
 
-                                        </Typography>
+                                        </Typography >
                                         <Box sx={{ display: 'flex', pt: 2, justifyContent: "center" }}>
 
 
@@ -267,11 +268,12 @@ export default function Booking() {
                                                 {activeStep === steps.length - 1 ? 'Hoàn tất' : 'Tiếp tục'}
                                             </Button>
                                         </Box>
-                                    </React.Fragment>
-                                )}
-                            </Box>
-                        </Grid>
-                    </Grid>
+                                    </React.Fragment >
+                                )
+                                }
+                            </Box >
+                        </Grid >
+                    </Grid >
                     <Snackbar
                         anchorOrigin={{ vertical: "top", horizontal: "right" }}
                         key={"top right"}
