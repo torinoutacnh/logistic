@@ -9,5 +9,10 @@ enum StatusSeat {
     "Đã đặt" = 1
 }
 
+enum FloorType {
+    "Tầng một" = 0,
+    "Tầng hai" = 1
+}
 
-export { ServiceType, StatusSeat }
+
+export { ServiceType, StatusSeat, FloorType }

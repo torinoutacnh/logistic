@@ -13,16 +13,20 @@ $active-color: rgb(255, 106, 223);
 
 
 .container {
-    height: calc(100vh - 60px);
+    min-height: calc(100vh - 60px);
     display: flex;
     justify-content: center;
     background-color: $white-color;
     color: $text-back-color;
     padding: 20px 0;
+
 }
 
 .container_booking_seat {
     width: 100%;
+    border: 1px solid $border-item-color;
+    border-radius: 10px;
+    padding: 10px;
 
     .info {
         margin: 0;
@@ -35,6 +39,7 @@ $active-color: rgb(255, 106, 223);
 
         .time {
             font-size: 20px;
+            margin: 10px 0;
         }
 
         .box_direction {
@@ -43,11 +48,12 @@ $active-color: rgb(255, 106, 223);
             margin-top: 5px;
 
             .direction_right {
+
                 flex-direction: column;
                 flex-grow: 1;
                 // flex-wrap: wrap;
                 width: 100%;
-                height: 100%;
+                min-height: 80px;
                 display: flex;
                 overflow: hidden;
                 justify-content: space-between;
@@ -56,6 +62,13 @@ $active-color: rgb(255, 106, 223);
                 .direction_locationOn {
                     font-size: 20px;
                     margin-right: 5px;
+                }
+
+                .distance {
+
+                    margin: 10px 10px 10px 30px;
+                    font-size: 15px;
+                    color: $gray-color;
                 }
 
                 .direction_MyAllocate {
@@ -87,7 +100,7 @@ $active-color: rgb(255, 106, 223);
                         font-size: 18px;
                         font-weight: 400;
                         width: 100%;
-                        white-space: nowrap;
+                        white-space: wrap;
                         text-overflow: ellipsis;
                         overflow: hidden;
                     }
@@ -97,7 +110,6 @@ $active-color: rgb(255, 106, 223);
                 .direction_right_to {
 
                     align-items: center;
-                    color: $gray-color;
                     width: 100%;
                     display: flex;
 
@@ -115,7 +127,7 @@ $active-color: rgb(255, 106, 223);
                         font-size: 18px;
                         font-weight: 400;
                         width: 100%;
-                        white-space: nowrap;
+                        white-space: wrap;
                         text-overflow: ellipsis;
                         overflow: hidden;
                     }
@@ -126,9 +138,7 @@ $active-color: rgb(255, 106, 223);
 
         }
 
-        .distance {
-            font-size: 16px;
-        }
+
 
 
     }
@@ -144,10 +154,10 @@ $active-color: rgb(255, 106, 223);
             border-radius: 5px;
             padding: 10px;
             display: flex;
-            justify-content: space-evenly;
+            justify-content: space-between;
 
             .floor {
-                width: 50%;
+                width: 48%;
 
                 .title {
                     margin: 5px 0;
@@ -178,8 +188,11 @@ $active-color: rgb(255, 106, 223);
                         overflow: hidden;
                     }
 
-                    .item:hover {
-                        background-color: $hover-color;
+
+                    @media screen and (min-width:768px) {
+                        .item:hover {
+                            background-color: $hover-color;
+                        }
                     }
 
                     .disable {
@@ -202,7 +215,7 @@ $active-color: rgb(255, 106, 223);
         }
 
         .count {
-            margin: 10px 0;
+            margin-top: 10px;
             font-size: 18px;
             color: $text-back-color;
             display: block;
@@ -221,6 +234,19 @@ $active-color: rgb(255, 106, 223);
             }
         }
 
+
+        @media screen and (max-width:768px) {
+            .count {
+                width: 90%;
+            }
+        }
+
+        .totalPrice {
+            color: $primary-color;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
         .status {
             display: flex;
 
@@ -229,6 +255,7 @@ $active-color: rgb(255, 106, 223);
             .status_item {
                 margin: 10px;
                 display: flex;
+                cursor: default;
 
                 .blue,
                 .disable,

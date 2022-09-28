@@ -445,7 +445,7 @@ export const CarInfo = () => {
                                                 >
                                                     <div className={styles.text}>
                                                         <span className={styles.str}>Tầng</span>
-                                                        <span className={styles.num}>: {item.floor}</span>
+                                                        <span className={styles.num}>: {item.floor + 1}</span>
                                                     </div>
 
                                                     <div className={styles.text}>

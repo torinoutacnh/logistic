@@ -6,22 +6,38 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import styles from "./booking.module.scss";
-import { Grid } from '@mui/material';
+import { Alert, Grid, Snackbar } from '@mui/material';
 import { SeatModel } from '../../Shared/Models/SeatModel';
 import { Booking_Seat } from './seat';
 import { CarModel } from '../../Shared/Models/CarModel';
 
 export default function Booking() {
     const [activeStep, setActiveStep] = useState(0);
-    const [skipped, setSkipped] = useState(new Set<number>());
-    const [seatSelect, setSeatSelect] = useState<SeatModel[]>()
+    const [seatSelect, setSeatSelect] = useState<SeatModel[]>([])
     const [car, setCar] = useState<CarModel>()
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
+    const [typeNotifi, setTypeNotifi] = useState("success")
+    const [openNotify, setOpenNofity] = useState(false);
+    const [messageNotify, setMessageNotify] = useState("")
 
+    const handleOpenNotify = (message: string, type: string) => {
+        setTypeNotifi(type)
+        setMessageNotify(message)
+        setOpenNofity(true)
+    }
 
+    const handleCloseNotify = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenNofity(false);
+    };
 
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
     const listSeat: SeatModel[] = [
         {
             id: "0e680022-b712-4e07-98ad-4650e8a2d66f",
@@ -95,12 +111,20 @@ export default function Booking() {
         }
     ]
 
+    const onClickAddSeatSelect = (data: SeatModel) => {
+        setSeatSelect([...seatSelect, data])
+    }
+
+    const onClickRemoveSeatSelect = (data: SeatModel) => {
+        setSeatSelect(seatSelect?.filter(i => i.id !== data.id))
+    }
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
     useEffect(() => {
-        fetch(process.env.NEXT_PUBLIC_API.concat("/car/").concat("ec6ba569-8c63-47f9-80de-aa4b037febfa"), {
+        fetch(process.env.NEXT_PUBLIC_API.concat("/car/").concat("c21af245-d1e2-4801-8bfe-24502681b880"), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -121,7 +145,7 @@ export default function Booking() {
                     return
                 }
 
-                console.log("get car info=> ", data.data);
+                // console.log("get car info=> ", data.data);
 
                 const tmp: CarModel = data.data
                 tmp.seats.sort((a, b) => Number(a.row) - Number(b.row)).sort((a, b) => Number(a.col) - Number(b.col)).sort((a, b) => a.floor - b.floor)
@@ -141,19 +165,20 @@ export default function Booking() {
         return step === 1;
     };
 
-    const isStepSkipped = (step: number) => {
-        return skipped.has(step);
-    };
+
 
     const handleNext = () => {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
+
+        if (activeStep === 0) {
+            if (seatSelect?.length === 0) {
+                handleOpenNotify("Vui lòng chọn ghế", "error")
+                return
+            }
+
         }
 
+
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
     };
 
     const handleBack = () => {
@@ -169,77 +194,114 @@ export default function Booking() {
         <>
             {
                 car &&
+                <>
+                    <Grid container className={styles.container}>
+                        <Grid item xs={11.8} sm={11.5} md={10} lg={8}>
+                            <Box>
+                                <Stepper activeStep={activeStep}>
+                                    {steps.map((label, index) => {
+                                        const stepProps: { completed?: boolean } = {};
+                                        const labelProps: {
+                                            optional?: React.ReactNode;
+                                        } = {};
+                                        // if (isStepOptional(index)) {
+                                        //     labelProps.optional = (
+                                        //         <Typography variant="caption">Optional</Typography>
+                                        //     );
+                                        // }
+                                        // if (isStepSkipped(index)) {
+                                        //     stepProps.completed = false;
+                                        // }
+                                        return (
+                                            <Step key={label} {...stepProps}>
+                                                <StepLabel {...labelProps}>{label}</StepLabel>
+                                            </Step>
+                                        );
+                                    })}
+                                </Stepper>
+                                {activeStep === steps.length ? (
+                                    <React.Fragment>
+                                        <Typography sx={{ mt: 2, mb: 1 }}>
+                                            <h1>finish</h1>
+                                        </Typography>
+                                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                            <Box sx={{ flex: '1 1 auto' }} />
+                                            <Button onClick={handleReset}>Reset</Button>
+                                        </Box>
+                                    </React.Fragment>
+                                ) : (
+                                    <React.Fragment>
+                                        <Typography sx={{ mt: 2, mb: 1 }}>
 
 
-                <Grid container className={styles.container}>
-                    <Grid item xs={11.8} sm={11.5} md={10} lg={8}>
-                        <Box>
-                            <Stepper activeStep={activeStep}>
-                                {steps.map((label, index) => {
-                                    const stepProps: { completed?: boolean } = {};
-                                    const labelProps: {
-                                        optional?: React.ReactNode;
-                                    } = {};
-                                    // if (isStepOptional(index)) {
-                                    //     labelProps.optional = (
-                                    //         <Typography variant="caption">Optional</Typography>
-                                    //     );
-                                    // }
-                                    // if (isStepSkipped(index)) {
-                                    //     stepProps.completed = false;
-                                    // }
-                                    return (
-                                        <Step key={label} {...stepProps}>
-                                            <StepLabel {...labelProps}>{label}</StepLabel>
-                                        </Step>
-                                    );
-                                })}
-                            </Stepper>
-                            {activeStep === steps.length ? (
-                                <React.Fragment>
-                                    <Typography sx={{ mt: 2, mb: 1 }}>
-                                        <h1>finish</h1>
-                                    </Typography>
-                                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                        <Box sx={{ flex: '1 1 auto' }} />
-                                        <Button onClick={handleReset}>Reset</Button>
-                                    </Box>
-                                </React.Fragment>
-                            ) : (
-                                <React.Fragment>
-                                    <Typography sx={{ mt: 2, mb: 1 }}>
+                                            {activeStep === 0
+                                                ?
+                                                <Booking_Seat
+                                                    car={car}
+                                                    add={onClickAddSeatSelect}
+                                                    remove={onClickRemoveSeatSelect}
+                                                    seatDefault={seatSelect} />
+                                                : <></>
+                                            }
+                                            {activeStep === 1 ? <>Step 2</> : <></>}
+                                            {activeStep === 2 ? <>Step 3</> : <></>}
 
 
-                                        {activeStep === 0 ? <Booking_Seat car={car} /> : <></>}
-                                        {activeStep === 1 ? <>Step 2</> : <></>}
-                                        {activeStep === 2 ? <>Step 3</> : <></>}
+                                        </Typography>
+                                        <Box sx={{ display: 'flex', pt: 2, justifyContent: "center" }}>
 
 
-                                    </Typography>
-                                    <Box sx={{ display: 'flex', pt: 2, justifyContent: "center" }}>
+                                            {activeStep === steps.length - 1 ? <></> :
+                                                <Button
+                                                    color="inherit"
+                                                    disabled={activeStep === 0}
+                                                    onClick={handleBack}
+                                                    sx={{ mr: 1 }}
+                                                >
+                                                    Quay lại
+                                                </Button>
+                                            }
 
 
-                                        {activeStep === steps.length - 1 ? <></> :
-                                            <Button
-                                                color="inherit"
-                                                disabled={activeStep === 0}
-                                                onClick={handleBack}
-                                                sx={{ mr: 1 }}
-                                            >
-                                                Quay lại
+                                            <Button onClick={handleNext}>
+                                                {activeStep === steps.length - 1 ? 'Hoàn tất' : 'Tiếp tục'}
                                             </Button>
-                                        }
-
-
-                                        <Button onClick={handleNext}>
-                                            {activeStep === steps.length - 1 ? 'Hoàn tất' : 'Tiếp tục'}
-                                        </Button>
-                                    </Box>
-                                </React.Fragment>
-                            )}
-                        </Box>
+                                        </Box>
+                                    </React.Fragment>
+                                )}
+                            </Box>
+                        </Grid>
                     </Grid>
-                </Grid>
+                    <Snackbar
+                        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                        key={"top right"}
+                        open={openNotify}
+                        autoHideDuration={3000}
+                        onClose={handleCloseNotify}
+                    >
+                        {
+                            typeNotifi === "success"
+                                ?
+                                <Alert
+                                    color={"info"}
+                                    onClose={handleCloseNotify}
+                                    severity={"success"}
+                                    sx={{ width: '100%' }}
+                                >
+                                    {messageNotify}
+                                </Alert>
+                                :
+                                <Alert
+                                    color={"error"}
+                                    onClose={handleCloseNotify}
+                                    severity={"error"}
+                                    sx={{ width: '100%' }}
+                                >
+                                    {messageNotify}
+                                </Alert>
+                        }
+                    </Snackbar>
+                </>
             }
         </>
 
