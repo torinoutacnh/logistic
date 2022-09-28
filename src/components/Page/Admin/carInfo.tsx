@@ -53,7 +53,7 @@ export const CarInfo = () => {
                     return
                 }
 
-                // console.log("get car info=> ", data.data);
+                console.log("get car info=> ", data.data);
 
                 const tmp: CarModel = data.data
                 tmp.seats.sort((a, b) => Number(a.row) - Number(b.row)).sort((a, b) => Number(a.col) - Number(b.col)).sort((a, b) => a.floor - b.floor)
