@@ -13,12 +13,13 @@ $active-color: rgb(255, 106, 223);
 
 
 .container {
-    height: calc(100vh - 60px);
+    min-height: calc(100vh - 60px);
     display: flex;
     justify-content: center;
     background-color: $white-color;
     color: $text-back-color;
     padding: 20px 0;
+    
 }
 
 .container_booking_seat {

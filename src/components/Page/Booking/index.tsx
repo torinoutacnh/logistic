@@ -10,6 +10,7 @@ import { Grid } from '@mui/material';
 import { SeatModel } from '../../Shared/Models/SeatModel';
 import { Booking_Seat } from './seat';
 import { CarModel } from '../../Shared/Models/CarModel';
+import { Booking_Info_Customer } from './infoCustomer';
 
 export default function Booking() {
     const [activeStep, setActiveStep] = useState(0);
@@ -211,7 +212,7 @@ export default function Booking() {
 
 
                                         {activeStep === 0 ? <Booking_Seat car={car} /> : <></>}
-                                        {activeStep === 1 ? <>Step 2</> : <></>}
+                                        {activeStep === 1 ? <Booking_Info_Customer /> : <></>}
                                         {activeStep === 2 ? <>Step 3</> : <></>}
 
 
