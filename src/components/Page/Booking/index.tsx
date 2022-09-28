@@ -10,6 +10,7 @@ import { Alert, Grid, Snackbar } from '@mui/material';
 import { SeatModel } from '../../Shared/Models/SeatModel';
 import { Booking_Seat } from './seat';
 import { CarModel } from '../../Shared/Models/CarModel';
+import { Booking_Pay } from './pay';
 
 export default function Booking() {
     const [activeStep, setActiveStep] = useState(0);
@@ -188,6 +189,7 @@ export default function Booking() {
 
     const handleReset = () => {
         setActiveStep(0);
+        setSeatSelect([])
     };
 
     return (
@@ -226,7 +228,7 @@ export default function Booking() {
                                         </Typography>
                                         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                             <Box sx={{ flex: '1 1 auto' }} />
-                                            <Button onClick={handleReset}>Reset</Button>
+                                            <Button onClick={handleReset}>Đặt mới</Button>
                                         </Box>
                                     </React.Fragment>
                                 ) : (
@@ -244,23 +246,21 @@ export default function Booking() {
                                                 : <></>
                                             }
                                             {activeStep === 1 ? <>Step 2</> : <></>}
-                                            {activeStep === 2 ? <>Step 3</> : <></>}
+                                            {activeStep === 2 ? <Booking_Pay /> : <></>}
 
 
                                         </Typography>
                                         <Box sx={{ display: 'flex', pt: 2, justifyContent: "center" }}>
 
 
-                                            {activeStep === steps.length - 1 ? <></> :
-                                                <Button
-                                                    color="inherit"
-                                                    disabled={activeStep === 0}
-                                                    onClick={handleBack}
-                                                    sx={{ mr: 1 }}
-                                                >
-                                                    Quay lại
-                                                </Button>
-                                            }
+                                            <Button
+                                                color="inherit"
+                                                disabled={activeStep === 0}
+                                                onClick={handleBack}
+                                                sx={{ mr: 1 }}
+                                            >
+                                                Quay lại
+                                            </Button>
 
 
                                             <Button onClick={handleNext}>
