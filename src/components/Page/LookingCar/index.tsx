@@ -10,7 +10,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { MobileTimePicker } from '@mui/x-date-pickers';
 import { fontWeight } from '@mui/system';
 import Image from 'next/image';
-import imageTest from "../../../styles/img/test.jpg";
+import imageTest from "../../../styles/img/imgTest.jpg";
 
 export const LookingCar = () => {
 

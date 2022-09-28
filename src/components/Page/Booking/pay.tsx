@@ -158,7 +158,7 @@ export const Booking_Pay = () => {
                                                         <div className={styles.label_radioButton}>
                                                             <div className={styles.image}>
                                                                 <Image src={item.image}
-                                                                    layout="fixed" width={100} height={50}
+                                                                    layout="fixed" width={80} height={50}
                                                                     style={{ borderRadius: "3px" }}
                                                                 />
                                                             </div>
