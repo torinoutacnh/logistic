@@ -4,12 +4,11 @@ import { Grid, TextField, Box, FormControl, MenuItem, Select, Typography } from 
 import { CityModel } from "../../Shared/Models/CityModel";
 import { DistrictModel } from "../../Shared/Models/DistrictModel";
 
-export const Booking_Info_Customer = () => {
+export const Booking_Info_Customer = (props: {onChangeName: any, onChangeTel: any, onChangeEmail: any, onChangeCity: any, onChangeDistrict: any }) => {
 
-    const [listCity, setListCity] = useState<CityModel[]>()
-    const [city, setCity] = useState<CityModel>();
-    const [listDistrict, setListDistrict] = useState<DistrictModel[]>()
-    const [district, setDistrict] = useState<DistrictModel>();
+    const [idCity, setIdCity] = useState('');
+    const [listCity, setListCity] = useState<CityModel[]>();
+    const [listDistrict, setListDistrict] = useState<DistrictModel[]>();
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -38,11 +37,11 @@ export const Booking_Info_Customer = () => {
 
     useEffect(() => {
         loadData();
-    })
+    },[])
 
     useEffect(() => {
-        if (city) {
-            fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${city.id}`), {
+        if (idCity) {
+            fetch(process.env.NEXT_PUBLIC_API.concat(`/districts/${idCity}`), {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -69,11 +68,10 @@ export const Booking_Info_Customer = () => {
                     console.log(" error >>>>>>", error);
                 })
         }
-    }, [city])
+    }, [idCity])
 
     return (
         <>
-
             <Grid container>
                 <Grid item xs={12} sm={10} md={12} lg={12} className={styles.container}>
                    
@@ -98,6 +96,8 @@ export const Booking_Info_Customer = () => {
                                     placeholder='Họ và tên khách hàng'
                                     size='small'
                                     type='text'
+                                    defaultValue=""
+                                    onChange={(e) => {props.onChangeName(e.target.value)}}
                                 />
 
                                 <span className={styles.title_input}>Số điện thoại</span>
@@ -109,6 +109,8 @@ export const Booking_Info_Customer = () => {
                                     placeholder='Số điện thoại'
                                     size='small'
                                     type='text'
+                                    defaultValue=""
+                                    onChange={(e) => {props.onChangeTel(e.target.value)}}
                                 />
 
                                 <span className={styles.title_input}>Email</span>
@@ -120,6 +122,8 @@ export const Booking_Info_Customer = () => {
                                     placeholder='Nhập email'
                                     size='small'
                                     type='email'
+                                    defaultValue=""
+                                    onChange={(e) => {props.onChangeEmail(e.target.value)}}      
                                 />
 
                                 <div className={styles.area}>
@@ -133,7 +137,6 @@ export const Booking_Info_Customer = () => {
                                                 required={true}
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                value={city}
                                                 MenuProps={MenuProps}
                                                 style={{background: "white"}}
                                             >
@@ -144,8 +147,10 @@ export const Booking_Info_Customer = () => {
                                                             sx={{ width: '220px' }}
                                                             key={index}
                                                             value={item.name}
+                                                            defaultValue=""
                                                             onClick={() => {
-                                                                setCity(item)
+                                                                props.onChangeCity(item);
+                                                                setIdCity(item.id)
                                                             }}
                                                         >
                                                             <Typography noWrap>
@@ -169,7 +174,6 @@ export const Booking_Info_Customer = () => {
                                                 required={true}
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
-                                                value={district}
                                                 MenuProps={MenuProps}
                                                 style={{background: "white"}}
                                             >
@@ -180,9 +184,8 @@ export const Booking_Info_Customer = () => {
                                                             sx={{ width: '220px' }}
                                                             key={index}
                                                             value={item.name}
-                                                            onClick={() => {
-                                                                setDistrict(item)
-                                                            }}
+                                                            defaultValue=""
+                                                            onClick={() => {props.onChangeDistrict(item)}}
                                                         >
                                                             <Typography noWrap>
                                                                 {item.name}
