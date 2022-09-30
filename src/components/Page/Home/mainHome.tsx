@@ -49,7 +49,7 @@ export const MainHome = () => {
     }
 
     const [listCity, setListCity] = useState<CityModel[]>()
-    
+
     const loadData = async () => {
 
         const res_city = await fetch(process.env.NEXT_PUBLIC_API.concat("/cities"), {
@@ -66,132 +66,132 @@ export const MainHome = () => {
 
     useEffect(() => {
         loadData()
-    })
+    }, [])
 
     return (
         <>
             {listCity ?
                 <main className={styles.main}>
-                <div className={styles.booking}>
-                    <h3 className={styles.booking_title}>ĐẶT XE</h3>
-                    <form noValidate autoComplete="off" id={styles.form}>
-                        <p>
-                            <LocationOnIcon className={styles.booking_icon} />
-                            Điểm đi
-                        </p>
-                        <FormControl
-                            size="small"
-                            className={styles.booking_input}
-                        >
-                            <Select
-                                required={true}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={cityFrom}
-                                MenuProps={MenuProps}
+                    <div className={styles.booking}>
+                        <h3 className={styles.booking_title}>ĐẶT XE</h3>
+                        <form noValidate autoComplete="off" id={styles.form}>
+                            <p>
+                                <LocationOnIcon className={styles.booking_icon} />
+                                Điểm đi
+                            </p>
+                            <FormControl
+                                size="small"
+                                className={styles.booking_input}
                             >
+                                <Select
+                                    required={true}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={cityFrom}
+                                    MenuProps={MenuProps}
+                                >
 
-                                {
-                                    listCity?.map((item, index) => (
-                                        <MenuItem
-                                            sx={{ width: '220px' }}
-                                            key={index}
-                                            value={item.name}
-                                            onClick={() => {
-                                                setCityFrom(item.id)
-                                            }}
-                                        >
-                                            <span style={{color: "black"}}>{item.name}</span>
-                                        </MenuItem>
-                                    ))
-                                }
-                            </Select>
-                        </FormControl>
+                                    {
+                                        listCity?.map((item, index) => (
+                                            <MenuItem
+                                                sx={{ width: '220px' }}
+                                                key={index}
+                                                value={item.name}
+                                                onClick={() => {
+                                                    setCityFrom(item.id)
+                                                }}
+                                            >
+                                                <span style={{ color: "black" }}>{item.name}</span>
+                                            </MenuItem>
+                                        ))
+                                    }
+                                </Select>
+                            </FormControl>
 
-                        <p>
-                            <LocationOnIcon className={styles.booking_icon} />
-                            Điểm đến
-                        </p>
-                        <FormControl
-                            size="small"
-                            className={styles.booking_input}
-                        >
-                            <Select
-                                required={true}
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={cityTo}
-                                MenuProps={MenuProps}
+                            <p>
+                                <LocationOnIcon className={styles.booking_icon} />
+                                Điểm đến
+                            </p>
+                            <FormControl
+                                size="small"
+                                className={styles.booking_input}
                             >
+                                <Select
+                                    required={true}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={cityTo}
+                                    MenuProps={MenuProps}
+                                >
 
-                                {
-                                    listCity?.map((item, index) => (
-                                        <MenuItem
-                                            sx={{ width: '220px' }}
-                                            key={index}
-                                            value={item.name}
-                                            onClick={() => {
-                                                setCityTo(item.id)
-                                            }}
-                                        >
-                                            <span style={{color: "black"}}>{item.name}</span>
-                                        </MenuItem>
-                                    ))
-                                }
-                            </Select>
-                        </FormControl>
+                                    {
+                                        listCity?.map((item, index) => (
+                                            <MenuItem
+                                                sx={{ width: '220px' }}
+                                                key={index}
+                                                value={item.name}
+                                                onClick={() => {
+                                                    setCityTo(item.id)
+                                                }}
+                                            >
+                                                <span style={{ color: "black" }}>{item.name}</span>
+                                            </MenuItem>
+                                        ))
+                                    }
+                                </Select>
+                            </FormControl>
 
-                        <p>
-                            <AccessTimeFilledIcon className={styles.booking_icon} />
-                            Giờ đi
-                        </p>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <TimePicker
-                                ampm={false}
-                                openTo="hours"
-                                views={['hours', 'minutes']}
-                                inputFormat="HH:mm"
-                                mask="__:__"
-                                value={time}
-                                onChange={(newValue) => {
-                                    setTime(newValue);
-                                }}
-                                renderInput={(params) => <TextField {...params} size="small" className={styles.booking_input} />}
-                            />
-                        </LocalizationProvider>
+                            <p>
+                                <AccessTimeFilledIcon className={styles.booking_icon} />
+                                Giờ đi
+                            </p>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <TimePicker
+                                    ampm={false}
+                                    openTo="hours"
+                                    views={['hours', 'minutes']}
+                                    inputFormat="HH:mm"
+                                    mask="__:__"
+                                    value={time}
+                                    onChange={(newValue) => {
+                                        setTime(newValue);
+                                    }}
+                                    renderInput={(params) => <TextField {...params} size="small" className={styles.booking_input} />}
+                                />
+                            </LocalizationProvider>
 
-                        <Button
-                            className={styles.booking_btn}
-                            variant="contained"
-                            size="medium"
-                            endIcon={<ArrowForwardIcon style={{ fontSize: "20px" }} />}
-                            type="submit"
-                            onClick={handleSubmit}
-                        >
-                            Tìm xe
-                        </Button>
-                    </form>
-                    <div className={styles.controller} >
-                        <Button
-                            className={styles.booking_login}
-                            variant="contained"
-                            size="medium"
-                        >
-                            Đăng nhập
-                        </Button>
-                        <Button
-                            className={styles.booking_register}
-                            variant="outlined"
-                            size="medium" >
-                            Đăng ký
-                        </Button>
+                            <Button
+                                className={styles.booking_btn}
+                                variant="contained"
+                                size="medium"
+                                endIcon={<ArrowForwardIcon style={{ fontSize: "20px" }} />}
+                                type="submit"
+                                onClick={handleSubmit}
+                            >
+                                Tìm xe
+                            </Button>
+                        </form>
+                        <div className={styles.controller} >
+                            <Button
+                                className={styles.booking_login}
+                                variant="contained"
+                                size="medium"
+                            >
+                                Đăng nhập
+                            </Button>
+                            <Button
+                                className={styles.booking_register}
+                                variant="outlined"
+                                size="medium" >
+                                Đăng ký
+                            </Button>
+                        </div>
                     </div>
-                </div>
 
                 </main>
-            : <></>
+                : <></>
             }
-            
+
         </>
     )
 }

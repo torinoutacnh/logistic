@@ -22,6 +22,7 @@ import { RouteModel } from '../../Shared/Models/RouteModel';
 import { UpdateRoute } from './updateRoute';
 import { ChangeSeat } from './ChangeSeat';
 import ProgressBar from '../../Shared/Components/Loading/ProgressBar';
+import { CreateMapping } from './createMapping';
 
 export const CarInfo = () => {
 
@@ -53,7 +54,7 @@ export const CarInfo = () => {
                     return
                 }
 
-                console.log("get car info=> ", data.data);
+                // console.log("get car info=> ", data.data);
 
                 const tmp: CarModel = data.data
                 tmp.seats.sort((a, b) => Number(a.row) - Number(b.row)).sort((a, b) => Number(a.col) - Number(b.col)).sort((a, b) => a.floor - b.floor)
@@ -104,6 +105,10 @@ export const CarInfo = () => {
     const onClickShowModalCreateRoute = () => setIsShowModalCreateRoute(true);
     const onClickCloseModalCreateRoute = () => setIsShowModalCreateRoute(false);
     //////////////////////////////////////////////////////
+    const [isShowModalCreateMapping, setIsShowModalCreateMapping] = useState(false);
+    const onClickShowModalCreateMapping = () => setIsShowModalCreateMapping(true);
+    const onClickCloseModalCreateMapping = () => setIsShowModalCreateMapping(false);
+    //////////////////////////////////////////////////////
     const [isShowModalUpdateRoute, setIsShowModalUpdateRoute] = useState(false);
     const [infoRoute, setInfoRoute] = useState<RouteModel>();
     const onClickShowModalUpdateRoute = (route: RouteModel) => {
@@ -139,8 +144,8 @@ export const CarInfo = () => {
         setOpenNofity(true)
     }    ////////////////////////////////////////////////////
 
-    const onClickDeleteRoute = (idRoute: string) => {
-        fetch(process.env.NEXT_PUBLIC_API.concat(`/route/delete-route/${idRoute}`), {
+    const onClickDeleteMapping = (idMapping: string) => {
+        fetch(process.env.NEXT_PUBLIC_API.concat(`/carRouteMapping/delete-carRouteMapping/${idMapping}`), {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -153,15 +158,15 @@ export const CarInfo = () => {
                 const data = await res.json()
 
                 if (res.status >= 500) {
-                    console.log("delete route status >= 500 ", data);
+                    console.log("delete mapping status >= 500 ", data);
                     return
                 }
                 else if (res.status >= 400) {
-                    console.log("delete route status >= 400 ", data);
+                    console.log("delete mapping status >= 400 ", data);
                     handleOpenNotify("Xoá tuyến thất bại!", "error")
                     return
                 }
-                console.log("delete route point => ", data);
+                console.log("delete mapping => ", data);
                 handleOpenNotify("Xóa tuyến thành công!", "success")
                 reloadPage();
             })
@@ -288,7 +293,7 @@ export const CarInfo = () => {
 
                                 <Grid item className={styles.item_left3} xs={12} sm={12} md={5.5} lg={5.5}>
 
-                                    <h3 className={styles.header_left}>TUYẾN</h3>
+                                    <h3 className={styles.header_left}>TUYẾN ĐƯỜNG XE CHẠY</h3>
                                     <div className={styles.box_info_left_3_4}>
 
                                         {
@@ -336,7 +341,7 @@ export const CarInfo = () => {
                                                                         </IconButton>
 
                                                                         <IconButton
-                                                                            onClick={() => { onClickDeleteRoute(item.id) }}
+                                                                            onClick={() => { onClickDeleteMapping(item.id) }}
                                                                             color="error"
                                                                             size='small'
                                                                         >
@@ -364,8 +369,20 @@ export const CarInfo = () => {
                                         style={{ marginTop: "10px", marginBottom: "10px" }}
 
                                     >
-                                        Tạo mới
+                                        Tạo tuyến đường
                                     </Button>
+
+                                    <Button
+                                        onClick={() => { onClickShowModalCreateMapping() }}
+                                        variant="outlined"
+                                        startIcon={<AddIcon />}
+                                        size="small"
+                                        style={{ marginTop: "10px", marginBottom: "10px" }}
+
+                                    >
+                                        Thêm tuyến cho xe
+                                    </Button>
+
                                 </Grid>
 
                                 {/* <Grid item className={styles.item_left4} xs={12} sm={12} md={5.5} lg={5.5}>
@@ -499,6 +516,12 @@ export const CarInfo = () => {
                                 seat={seatChange}
                                 id={id as string} />
                         }
+
+                        <CreateMapping
+                            stateProps={isShowModalCreateMapping}
+                            close={onClickCloseModalCreateMapping}
+                            reloadPage={reloadPage}
+                            id={id as string} />
 
                         <CreateRoute
                             stateProps={isShowModalCreateRoute}
