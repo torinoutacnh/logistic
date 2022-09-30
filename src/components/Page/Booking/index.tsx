@@ -151,6 +151,14 @@ export default function Booking() {
         setDistrict(district)
     }
 
+    const infoCustomer = {
+        name: name,
+        tel: tel,
+        email: email,
+        city: city,
+        district: district
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -292,11 +300,13 @@ export default function Booking() {
                                                     onChangeEmail={onChangeEmail}
                                                     onChangeCity={onChangeCity}
                                                     onChangeDistrict={onChangeDistrict}
+                                                    infoCustomer={infoCustomer}
                                                 /> : <></>}
                                             {activeStep === 2 
                                                 ? 
                                                 <Booking_Pay 
-                                                    
+                                                    infoCustomer={infoCustomer}
+                                                    seat={seatSelect}
                                                 /> : <></>}
 
                                         </Typography >

@@ -16,8 +16,9 @@ import RouteOutlinedIcon from '@mui/icons-material/RouteOutlined';
 import { SeatModel } from '../../Shared/Models/SeatModel';
 import { RouteModel } from '../../Shared/Models/RouteModel';
 import imgTest from "../../../styles/img/imgTest.jpg"
+import { InfoCustomerModel } from '../../Shared/Models/InfomationCustomer';
 
-export const Booking_Pay = () => {
+export const Booking_Pay = (props: {infoCustomer: InfoCustomerModel, seat: SeatModel[]}) => {
 
     const options = [
         { image: imgTest, name: "Thẻ quốc Visa/MasterCard/JCB" },
@@ -27,7 +28,6 @@ export const Booking_Pay = () => {
         { image: imgTest, name: "Ví VNPay" },
         { image: imgTest, name: "Ví ShopeePay" }
     ]
-
 
     return (
         <>
@@ -47,7 +47,7 @@ export const Booking_Pay = () => {
                                     Họ tên:
                                 </span>
                                 <span className={styles.content}>
-                                    Nguyễn Văn A Nguyễn Văn A Nguyễn Văn ANguyễn Văn A
+                                    {props.infoCustomer.name}
                                 </span>
                             </div>
 
@@ -56,7 +56,7 @@ export const Booking_Pay = () => {
                                     SĐT:
                                 </span>
                                 <span className={styles.content}>
-                                    0338786222
+                                    {props.infoCustomer.tel}
                                 </span>
                             </div>
 
@@ -65,7 +65,7 @@ export const Booking_Pay = () => {
                                     Email:
                                 </span>
                                 <span className={styles.content}>
-                                    vuquan201120@gmail.com
+                                    {props.infoCustomer.email}
                                 </span>
                             </div>
 
@@ -118,7 +118,12 @@ export const Booking_Pay = () => {
                                     Số ghế:
                                 </span>
                                 <span className={styles.content}>
-                                    H1G1, H1G2
+                                    {props.seat.map((item, index) => 
+                                    <> 
+                                        {`H${item.col}G${item.row}`}
+                                        {index < props.seat.length - 1 ? ", " : ""}
+                                    </>
+                                    )}
                                 </span>
                             </div>
 
