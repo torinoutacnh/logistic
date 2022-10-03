@@ -1,0 +1,113 @@
+$boxshadow-item-color: rgba(0, 86, 115, 0.3);
+$border-item-color: rgba(1, 161, 102, 0.2);
+$header-color: #f9e5e6;
+$text-back-color: black;
+$primary-color: #e93636;
+$white-color: rgb(255, 255, 255);
+$gray-color: rgb(219, 206, 206);
+$filter-color: rgba(234, 234, 234, 0.5);
+$blue-color: #3D5FE6;
+$disale-color: rgb(205, 205, 205);
+$hover-color: orange;
+$active-color: rgb(255, 106, 223);
+
+
+.container {
+    display: flex;
+    margin: 10px 0;
+
+    .info {
+        margin-right: 5px;
+        background-color: #f6f6f6;
+        border-radius: 10px;
+        border: 1px solid #dce1e6;
+        overflow: hidden;
+
+        .title_input {
+            margin-left: 10px;
+            margin-bottom: 0;
+        }
+
+        .input {
+            background-color: $white-color;
+            border-radius: 5px;
+            margin: 0 10px 0;
+            width: 96%;
+        }
+
+        .area {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 10px 10px;
+            width: 96%;
+
+            .wrap {
+                display: flex;
+                flex-direction: column;
+
+                .city,
+                .district {
+                    margin: 0;
+                    text-align: left;
+                }
+
+                .selection {
+                    width: 220px;
+                }
+            }
+        }
+    }
+
+    .title {
+        display: block;
+        text-transform: uppercase;
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .rules {
+        margin-left: 5px;
+        border-radius: 10px;
+        border: 1px solid #dce1e6;
+        background-color: $white-color;
+
+        .text {
+            text-align: justify;
+            margin: 5px 10px 0;
+        }
+    }
+}
+
+
+/* Tablet & moblie */
+@media screen and (max-width: 1023px) {
+    .container {
+
+        .area {
+            flex-direction: column !important;
+        }
+    }
+}
+
+/* Tablet */
+@media screen and (min-width: 768px) and (max-width: 1023px) {}
+
+/* Mobile */
+@media screen and (max-width: 767px) {
+    .container {
+        flex-direction: column;
+
+        .info {
+            margin: 0 5px 5px;
+        }
+        
+        .rules {
+            margin-right: 5px;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+    }
+}

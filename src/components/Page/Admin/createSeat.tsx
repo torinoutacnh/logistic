@@ -4,7 +4,7 @@ import styles from './styles/createCar.module.scss';
 import UploadIcon from '@mui/icons-material/Upload';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import { ServiceType } from '../../Shared/Models/Everything';
+import { FloorType, ServiceType } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useForm, useFieldArray } from "react-hook-form";
@@ -143,11 +143,27 @@ export function CreateSeat(props?: { stateProps: boolean, close: any, reloadPage
 
                                                 <div className={styles.box_input}>
                                                     <span className={styles.title}>Tầng</span>
-                                                    <input
+                                                    {/* <input
                                                         required={true}
                                                         className={styles.input}
-                                                        {...register(`listSeat.${index}.floor`, { value: Number() })} type="number"
-                                                    />
+                                                        type="number"
+                                                        {...register(`listSeat.${index}.floor`, { value: Number() })}
+                                                    /> */}
+
+                                                    <select
+                                                        required={true}
+                                                        className={styles.input}
+                                                        {...register(`listSeat.${index}.floor`, { value: Number() })}
+                                                    >
+                                                        <option value={FloorType["Tầng một"]} key={0} >
+                                                            {FloorType[0]}
+                                                        </option>
+                                                        <option value={FloorType["Tầng hai"]} key={0} >
+                                                            {FloorType[1]}
+                                                        </option>
+
+                                                    </select>
+
                                                 </div>
 
                                                 <div className={styles.box_input}>

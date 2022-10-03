@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Button, Typography, Modal, TextField, IconButton, FormControl, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material';
 import styles from './styles/createCar.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
-import { StatusSeat } from '../../Shared/Models/Everything';
+import { FloorType, StatusSeat } from '../../Shared/Models/Everything';
 import { CarModel } from '../../Shared/Models/CarModel';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { SeatModel } from '../../Shared/Models/SeatModel';
@@ -186,7 +186,7 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
                             <form noValidate autoComplete="off" id={styles.info}>
                                 <div className={styles.wrap}>
                                     <p style={{ width: "120px", textAlign: "left" }}>Tầng</p>
-                                    <TextField
+                                    {/* <TextField
                                         type="number"
                                         required
                                         className={styles.booking_input}
@@ -195,7 +195,30 @@ export function ChangeSeat(props?: { stateProps: boolean, close: any, reloadPage
                                         size="small"
                                         value={seatUpdate.floor}
                                         onChange={(e) => setSeatUpdate({ ...seatUpdate, floor: Number(e.target.value) })}
-                                    />
+                                    /> */}
+                                    <Select
+                                        className={styles.selection}
+                                        required={true}
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        onChange={(e) => setSeatUpdate({ ...seatUpdate, floor: Number(e.target.value) })}
+                                        value={seatUpdate.floor}
+                                        size="small"
+                                    >
+                                        <MenuItem
+                                            key={0}
+                                            value={FloorType["Tầng một"]}
+                                        >
+                                            {FloorType[0]}
+                                        </MenuItem>
+                                        <MenuItem
+                                            key={1}
+                                            value={FloorType["Tầng hai"]}
+                                        >
+                                            {FloorType[1]}
+                                        </MenuItem>
+
+                                    </Select>
                                 </div>
 
                                 <div className={styles.wrap}>

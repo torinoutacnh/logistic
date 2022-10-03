@@ -1,0 +1,291 @@
+$boxshadow-item-color: rgba(0, 86, 115, 0.3);
+$border-item-color: rgba(1, 161, 102, 0.2);
+$header-color: #f9e5e6;
+$text-back-color: black;
+$primary-color: #e93636;
+$white-color: rgb(255, 255, 255);
+$gray-color: rgb(154, 154, 154);
+$filter-color: rgba(234, 234, 234, 0.5);
+$blue-color: #3D5FE6;
+$disale-color: rgb(205, 205, 205);
+$hover-color: orange;
+$active-color: rgb(255, 106, 223);
+
+
+.container {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    justify-content: center;
+    background-color: $white-color;
+    color: $text-back-color;
+    padding: 20px 0;
+}
+
+.container_booking_seat {
+    width: 100%;
+    border: 1px solid $border-item-color;
+    border-radius: 10px;
+    padding: 10px;
+
+    .info {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .time {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .box_direction {
+
+            display: flex;
+            margin-top: 5px;
+
+            .direction_right {
+
+                flex-direction: column;
+                flex-grow: 1;
+                // flex-wrap: wrap;
+                width: 100%;
+                min-height: 80px;
+                display: flex;
+                overflow: hidden;
+                justify-content: space-between;
+
+                .direction_MyAllocate,
+                .direction_locationOn {
+                    font-size: 20px;
+                    margin-right: 5px;
+                }
+
+                .distance {
+
+                    margin: 10px 10px 10px 30px;
+                    font-size: 15px;
+                    color: $gray-color;
+                }
+
+                .direction_MyAllocate {
+
+                    color: $blue-color;
+                }
+
+                .direction_locationOn {
+                    color: $primary-color;
+                }
+
+                .direction_right_from {
+                    margin-right: 30px;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+
+                    .from_time {
+                        font-size: 18px;
+                        font-weight: 500;
+                        width: 100%;
+                        line-height: 18px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+
+                    .from_location {
+                        font-size: 18px;
+                        font-weight: 400;
+                        width: 100%;
+                        white-space: wrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+                }
+
+
+                .direction_right_to {
+
+                    align-items: center;
+                    width: 100%;
+                    display: flex;
+
+                    .to_time {
+                        font-size: 18px;
+                        font-weight: 500;
+                        width: 100%;
+                        line-height: 18px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+
+                    .to_location {
+                        font-size: 18px;
+                        font-weight: 400;
+                        width: 100%;
+                        white-space: wrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+                }
+
+            }
+
+
+        }
+
+
+
+
+    }
+
+    .seat {
+        display: flex;
+        margin-top: 30px;
+        flex-direction: column;
+        align-items: center;
+
+        .box {
+            border: 1px solid $border-item-color;
+            border-radius: 5px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+
+            .floor {
+                width: 48%;
+
+                .title {
+                    margin: 5px 0;
+                    color: $text-back-color;
+                    size: 20px;
+                    text-transform: uppercase;
+                    display: block;
+                    text-align: center;
+                }
+
+                .list {
+                    display: flex;
+                    flex-flow: row wrap;
+                    justify-content: space-evenly;
+
+
+                    .item {
+                        cursor: pointer;
+                        margin: 3px;
+                        height: 60px;
+                        width: 60px;
+                        border-radius: 3px;
+                        border: 1px solid $border-item-color;
+                        background-color: $border-item-color;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        overflow: hidden;
+                    }
+
+
+                    @media screen and (min-width:768px) {
+                        .item:hover {
+                            background-color: $hover-color;
+                        }
+                    }
+
+                    .disable {
+                        cursor: no-drop;
+                        background: $disale-color;
+                    }
+
+                    .item:active {
+                        background-color: $active-color;
+                    }
+
+                    .active {
+                        background-color: $active-color;
+                    }
+                }
+            }
+
+
+
+        }
+
+        .count {
+            margin-top: 10px;
+            font-size: 18px;
+            color: $text-back-color;
+            display: block;
+            text-align: left;
+            width: 50%;
+            white-space: wrap;
+            display: flex;
+            justify-content: center;
+
+            .count1 {
+                white-space: nowrap;
+            }
+
+            .count2 {
+                color: $active-color;
+            }
+        }
+
+
+        @media screen and (max-width:768px) {
+            .count {
+                width: 90%;
+            }
+        }
+
+        .totalPrice {
+            color: $primary-color;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .status {
+            display: flex;
+
+
+
+            .status_item {
+                margin: 10px;
+                display: flex;
+                cursor: default;
+
+                .blue,
+                .disable,
+                .select {
+                    margin-right: 5px;
+                    border-radius: 2px;
+                    height: 20px;
+                    width: 20px;
+                }
+
+                .blue {
+                    width: 20px;
+                    height: 20px;
+                    background-color: $border-item-color;
+                }
+
+                .disable {
+                    background-color: $disale-color;
+                }
+
+
+                .select {
+                    background-color: $active-color;
+                }
+
+                .status_name {
+                    size: 17px;
+                    color: $text-back-color;
+                }
+            }
+
+        }
+    }
+}

@@ -1,0 +1,148 @@
+$boxshadow-item-color: rgba(0, 86, 115, 0.3);
+$border-item-color: rgba(1, 161, 102, 0.2);
+$header-color: #f9e5e6;
+$text-back-color: black;
+$primary-color: #e93636;
+$white-color: rgb(255, 255, 255);
+$gray-color: rgb(154, 154, 154);
+$filter-color: rgba(234, 234, 234, 0.5);
+$blue-color: #3D5FE6;
+$disale-color: rgb(205, 205, 205);
+$hover-color: orange;
+$active-color: rgb(255, 106, 223);
+$gradient: linear-gradient(-45deg,
+        #fc6c8f,
+        #ff2ced,
+        #ffb86c,
+        #2cccff,
+        #20e3b2,
+        #ffcc70,
+        #c850c0,
+        #4158d0);
+$gray-50-color : rgb(239, 239, 239);
+
+
+.container_pay {
+    background: $white-color;
+    color: $text-back-color;
+
+    .header {
+        text-align: center;
+        background-image: $gradient;
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 20px;
+        color: $white-color;
+        border-radius: 5px;
+    }
+
+    .info {
+
+
+
+        .box {
+            margin: 30px 0;
+            border: 1px solid $border-item-color;
+            border-radius: 5px;
+            overflow: hidden;
+
+            .header_box {
+                text-align: center;
+                background-color: $gray-50-color;
+                margin: 0;
+                padding: 5px;
+                font-size: 20px;
+                font-weight: 500;
+            }
+
+            .content_box {
+                padding: 5px;
+
+                .item {
+                    display: flex;
+                    margin-top: 5px;
+
+                    .label {
+                        min-width: 110px;
+                        white-space: wrap;
+                        font-size: 18px;
+                        font-weight: 500;
+                        font-style: italic;
+                    }
+
+                    .content {
+                        white-space: wrap;
+                        flex-grow: 1;
+                        font-size: 18px;
+                        font-weight: 400;
+                    }
+                }
+
+            }
+        }
+
+        .totalPrice {
+            padding: 0;
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: $primary-color;
+        }
+
+
+    }
+
+    .payment {
+        .header_payment {
+            text-align: center;
+            background-image: $gradient;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 20px;
+            color: $white-color;
+            border-radius: 5px;
+        }
+
+        .radioGroup {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-evenly;
+
+            .radioButton {
+                margin: 5px 0;
+                border: 1px dashed $gray-color;
+                border-radius: 3px;
+                padding: 5px 10px 5px 0;
+
+                .label_radioButton {
+                    justify-content: center;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: content;
+
+                    .image {
+                        margin-top: 5px;
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                    }
+
+                    .name {
+                        margin-top: 5px;
+                        width: 100%;
+                        display: block;
+                        text-align: center;
+                    }
+                }
+
+            }
+
+            .radioButton:focus-within {
+                border: 2px dashed $primary-color;
+            }
+        }
+
+    }
+
+
+}

@@ -8,10 +8,8 @@ import {
   FormControl,
   Select,
   MenuItem,
-  SelectChangeEvent,
   Alert,
   Snackbar,
-  IconButton,
 } from "@mui/material";
 import styles from "./styles/createRouter.module.scss";
 import UploadIcon from "@mui/icons-material/Upload";
@@ -65,7 +63,7 @@ export function CreateRoute(props?: {
   const [wardFrom, setWardFrom] = useState<WardModel>();
   const [streetFrom, setStreetFrom] = useState<string>();
   const [houseNumberFrom, setHouseNumberFrom] = useState<string>();
-  //////////
+  ////////////////////////////////////////////
   const [listDistrictFrom, setListDistrictFrom] = useState<DistrictModel[]>();
   const [listWardFrom, setListWardFrom] = useState<WardModel[]>();
   //////////////////////////////////////////
