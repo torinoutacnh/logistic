@@ -12,11 +12,21 @@ import { Booking_Seat } from './seat';
 import { CarModel } from '../../Shared/Models/CarModel';
 import { Booking_Pay } from './pay';
 import { Booking_Info_Customer } from './infoCustomer';
+import { CityModel } from '../../Shared/Models/CityModel';
+import { DistrictModel } from '../../Shared/Models/DistrictModel';
+import { InfoCustomerModel } from '../../Shared/Models/InfomationCustomer';
 
 export default function Booking() {
     const [activeStep, setActiveStep] = useState(0);
     const [seatSelect, setSeatSelect] = useState<SeatModel[]>([])
     const [car, setCar] = useState<CarModel>()
+    const [info, setInfo] = useState<InfoCustomerModel>()
+    const [name, setName] = useState('');
+    const [tel, setTel] = useState('');
+    const [email, setEmail] = useState('');
+    const [city, setCity] = useState<CityModel>();
+    const [district, setDistrict] = useState<DistrictModel>();
+
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,6 +131,33 @@ export default function Booking() {
         setSeatSelect(seatSelect?.filter(i => i.id !== data.id))
     }
 
+    const onChangeName = (name: string) => {
+        setName(name)
+    }
+
+    const onChangeTel = (tel: string) => {
+        setTel(tel)
+    }
+
+    const onChangeEmail = (email: string) => {
+        setEmail(email)
+    }
+
+    const onChangeCity = (city: CityModel) => {
+        setCity(city)
+    }
+
+    const onChangeDistrict = (district: DistrictModel) => {
+        setDistrict(district)
+    }
+
+    const infoCustomer = {
+        name: name,
+        tel: tel,
+        email: email,
+        city: city,
+        district: district
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,13 +198,19 @@ export default function Booking() {
     }, [])
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
+    const checkEmpty = (s : string) => {
+        if(s.trim().length === 0 ) {
+            return true
+        } 
+        else {
+            return false
+        }
+    }
     //////////////////////////////////////////////////////////////////////////////////////////////
     const steps = ['Chọn ghế', 'Thông tin khách hàng', 'Thanh toán'];
     const isStepOptional = (step: number) => {
         return step === 1;
     };
-
-
 
     const handleNext = () => {
 
@@ -176,10 +219,14 @@ export default function Booking() {
                 handleOpenNotify("Vui lòng chọn ghế", "error")
                 return
             }
-
         }
 
-
+        else if (activeStep === 1) {
+            if (checkEmpty(name) || checkEmpty(tel) || checkEmpty(email) || !city || !district ) {
+                handleOpenNotify('Vui lòng điền đầy đủ thông tin', 'error')
+                return
+            }
+        }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
@@ -236,7 +283,6 @@ export default function Booking() {
                                     <React.Fragment>
                                         <Typography sx={{ mt: 2, mb: 1 }}>
 
-
                                             {activeStep === 0
                                                 ?
                                                 <Booking_Seat
@@ -246,13 +292,25 @@ export default function Booking() {
                                                     seatDefault={seatSelect} />
                                                 : <></>
                                             }
-                                            {activeStep === 1 ? <Booking_Info_Customer /> : <></>}
-                                            {activeStep === 2 ? <Booking_Pay /> : <></>}
-
+                                            {activeStep === 1 
+                                                ? 
+                                                <Booking_Info_Customer 
+                                                    onChangeName={onChangeName}
+                                                    onChangeTel={onChangeTel}
+                                                    onChangeEmail={onChangeEmail}
+                                                    onChangeCity={onChangeCity}
+                                                    onChangeDistrict={onChangeDistrict}
+                                                    infoCustomer={infoCustomer}
+                                                /> : <></>}
+                                            {activeStep === 2 
+                                                ? 
+                                                <Booking_Pay 
+                                                    infoCustomer={infoCustomer}
+                                                    seat={seatSelect}
+                                                /> : <></>}
 
                                         </Typography >
                                         <Box sx={{ display: 'flex', pt: 2, justifyContent: "center" }}>
-
 
                                             <Button
                                                 color="inherit"
@@ -262,7 +320,6 @@ export default function Booking() {
                                             >
                                                 Quay lại
                                             </Button>
-
 
                                             <Button onClick={handleNext}>
                                                 {activeStep === steps.length - 1 ? 'Hoàn tất' : 'Tiếp tục'}
