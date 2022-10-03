@@ -207,6 +207,16 @@ export default function Booking() {
         }
     }
 
+    const ValidateEmail = (mail: string) => { 
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
+        {
+            return (true)
+        }
+        else {
+            return (false)
+        }
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////
     const steps = ['Chọn ghế', 'Thông tin khách hàng', 'Thanh toán'];
     const isStepOptional = (step: number) => {
@@ -224,7 +234,11 @@ export default function Booking() {
 
         else if (activeStep === 1) {
             if (checkEmpty(name) || checkEmpty(tel) || checkEmpty(email) || !city || !district ) {
-                handleOpenNotify('Vui lòng điền đầy đủ thông tin', 'error')
+                handleOpenNotify('Vui lòng điền đầy đủ thông tin!', 'error')
+                return
+            }
+            if (!ValidateEmail(email)) {
+                handleOpenNotify('Email không hợp lệ!', 'error')
                 return
             }
             

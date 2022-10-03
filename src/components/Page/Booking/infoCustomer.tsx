@@ -121,7 +121,6 @@ export const Booking_Info_Customer = (props: {onChangeName: any, onChangeTel: an
                                         <span className={styles.title_input}>Số điện thoại</span>
                                         <MuiPhoneNumber
                                             className={styles.input}
-                                            defaultValue={props.infoCustomer?.tel.slice(2)}
                                             onChange={(e) => {props.onChangeTel(e)}}
                                             variant="outlined"
                                             size="small"
