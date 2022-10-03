@@ -15,10 +15,13 @@
     "@mui/material": "^5.10.4",
     "@mui/x-date-pickers": "^5.0.0",
     "dayjs": "^1.11.5",
+    "material-ui-phone-number": "^3.0.0",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.35.0",
+    "react-phone-input-2": "^2.15.1",
+    "react-text-mask": "^5.5.0",
     "sass": "^1.54.8"
   },
   "devDependencies": {

@@ -18,9 +18,9 @@ import { InfoCustomerModel } from '../../Shared/Models/InfomationCustomer';
 
 export default function Booking() {
     const [activeStep, setActiveStep] = useState(0);
-    const [seatSelect, setSeatSelect] = useState<SeatModel[]>([])
-    const [car, setCar] = useState<CarModel>()
-    const [info, setInfo] = useState<InfoCustomerModel>()
+    const [seatSelect, setSeatSelect] = useState<SeatModel[]>([]);
+    const [car, setCar] = useState<CarModel>();
+    const [info, setInfo] = useState<InfoCustomerModel>();
     const [name, setName] = useState('');
     const [tel, setTel] = useState('');
     const [email, setEmail] = useState('');
@@ -153,7 +153,7 @@ export default function Booking() {
 
     const infoCustomer = {
         name: name,
-        tel: tel,
+        tel: '0' + tel?.slice(3),
         email: email,
         city: city,
         district: district
@@ -199,13 +199,14 @@ export default function Booking() {
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
     const checkEmpty = (s : string) => {
-        if(s.trim().length === 0 ) {
+        if ((s.trim().length === 0 ) || (s.trim().length === 3)) {
             return true
         } 
         else {
             return false
         }
     }
+
     //////////////////////////////////////////////////////////////////////////////////////////////
     const steps = ['Chọn ghế', 'Thông tin khách hàng', 'Thanh toán'];
     const isStepOptional = (step: number) => {
@@ -226,6 +227,7 @@ export default function Booking() {
                 handleOpenNotify('Vui lòng điền đầy đủ thông tin', 'error')
                 return
             }
+            
         }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };

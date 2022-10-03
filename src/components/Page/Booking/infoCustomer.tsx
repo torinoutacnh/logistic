@@ -4,6 +4,7 @@ import { Grid, TextField, Box, FormControl, MenuItem, Select, Typography } from 
 import { CityModel } from "../../Shared/Models/CityModel";
 import { DistrictModel } from "../../Shared/Models/DistrictModel";
 import { InfoCustomerModel } from "../../Shared/Models/InfomationCustomer";
+import MuiPhoneNumber from "material-ui-phone-number";
 
 export const Booking_Info_Customer = (props: {onChangeName: any, onChangeTel: any, onChangeEmail: any, onChangeCity: any, onChangeDistrict: any, infoCustomer: InfoCustomerModel }) => {
 
@@ -48,8 +49,6 @@ export const Booking_Info_Customer = (props: {onChangeName: any, onChangeTel: an
         if (res_city.status > 200) { return }
         const data_res_city = await res_city.json()
         setListCity(data_res_city.data)
-
-        
     }
 
     useEffect(() => {
@@ -115,21 +114,22 @@ export const Booking_Info_Customer = (props: {onChangeName: any, onChangeTel: an
                                             placeholder='Họ và tên khách hàng'
                                             size='small'
                                             type='text'
-                                            defaultValue={props.infoCustomer.name}
+                                            defaultValue={props.infoCustomer?.name}
                                             onChange={(e) => {props.onChangeName(e.target.value)}}
                                         />
         
                                         <span className={styles.title_input}>Số điện thoại</span>
-                                        <TextField 
-                                            id="outlined-basic"
+                                        <MuiPhoneNumber
                                             className={styles.input}
+                                            defaultValue={props.infoCustomer?.tel.slice(2)}
+                                            onChange={(e) => {props.onChangeTel(e)}}
                                             variant="outlined"
-                                            required
-                                            placeholder='Số điện thoại'
-                                            size='small'
-                                            type='text'
-                                            defaultValue={props.infoCustomer.tel}
-                                            onChange={(e) => {props.onChangeTel(e.target.value)}}
+                                            size="small"
+                                            type='tel'
+                                            defaultCountry={"vn"}
+                                            disableDropdown
+                                            disableAreaCodes={true}
+                                            countryCodeEditable={false}
                                         />
         
                                         <span className={styles.title_input}>Email</span>
@@ -141,8 +141,8 @@ export const Booking_Info_Customer = (props: {onChangeName: any, onChangeTel: an
                                             placeholder='Nhập email'
                                             size='small'
                                             type='email'
-                                            defaultValue={props.infoCustomer.email}
-                                            onChange={(e) => {props.onChangeEmail(e.target.value)}}      
+                                            defaultValue={props.infoCustomer?.email}
+                                            onChange={(e) => {props.onChangeEmail(e.target?.value)}}      
                                         />
         
                                         <div className={styles.area}>
